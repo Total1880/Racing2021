@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Racing2021.RaceEngine.Interfaces;
+using System;
 
 namespace Racing2021.RaceEngine
 {
-    public static class RaceEngineStart
+    public class RaceEngineStart : IRaceEngineStart
     {
-        [STAThread]
         static void Main()
         {
             using (var game = new RaceEngine())
                 game.Run();
+        }
+
+        void IRaceEngineStart.Main()
+        {
+            Main();
         }
     }
 }

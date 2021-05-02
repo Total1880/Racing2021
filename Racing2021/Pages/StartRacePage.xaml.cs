@@ -1,5 +1,4 @@
-﻿using Racing2021.Pages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Racing2021
+namespace Racing2021.Pages
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for StartRacePage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class StartRacePage : Page
     {
-        private StartRacePage _startRacePage;
-
-        public StartRacePage StartRacePage => _startRacePage ??= new StartRacePage();
-
-        public MainWindow()
+        public StartRacePage()
         {
             InitializeComponent();
-            MainFrame.NavigationService.Navigate(StartRacePage);
         }
     }
 }
