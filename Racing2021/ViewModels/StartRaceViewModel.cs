@@ -2,7 +2,6 @@
 using GalaSoft.MvvmLight.Command;
 using Racing2021.Models;
 using Racing2021.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace Racing2021.ViewModels

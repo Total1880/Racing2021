@@ -1,11 +1,6 @@
 ﻿using Autofac;
 using Racing2021.Services;
 using Racing2021.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Racing2021
 {

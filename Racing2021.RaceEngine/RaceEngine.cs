@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
 using Racing2021.Models.Enums;
 using Racing2021.Models.RaceEngine;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Racing2021.RaceEngine
