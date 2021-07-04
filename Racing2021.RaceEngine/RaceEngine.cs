@@ -20,9 +20,9 @@ namespace Racing2021.RaceEngine
 
         private IList<TrackTile> _trackTiles;
         private IList<TrackTileGraphic> _trackTileGraphics;
-        private IList<Cyclist> _cyclists;
+        private IList<CyclistRaceEngine> _cyclists;
 
-        private Queue<Cyclist> _finishedCyclists;
+        private Queue<CyclistRaceEngine> _finishedCyclists;
 
         private float _screenPosition;
         private float _centerX;
@@ -35,8 +35,13 @@ namespace Racing2021.RaceEngine
             IsMouseVisible = true;
 
             _trackTiles = new List<TrackTile>();
-            _cyclists = new List<Cyclist>();
-            _finishedCyclists = new Queue<Cyclist>();
+            //_cyclists = new List<Cyclist>();
+            _finishedCyclists = new Queue<CyclistRaceEngine>();
+        }
+
+        public void InitializeCyclists(IList<CyclistRaceEngine> cyclists)
+        {
+            _cyclists = cyclists;
         }
 
         protected override void Initialize()
@@ -56,12 +61,12 @@ namespace Racing2021.RaceEngine
             _trackTiles.Add(TrackTile.Horizontal);
             _trackTiles.Add(TrackTile.Horizontal);
 
-            var counter = 0;
-            do
-            {
-                _cyclists.Add(new Cyclist(RandomFloat(50f, 100f), RandomFloat(50f, 100f), RandomFloat(50f, 100f), "Cyclist " + counter));
-                counter++;
-            } while (counter < 10);
+            //var counter = 0;
+            //do
+            //{
+            //    _cyclists.Add(new Cyclist(RandomFloat(50f, 100f), RandomFloat(50f, 100f), RandomFloat(50f, 100f), "Cyclist " + counter));
+            //    counter++;
+            //} while (counter < 10);
 
             _trackTileGraphics = DrawTrack.Track(_trackTiles, GraphicsDevice.DisplayMode.Width / 2);
             _centerX = GraphicsDevice.DisplayMode.Width / 2;
@@ -194,6 +199,11 @@ namespace Racing2021.RaceEngine
             System.Random random = new System.Random();
             double val = (random.NextDouble() * (max - min) + min);
             return (float)val;
+        }
+
+        public List<CyclistRaceEngine> GetFinishedCyclists()
+        {
+            return _finishedCyclists.ToList();
         }
     }
 }

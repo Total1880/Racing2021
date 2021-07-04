@@ -9,4 +9,8 @@
     <PackageReference Include="Autofac" Version="6.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Racing2021.Models\Racing2021.Models.csproj" />
+  </ItemGroup>
+
 </Project>
