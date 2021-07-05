@@ -13,6 +13,7 @@ namespace Racing2021.Services
 
             builder.RegisterType<RaceService>().AsImplementedInterfaces();
             builder.RegisterType<CyclistService>().AsImplementedInterfaces();
+            builder.RegisterType<TrackService>().AsImplementedInterfaces();
         }
     }
 }

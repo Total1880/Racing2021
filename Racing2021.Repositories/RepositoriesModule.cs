@@ -7,6 +7,7 @@ namespace Racing2021.Repositories
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<CyclistRepository>().AsImplementedInterfaces();
+            builder.RegisterType<TrackRepository>().AsImplementedInterfaces();
         }
     }
 }

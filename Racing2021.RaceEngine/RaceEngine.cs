@@ -44,6 +44,11 @@ namespace Racing2021.RaceEngine
             _cyclists = cyclists;
         }
 
+        public void InitializeTrack(IList<TrackTile> trackTiles)
+        {
+            _trackTiles = trackTiles;
+        }
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -51,15 +56,15 @@ namespace Racing2021.RaceEngine
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             _graphics.ApplyChanges();
 
-            _trackTiles.Add(TrackTile.Horizontal);
-            _trackTiles.Add(TrackTile.Horizontal);
-            _trackTiles.Add(TrackTile.Horizontal);
-            _trackTiles.Add(TrackTile.Up);
-            _trackTiles.Add(TrackTile.Horizontal);
-            _trackTiles.Add(TrackTile.Horizontal);
-            _trackTiles.Add(TrackTile.Down);
-            _trackTiles.Add(TrackTile.Horizontal);
-            _trackTiles.Add(TrackTile.Horizontal);
+            //_trackTiles.Add(TrackTile.Horizontal);
+            //_trackTiles.Add(TrackTile.Horizontal);
+            //_trackTiles.Add(TrackTile.Horizontal);
+            //_trackTiles.Add(TrackTile.Up);
+            //_trackTiles.Add(TrackTile.Horizontal);
+            //_trackTiles.Add(TrackTile.Horizontal);
+            //_trackTiles.Add(TrackTile.Down);
+            //_trackTiles.Add(TrackTile.Horizontal);
+            //_trackTiles.Add(TrackTile.Horizontal);
 
             //var counter = 0;
             //do

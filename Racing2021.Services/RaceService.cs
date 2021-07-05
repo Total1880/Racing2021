@@ -1,4 +1,5 @@
-﻿using Racing2021.Models.RaceEngine;
+﻿using Racing2021.Models;
+using Racing2021.Models.RaceEngine;
 using Racing2021.RaceEngine.Interfaces;
 using Racing2021.Services.Interfaces;
 using System;
@@ -11,18 +12,20 @@ namespace Racing2021.Services
         private IRaceEngineStart _raceEngineStart;
         private IList<CyclistRaceEngine> _cyclistsRaceEngine;
         private ICyclistService _cyclistService;
+        private ITrackService _trackService;
 
-        public RaceService(IRaceEngineStart raceEngineStart, ICyclistService cyclistService)
+        public RaceService(IRaceEngineStart raceEngineStart, ICyclistService cyclistService, ITrackService trackService)
         {
             _raceEngineStart = raceEngineStart;
             _cyclistService = cyclistService;
+            _trackService = trackService;
         }
 
         public void StartRace()
         {
-            initializeTestCyclists();
+            InitializeTestCyclists();
 
-            _raceEngineStart.Main(_cyclistsRaceEngine);
+            _raceEngineStart.Main(_cyclistsRaceEngine, _trackService.GetTracks()[0].TrackTiles);
         }
 
         static float RandomFloat(float min, float max)
@@ -32,7 +35,7 @@ namespace Racing2021.Services
             return (float)val;
         }
 
-        private void initializeTestCyclists()
+        private void InitializeTestCyclists()
         {
             _cyclistsRaceEngine = new List<CyclistRaceEngine>();
             var cyclists = _cyclistService.GetCyclists();
@@ -41,12 +44,6 @@ namespace Racing2021.Services
             {
                 _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f)));
             }
-            //var counter = 0;
-            //do
-            //{
-            //    _cyclists.Add(new CyclistRaceEngine(RandomFloat(50f, 100f), RandomFloat(50f, 100f), RandomFloat(50f, 100f), "Cyclist " + counter));
-            //    counter++;
-            //} while (counter < 10);
         }
     }
 }
