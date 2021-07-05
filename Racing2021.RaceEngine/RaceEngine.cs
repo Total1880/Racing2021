@@ -56,23 +56,6 @@ namespace Racing2021.RaceEngine
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             _graphics.ApplyChanges();
 
-            //_trackTiles.Add(TrackTile.Horizontal);
-            //_trackTiles.Add(TrackTile.Horizontal);
-            //_trackTiles.Add(TrackTile.Horizontal);
-            //_trackTiles.Add(TrackTile.Up);
-            //_trackTiles.Add(TrackTile.Horizontal);
-            //_trackTiles.Add(TrackTile.Horizontal);
-            //_trackTiles.Add(TrackTile.Down);
-            //_trackTiles.Add(TrackTile.Horizontal);
-            //_trackTiles.Add(TrackTile.Horizontal);
-
-            //var counter = 0;
-            //do
-            //{
-            //    _cyclists.Add(new Cyclist(RandomFloat(50f, 100f), RandomFloat(50f, 100f), RandomFloat(50f, 100f), "Cyclist " + counter));
-            //    counter++;
-            //} while (counter < 10);
-
             _trackTileGraphics = DrawTrack.Track(_trackTiles, GraphicsDevice.DisplayMode.Width / 2);
             _centerX = GraphicsDevice.DisplayMode.Width / 2;
 

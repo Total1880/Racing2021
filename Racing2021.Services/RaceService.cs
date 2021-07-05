@@ -1,5 +1,4 @@
-﻿using Racing2021.Models;
-using Racing2021.Models.RaceEngine;
+﻿using Racing2021.Models.RaceEngine;
 using Racing2021.RaceEngine.Interfaces;
 using Racing2021.Services.Interfaces;
 using System;
@@ -25,7 +24,7 @@ namespace Racing2021.Services
         {
             InitializeTestCyclists();
 
-            _raceEngineStart.Main(_cyclistsRaceEngine, _trackService.GetTracks()[0].TrackTiles);
+            _raceEngineStart.Main(_cyclistsRaceEngine, _trackService.GetTracks()[1].TrackTiles);
         }
 
         static float RandomFloat(float min, float max)
