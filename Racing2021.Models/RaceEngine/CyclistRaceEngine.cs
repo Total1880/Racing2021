@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Timers;
 
 namespace Racing2021.Models.RaceEngine
 {
@@ -21,6 +23,9 @@ namespace Racing2021.Models.RaceEngine
         public float CyclistSpeedDown { get => _cyclistSpeedDown + CyclistFormOfTheDay; set { _cyclistSpeedDown = value; } }
         public float CyclistFormOfTheDay { get => _cyclistFormOfTheDay; set { _cyclistFormOfTheDay = value; } }
         public string Name { get => _name; set { _name = value; } }
+        public DateTime StartTime { get;  set; }
+        public DateTime FinishTime { get;  set; }
+        public TimeSpan TotalTime { get => FinishTime - StartTime; }
 
         public CyclistRaceEngine(float speedHorizontal, float speedUp, float speedDown, string name, float cyclistFormOfTheDay)
         {

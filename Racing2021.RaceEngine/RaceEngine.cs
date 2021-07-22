@@ -6,6 +6,7 @@ using Racing2021.Models.RaceEngine;
 using Racing2021.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Racing2021.RaceEngine
 {
@@ -64,6 +65,7 @@ namespace Racing2021.RaceEngine
             foreach (var cyclist in _cyclists)
             {
                 cyclist.CyclistPositionX = _centerX;
+                cyclist.StartTime = DateTime.Now;
             }
 
             base.Initialize();
@@ -107,6 +109,7 @@ namespace Racing2021.RaceEngine
                         if (!_finishedCyclists.Contains(cyclist))
                         {
                             _finishedCyclists.Enqueue(cyclist);
+                            cyclist.FinishTime = DateTime.Now;
                         }
                         continue;
                     }
@@ -120,6 +123,7 @@ namespace Racing2021.RaceEngine
                         if (!_finishedCyclists.Contains(cyclist))
                         {
                             _finishedCyclists.Enqueue(cyclist);
+                            cyclist.FinishTime = DateTime.Now;
                         }
                         continue;
                     }
@@ -134,6 +138,7 @@ namespace Racing2021.RaceEngine
                         if (!_finishedCyclists.Contains(cyclist))
                         {
                             _finishedCyclists.Enqueue(cyclist);
+                            cyclist.FinishTime = DateTime.Now;
                         }
                         continue;
                     }
@@ -193,19 +198,12 @@ namespace Racing2021.RaceEngine
             foreach (var finishedCyclist in _finishedCyclists)
             {
                 counter++;
-                _spriteBatch.DrawString(_spriteFont, finishedCyclist.Name, new Vector2(0, TextureParameters.FontSize * counter), Color.White);
+                _spriteBatch.DrawString(_spriteFont, finishedCyclist.TotalTime.Minutes + ":" + finishedCyclist.TotalTime.Seconds + " - " + finishedCyclist.Name, new Vector2(0, TextureParameters.FontSize * counter), Color.White);
             }
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        static float RandomFloat(float min, float max)
-        {
-            System.Random random = new System.Random();
-            double val = (random.NextDouble() * (max - min) + min);
-            return (float)val;
         }
 
         public List<CyclistRaceEngine> GetFinishedCyclists()
