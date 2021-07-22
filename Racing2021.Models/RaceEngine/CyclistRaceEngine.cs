@@ -5,7 +5,7 @@ namespace Racing2021.Models.RaceEngine
     public class CyclistRaceEngine
     {
         private float _cyclistPositionX;
-        private float _cyclistPositionY = 600f;
+        private float _cyclistPositionY = GeneralParameters.CentralPositionY;
         private float _cyclistSpeedHorizontal;
         private float _cyclistSpeedUp;
         private float _cyclistSpeedDown;

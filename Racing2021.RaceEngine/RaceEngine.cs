@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Racing2021.Models.Enums;
 using Racing2021.Models.RaceEngine;
+using Racing2021.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,6 +28,7 @@ namespace Racing2021.RaceEngine
         private float _screenPosition;
         private float _centerX;
         private float _scrollSpeed = 200f;
+        private float _leaderDifferenceWithStandardY;
 
         public RaceEngine()
         {
@@ -113,12 +115,28 @@ namespace Racing2021.RaceEngine
                 }
                 else if (centreTrack.TrackTile == TrackTile.Up)
                 {
+                    if (centreTrack.X + TextureParameters.UpDown < cyclist.CyclistPositionX + _screenPosition)
+                    {
+                        if (!_finishedCyclists.Contains(cyclist))
+                        {
+                            _finishedCyclists.Enqueue(cyclist);
+                        }
+                        continue;
+                    }
                     var differenceX = cyclist.CyclistPositionX - (positionCentertrack - _screenPosition);
                     cyclist.CyclistPositionY = (centreTrack.Y + TextureParameters.UpDown / 2) - differenceX / 2;
                     cyclist.CyclistPositionX += cyclist.CyclistSpeedUp * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
                 else if (centreTrack.TrackTile == TrackTile.Down)
                 {
+                    if (centreTrack.X + TextureParameters.UpDown < cyclist.CyclistPositionX + _screenPosition)
+                    {
+                        if (!_finishedCyclists.Contains(cyclist))
+                        {
+                            _finishedCyclists.Enqueue(cyclist);
+                        }
+                        continue;
+                    }
                     var differenceX = cyclist.CyclistPositionX - (positionCentertrack - _screenPosition);
                     cyclist.CyclistPositionY = centreTrack.Y + differenceX / 2;
                     cyclist.CyclistPositionX += cyclist.CyclistSpeedDown * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -131,6 +149,7 @@ namespace Racing2021.RaceEngine
 
             }
             var _raceLeaderGain = (raceLeader.CyclistPositionX - _centerX);
+            _leaderDifferenceWithStandardY = GeneralParameters.CentralPositionY - raceLeader.CyclistPositionY;
 
             foreach (var cyclist in _cyclists)
             {
@@ -151,13 +170,13 @@ namespace Racing2021.RaceEngine
                 switch (trackTileGraphic.TrackTile)
                 {
                     case TrackTile.Horizontal:
-                        _spriteBatch.Draw(_trackHorizontal, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y), Color.White);
+                        _spriteBatch.Draw(_trackHorizontal, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y + _leaderDifferenceWithStandardY), Color.White);
                         break;
                     case TrackTile.Up:
-                        _spriteBatch.Draw(_trackUp, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y), Color.White);
+                        _spriteBatch.Draw(_trackUp, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y + _leaderDifferenceWithStandardY), Color.White);
                         break;
                     case TrackTile.Down:
-                        _spriteBatch.Draw(_trackDown, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y), Color.White);
+                        _spriteBatch.Draw(_trackDown, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y + _leaderDifferenceWithStandardY), Color.White);
                         break;
                     default:
                         break;
@@ -166,8 +185,8 @@ namespace Racing2021.RaceEngine
 
             foreach (var cyclist in _cyclists)
             {
-                _spriteBatch.Draw(cyclist.CyclistTexture, new Vector2(cyclist.CyclistPositionX, cyclist.CyclistPositionY), Color.White);
-                _spriteBatch.DrawString(_spriteFont, cyclist.Name, new Vector2(cyclist.CyclistPositionX, cyclist.CyclistPositionY - TextureParameters.FontSize), Color.White);
+                _spriteBatch.Draw(cyclist.CyclistTexture, new Vector2(cyclist.CyclistPositionX, cyclist.CyclistPositionY + _leaderDifferenceWithStandardY), Color.White);
+                _spriteBatch.DrawString(_spriteFont, cyclist.Name, new Vector2(cyclist.CyclistPositionX, cyclist.CyclistPositionY - TextureParameters.FontSize + _leaderDifferenceWithStandardY), Color.White);
             }
 
             var counter = 0;
