@@ -1,4 +1,5 @@
-﻿using Racing2021.Models.RaceEngine;
+﻿using Racing2021.Models;
+using Racing2021.Models.RaceEngine;
 using Racing2021.RaceEngine.Interfaces;
 using Racing2021.Services.Interfaces;
 using System;
@@ -11,22 +12,27 @@ namespace Racing2021.Services
         private IRaceEngineStart _raceEngineStart;
         private IList<CyclistRaceEngine> _cyclistsRaceEngine;
         private IList<CyclistRaceEngine> _finishedCyclists;
+        private IList<Track> _tracks;
         private ICyclistService _cyclistService;
         private ITrackService _trackService;
+        private int tracknumber = 0;
 
         public RaceService(IRaceEngineStart raceEngineStart, ICyclistService cyclistService, ITrackService trackService)
         {
             _raceEngineStart = raceEngineStart;
             _cyclistService = cyclistService;
             _trackService = trackService;
+            _tracks = _trackService.GetTracks();
         }
 
         public void StartRace()
         {
             InitializeTestCyclists();
 
-            _raceEngineStart.Main(_cyclistsRaceEngine, _trackService.GetTracks()[1].TrackTiles);
+            _raceEngineStart.Main(_cyclistsRaceEngine, _tracks[tracknumber].TrackTiles);
             _finishedCyclists = _raceEngineStart.FinishedCyclists();
+            tracknumber++;
+            tracknumber = tracknumber >= _tracks.Count ? 0 : tracknumber;
         }
 
         static float RandomFloat(float min, float max)
