@@ -11,8 +11,20 @@
 
     <Grid>
         <StackPanel>
-                <Button Content="Start Race"
+            <Button Content="Start Race"
                         Command="{Binding StartRaceCommand}"/>
-            </StackPanel>
+            <ListView ItemsSource="{Binding CyclistRanking}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding Name}">
+                            <GridViewColumnHeader Content="Name"/>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding ShowTime}">
+                            <GridViewColumnHeader Content="Time"/>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Page>

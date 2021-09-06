@@ -10,6 +10,7 @@ namespace Racing2021.Services
     {
         private IRaceEngineStart _raceEngineStart;
         private IList<CyclistRaceEngine> _cyclistsRaceEngine;
+        private IList<CyclistRaceEngine> _finishedCyclists;
         private ICyclistService _cyclistService;
         private ITrackService _trackService;
 
@@ -25,6 +26,7 @@ namespace Racing2021.Services
             InitializeTestCyclists();
 
             _raceEngineStart.Main(_cyclistsRaceEngine, _trackService.GetTracks()[1].TrackTiles);
+            _finishedCyclists = _raceEngineStart.FinishedCyclists();
         }
 
         static float RandomFloat(float min, float max)
@@ -43,6 +45,11 @@ namespace Racing2021.Services
             {
                 _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f)));
             }
+        }
+
+        public IList<CyclistRaceEngine> FinishedCyclists()
+        {
+            return _finishedCyclists;
         }
     }
 }

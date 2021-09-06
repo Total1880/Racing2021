@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Racing2021.Models;
+using Racing2021.Models.RaceEngine;
 using Racing2021.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,11 @@ namespace Racing2021.ViewModels
         private ICyclistService _cyclistService;
         private ITrackService _trackService;
         private RelayCommand _startRaceCommand;
+        private IList<CyclistRaceEngine> _cyclistRanking;
 
         public RelayCommand StartRaceCommand => _startRaceCommand ??= new RelayCommand(StartRace);
+
+        public IList<CyclistRaceEngine> CyclistRanking { get => _cyclistRanking; set { _cyclistRanking = value; RaisePropertyChanged(); } }
 
         public StartRaceViewModel(IRaceService raceService, ICyclistService cyclistService, ITrackService trackService)
         {
@@ -28,6 +32,7 @@ namespace Racing2021.ViewModels
         private void StartRace()
         {
             _raceService.StartRace();
+            CyclistRanking = _raceService.FinishedCyclists();
         }
 
         private void CreateCyclists()

@@ -26,6 +26,7 @@ namespace Racing2021.Models.RaceEngine
         public DateTime StartTime { get;  set; }
         public DateTime FinishTime { get;  set; }
         public TimeSpan TotalTime { get => FinishTime - StartTime; }
+        public string ShowTime { get => TotalTime.Minutes.ToString() + ":" + TotalTime.Seconds.ToString(); }
 
         public CyclistRaceEngine(float speedHorizontal, float speedUp, float speedDown, string name, float cyclistFormOfTheDay)
         {

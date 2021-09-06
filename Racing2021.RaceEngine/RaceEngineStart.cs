@@ -22,6 +22,11 @@ namespace Racing2021.RaceEngine
             }
         }
 
+        IList<CyclistRaceEngine> IRaceEngineStart.FinishedCyclists()
+        {
+            return _finishedCyclists;
+        }
+
         void IRaceEngineStart.Main(IList<CyclistRaceEngine> cyclists, IList<TrackTile> trackTileGraphics)
         {
             _cyclists = cyclists;
