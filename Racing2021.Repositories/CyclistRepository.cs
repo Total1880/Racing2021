@@ -26,10 +26,12 @@ namespace Racing2021.Repositories
                 foreach (var cyclist in itemList)
                 {
                     writer.WriteStartElement(nameof(Cyclist));
+                    writer.WriteAttributeString(nameof(Cyclist.Id), cyclist.Id.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.Name), cyclist.Name.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedDown), cyclist.CyclistSpeedDown.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedHorizontal), cyclist.CyclistSpeedHorizontal.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedUp), cyclist.CyclistSpeedUp.ToString());
+                    writer.WriteAttributeString(nameof(Cyclist.Age), cyclist.Age.ToString());
                     writer.WriteEndElement();
                 }
 
@@ -71,10 +73,12 @@ namespace Racing2021.Repositories
                     {
                         var readCyclist = new Cyclist();
 
+                        readCyclist.Id = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Id)));
                         readCyclist.Name = xmlReader.GetAttribute(nameof(Cyclist.Name));
                         readCyclist.CyclistSpeedDown = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedDown)));
                         readCyclist.CyclistSpeedHorizontal = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedHorizontal)));
                         readCyclist.CyclistSpeedUp = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedUp)));
+                        readCyclist.Age = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Age)));
 
                         CyclistList.Add(readCyclist);
                     } while (xmlReader.ReadToNextSibling(nameof(Cyclist)));

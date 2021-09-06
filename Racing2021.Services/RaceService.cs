@@ -1,4 +1,5 @@
 ﻿using Racing2021.Models;
+using Racing2021.Models.Enums;
 using Racing2021.Models.RaceEngine;
 using Racing2021.RaceEngine.Interfaces;
 using Racing2021.Services.Interfaces;
@@ -12,27 +13,21 @@ namespace Racing2021.Services
         private IRaceEngineStart _raceEngineStart;
         private IList<CyclistRaceEngine> _cyclistsRaceEngine;
         private IList<CyclistRaceEngine> _finishedCyclists;
-        private IList<Track> _tracks;
-        private ICyclistService _cyclistService;
-        private ITrackService _trackService;
-        private int tracknumber = 0;
+        
+        
 
-        public RaceService(IRaceEngineStart raceEngineStart, ICyclistService cyclistService, ITrackService trackService)
+        public RaceService(IRaceEngineStart raceEngineStart)
         {
             _raceEngineStart = raceEngineStart;
-            _cyclistService = cyclistService;
-            _trackService = trackService;
-            _tracks = _trackService.GetTracks();
+            
         }
 
-        public void StartRace()
+        public void StartRace(IList<TrackTile> trackTileGraphics, IList<Cyclist> cyclists)
         {
-            InitializeTestCyclists();
+            InitializeTestCyclists(cyclists);
 
-            _raceEngineStart.Main(_cyclistsRaceEngine, _tracks[tracknumber].TrackTiles);
+            _raceEngineStart.Main(_cyclistsRaceEngine, trackTileGraphics);
             _finishedCyclists = _raceEngineStart.FinishedCyclists();
-            tracknumber++;
-            tracknumber = tracknumber >= _tracks.Count ? 0 : tracknumber;
         }
 
         static float RandomFloat(float min, float max)
@@ -42,14 +37,13 @@ namespace Racing2021.Services
             return (float)val;
         }
 
-        private void InitializeTestCyclists()
+        private void InitializeTestCyclists(IList<Cyclist> cyclists)
         {
             _cyclistsRaceEngine = new List<CyclistRaceEngine>();
-            var cyclists = _cyclistService.GetCyclists();
 
             foreach (var cyclist in cyclists)
             {
-                _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f)));
+                _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.Id, cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f)));
             }
         }
 
