@@ -41,6 +41,12 @@ namespace Racing2021.Services
                 ResetRanking();
                 _justStartedUp = false;
             }
+
+            if (tracknumber > _tracks.Count)
+            {
+                throw new Exception("Tracknumber is greater than the number of tracks");
+            }
+
             _raceService.StartRace(_tracks[tracknumber].TrackTiles, _cyclists);
             UpdateAfterRace();
         }
@@ -55,11 +61,6 @@ namespace Racing2021.Services
             _ranking = _ranking.OrderBy(c => c.TotalTime).ToList();
 
             tracknumber++;
-
-            if (tracknumber >= _tracks.Count)
-            {
-                tracknumber = 0;
-            }
         }
 
         private void ResetRanking()
@@ -73,6 +74,17 @@ namespace Racing2021.Services
             {
                 _ranking.Add(new CyclistInRanking(cyclist.Id, cyclist.Name, TimeSpan.Zero));
             }
+        }
+
+        public bool IsSeasonEnded()
+        {
+            return tracknumber >= _tracks.Count;
+        }
+
+        public void NextSeason()
+        {
+            ResetRanking();
+            tracknumber = 0;
         }
     }
 }

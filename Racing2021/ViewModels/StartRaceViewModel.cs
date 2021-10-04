@@ -6,6 +6,7 @@ using Racing2021.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Racing2021.ViewModels
 {
@@ -15,11 +16,18 @@ namespace Racing2021.ViewModels
         private ITrackService _trackService;
         private ISeasonService _seasonService;
         private RelayCommand _startRaceCommand;
+        private RelayCommand _nextSeasonCommand;
         private ObservableCollection<CyclistInRanking> _cyclistRanking;
+        private Visibility _showNextRaceButton;
+        private Visibility _showEndSeasonButton;
 
         public RelayCommand StartRaceCommand => _startRaceCommand ??= new RelayCommand(StartRace);
+        public RelayCommand NextSeasonCommand => _nextSeasonCommand ??= new RelayCommand(NextSeason);
 
         public ObservableCollection<CyclistInRanking> CyclistRanking { get => _cyclistRanking; set { _cyclistRanking = value; RaisePropertyChanged(); } }
+
+        public Visibility ShowNextRaceButton { get => _showNextRaceButton; set { _showNextRaceButton = value; RaisePropertyChanged(); } }
+        public Visibility ShowEndSeasonButton { get => _showEndSeasonButton; set { _showEndSeasonButton = value; RaisePropertyChanged(); } }
 
         public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService)
         {
@@ -28,12 +36,27 @@ namespace Racing2021.ViewModels
             CreateCyclists();
             CreateTracks();
             _seasonService = seasonService;
+            ShowNextRaceButton = Visibility.Visible;
+            ShowEndSeasonButton = Visibility.Collapsed;
         }
 
         private void StartRace()
         {
             _seasonService.NextRace();
             CyclistRanking = new ObservableCollection<CyclistInRanking>(_seasonService.Ranking());
+            if (_seasonService.IsSeasonEnded())
+            {
+                ShowNextRaceButton = Visibility.Collapsed;
+                ShowEndSeasonButton = Visibility.Visible;
+            }
+        }
+
+        private void NextSeason()
+        {
+            _seasonService.NextSeason();
+            CyclistRanking.Clear();
+            ShowNextRaceButton = Visibility.Visible;
+            ShowEndSeasonButton = Visibility.Collapsed;
         }
 
         private void CreateCyclists()

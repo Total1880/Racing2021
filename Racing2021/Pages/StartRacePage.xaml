@@ -11,8 +11,14 @@
 
     <Grid>
         <StackPanel>
-            <Button Content="Start Race"
-                        Command="{Binding StartRaceCommand}"/>
+            <Button 
+                Content="Start race" 
+                Command="{Binding StartRaceCommand}"
+                Visibility="{Binding ShowNextRaceButton}"/>
+            <Button 
+                Content="End season"
+                Command="{Binding NextSeasonCommand}"
+                Visibility="{Binding ShowEndSeasonButton}"/>
             <ListView ItemsSource="{Binding CyclistRanking}">
                 <ListView.View>
                     <GridView>
