@@ -82,7 +82,7 @@ namespace Racing2021.RaceEngine
 
             foreach (var cyclist in _cyclists)
             {
-                cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist");
+                cyclist.CyclistTexture = Content.Load<Texture2D>("CyclistV3");
             }
         }
 
@@ -153,7 +153,7 @@ namespace Racing2021.RaceEngine
                 }
 
             }
-            var _raceLeaderGain = (raceLeader.CyclistPositionX - _centerX);
+            var _raceLeaderGain = raceLeader.CyclistPositionX - _centerX;
             _leaderDifferenceWithStandardY = GeneralParameters.CentralPositionY - raceLeader.CyclistPositionY;
 
             foreach (var cyclist in _cyclists)
