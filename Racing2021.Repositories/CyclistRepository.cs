@@ -27,6 +27,7 @@ namespace Racing2021.Repositories
                 {
                     writer.WriteStartElement(nameof(Cyclist));
                     writer.WriteAttributeString(nameof(Cyclist.Id), cyclist.Id.ToString());
+                    writer.WriteAttributeString(nameof(Cyclist.TeamId), cyclist.TeamId.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.Name), cyclist.Name.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedDown), cyclist.CyclistSpeedDown.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedHorizontal), cyclist.CyclistSpeedHorizontal.ToString());
@@ -74,6 +75,7 @@ namespace Racing2021.Repositories
                         var readCyclist = new Cyclist();
 
                         readCyclist.Id = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Id)));
+                        readCyclist.TeamId = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.TeamId)));
                         readCyclist.Name = xmlReader.GetAttribute(nameof(Cyclist.Name));
                         readCyclist.CyclistSpeedDown = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedDown)));
                         readCyclist.CyclistSpeedHorizontal = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedHorizontal)));

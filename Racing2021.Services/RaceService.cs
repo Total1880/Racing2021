@@ -5,6 +5,7 @@ using Racing2021.RaceEngine.Interfaces;
 using Racing2021.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Racing2021.Services
 {
@@ -22,9 +23,9 @@ namespace Racing2021.Services
             
         }
 
-        public void StartRace(IList<TrackTile> trackTileGraphics, IList<Cyclist> cyclists)
+        public void StartRace(IList<TrackTile> trackTileGraphics, IList<Cyclist> cyclists, IList<Team> teams)
         {
-            InitializeTestCyclists(cyclists);
+            InitializeTestCyclists(cyclists, teams);
 
             _raceEngineStart.Main(_cyclistsRaceEngine, trackTileGraphics);
             _finishedCyclists = _raceEngineStart.FinishedCyclists();
@@ -37,13 +38,14 @@ namespace Racing2021.Services
             return (float)val;
         }
 
-        private void InitializeTestCyclists(IList<Cyclist> cyclists)
+        private void InitializeTestCyclists(IList<Cyclist> cyclists, IList<Team> teams)
         {
             _cyclistsRaceEngine = new List<CyclistRaceEngine>();
 
             foreach (var cyclist in cyclists)
             {
-                _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.Id, cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f)));
+                var team = teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault();
+                _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.Id, cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f), team));
             }
         }
 

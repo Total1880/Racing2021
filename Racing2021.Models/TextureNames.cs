@@ -1,4 +1,4 @@
-﻿namespace Racing2021.RaceEngine
+﻿namespace Racing2021.Models
 {
     public static class TextureNames
     {

@@ -25,6 +25,9 @@
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding Name}">
                             <GridViewColumnHeader Content="Name"/>
                         </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding TeamName}">
+                            <GridViewColumnHeader Content="Team"/>
+                        </GridViewColumn>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding ShowTime}">
                             <GridViewColumnHeader Content="Time"/>
                         </GridViewColumn>

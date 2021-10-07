@@ -7,7 +7,7 @@ namespace Racing2021.Services.Interfaces
 {
     public interface IRaceService
     {
-        void StartRace(IList<TrackTile> trackTileGraphics, IList<Cyclist> cyclists);
+        void StartRace(IList<TrackTile> trackTileGraphics, IList<Cyclist> cyclists, IList<Team> teams);
         IList<CyclistRaceEngine> FinishedCyclists();
     }
 }

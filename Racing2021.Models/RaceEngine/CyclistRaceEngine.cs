@@ -15,6 +15,7 @@ namespace Racing2021.Models.RaceEngine
         private float _cyclistFormOfTheDay;
         private Texture2D _cyclistTexture;
         private string _name;
+        private Team _team;
 
         public int Id { get => _id; set { _id = value; } }
         public float CyclistPositionX { get => _cyclistPositionX; set { _cyclistPositionX = value; } }
@@ -29,8 +30,9 @@ namespace Racing2021.Models.RaceEngine
         public DateTime FinishTime { get;  set; }
         public TimeSpan TotalTime { get => FinishTime - StartTime; }
         public string ShowTime { get => TotalTime.Minutes.ToString() + ":" + TotalTime.Seconds.ToString(); }
+        public Team Team{ get => _team; set { _team = value; } }
 
-        public CyclistRaceEngine(int id, float speedHorizontal, float speedUp, float speedDown, string name, float cyclistFormOfTheDay)
+        public CyclistRaceEngine(int id, float speedHorizontal, float speedUp, float speedDown, string name, float cyclistFormOfTheDay, Team team)
         {
             Id = id;
             CyclistSpeedHorizontal = speedHorizontal;
@@ -38,6 +40,7 @@ namespace Racing2021.Models.RaceEngine
             CyclistSpeedDown = speedDown;
             CyclistFormOfTheDay = cyclistFormOfTheDay;
             Name = name;
+            Team = team;
         }
     }
 }

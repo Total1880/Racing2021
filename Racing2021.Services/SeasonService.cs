@@ -14,16 +14,19 @@ namespace Racing2021.Services
         private ITrackService _trackService;
         private ICyclistService _cyclistService;
         private IRaceService _raceService;
+        private ITeamService _teamService;
         private IList<Track> _tracks;
         private IList<CyclistInRanking> _ranking;
         private IList<Cyclist> _cyclists;
+        private IList<Team> _teams;
         private bool _justStartedUp = true;
 
-        public SeasonService(ICyclistService cyclistService, ITrackService trackService, IRaceService raceService)
+        public SeasonService(ICyclistService cyclistService, ITrackService trackService, IRaceService raceService, ITeamService teamService)
         {
             _cyclistService = cyclistService;
             _trackService = trackService;
             _raceService = raceService;
+            _teamService = teamService;
             _ranking = new List<CyclistInRanking>();
         }
 
@@ -38,6 +41,7 @@ namespace Racing2021.Services
             {
                 _tracks = _trackService.GetTracks();
                 _cyclists = _cyclistService.GetCyclists();
+                _teams = _teamService.GetTeams();
                 ResetRanking();
                 _justStartedUp = false;
             }
@@ -47,7 +51,7 @@ namespace Racing2021.Services
                 throw new Exception("Tracknumber is greater than the number of tracks");
             }
 
-            _raceService.StartRace(_tracks[tracknumber].TrackTiles, _cyclists);
+            _raceService.StartRace(_tracks[tracknumber].TrackTiles, _cyclists, _teams);
             UpdateAfterRace();
         }
 
@@ -72,7 +76,7 @@ namespace Racing2021.Services
             
             foreach (var cyclist in _cyclists)
             {
-                _ranking.Add(new CyclistInRanking(cyclist.Id, cyclist.Name, TimeSpan.Zero));
+                _ranking.Add(new CyclistInRanking(cyclist.Id, cyclist.Name, TimeSpan.Zero, _teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().Name));
             }
         }
 

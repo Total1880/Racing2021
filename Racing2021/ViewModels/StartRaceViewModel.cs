@@ -15,6 +15,7 @@ namespace Racing2021.ViewModels
         private ICyclistService _cyclistService;
         private ITrackService _trackService;
         private ISeasonService _seasonService;
+        private ITeamService _teamService;
         private RelayCommand _startRaceCommand;
         private RelayCommand _nextSeasonCommand;
         private ObservableCollection<CyclistInRanking> _cyclistRanking;
@@ -29,13 +30,15 @@ namespace Racing2021.ViewModels
         public Visibility ShowNextRaceButton { get => _showNextRaceButton; set { _showNextRaceButton = value; RaisePropertyChanged(); } }
         public Visibility ShowEndSeasonButton { get => _showEndSeasonButton; set { _showEndSeasonButton = value; RaisePropertyChanged(); } }
 
-        public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService)
+        public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService)
         {
             _cyclistService = cyclistService;
             _trackService = trackService;
+            _seasonService = seasonService;
+            _teamService = teamService;
+            CreateTeams();
             CreateCyclists();
             CreateTracks();
-            _seasonService = seasonService;
             ShowNextRaceButton = Visibility.Visible;
             ShowEndSeasonButton = Visibility.Collapsed;
         }
@@ -63,13 +66,26 @@ namespace Racing2021.ViewModels
         {
             var cyclists = new List<Cyclist>();
 
-            cyclists.Add(new Cyclist(0,80f, 100f, 95f, "Tadej Pogacar", 22));
-            cyclists.Add(new Cyclist(1,95f, 90f, 90f, "Wout Van Aert", 26));
-            cyclists.Add(new Cyclist(2,90f, 95f, 80f, "Remco Evenepoel", 21));
-            cyclists.Add(new Cyclist(3,100f, 85f, 90f, "Mathieu Van Der Poel", 26));
-            cyclists.Add(new Cyclist(4,50f, 50f, 50f, "Olav Hendrickx", 33));
+            cyclists.Add(new Cyclist(0,80f, 100f, 95f, "Tadej Pogacar",0, 22));
+            cyclists.Add(new Cyclist(1,95f, 90f, 90f, "Wout Van Aert",1, 26));
+            cyclists.Add(new Cyclist(2,90f, 95f, 80f, "Remco Evenepoel",2, 21));
+            cyclists.Add(new Cyclist(3,100f, 85f, 90f, "Mathieu Van Der Poel",3, 26));
+            cyclists.Add(new Cyclist(4,50f, 50f, 50f, "Olav Hendrickx",4, 33));
 
             _cyclistService.CreateCyclists(cyclists);
+        }
+
+        private void CreateTeams()
+        {
+            var teams = new List<Team>();
+
+            teams.Add(new Team(0, "Team A", TextureNames.CyclistBlue));
+            teams.Add(new Team(1, "Team B", TextureNames.CyclistGreen));
+            teams.Add(new Team(2, "Team C", TextureNames.CyclistRed));
+            teams.Add(new Team(3, "Team D", TextureNames.CyclistRoseGrey));
+            teams.Add(new Team(4, "Team E", TextureNames.CyclistYellow));
+
+            _teamService.CreateTeams(teams);
         }
 
         private void CreateTracks()
