@@ -80,9 +80,32 @@ namespace Racing2021.RaceEngine
             _trackDown = Content.Load<Texture2D>("TrackUpDown");
             _spriteFont = Content.Load<SpriteFont>("Fonts/DefaultFont");
 
+            var counter = 0;
             foreach (var cyclist in _cyclists)
             {
-                cyclist.CyclistTexture = Content.Load<Texture2D>("CyclistV3");
+                switch (counter)
+                {
+                    case 0:
+                        cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist_Blue");
+                        break;
+                    case 1:
+                        cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist_Green");
+                        break;
+                    case 2:
+                        cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist_Red");
+                        break;
+                    case 3:
+                        cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist_RoseGrey");
+                        break;
+                    case 4:
+                        cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist_Yellow");
+                        break;
+                    default:
+                        cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist_Red");
+                        break;
+                }
+
+                counter++;
             }
         }
 
