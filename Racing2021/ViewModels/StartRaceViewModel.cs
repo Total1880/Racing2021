@@ -71,6 +71,7 @@ namespace Racing2021.ViewModels
             cyclists.Add(new Cyclist(2,90f, 95f, 80f, "Remco Evenepoel",2, 21));
             cyclists.Add(new Cyclist(3,100f, 85f, 90f, "Mathieu Van Der Poel",3, 26));
             cyclists.Add(new Cyclist(4,50f, 50f, 50f, "Olav Hendrickx",4, 33));
+            cyclists.Add(new Cyclist(5,55f, 45f, 50f, "Arne Hendrickx",4, 35));
 
             _cyclistService.CreateCyclists(cyclists);
         }
