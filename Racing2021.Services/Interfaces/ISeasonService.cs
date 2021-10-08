@@ -7,7 +7,8 @@ namespace Racing2021.Services.Interfaces
     {
         void NextRace();
         void NextSeason();
-        IList<CyclistInRanking> Ranking();
+        IList<CyclistInRanking> CyclistRanking();
+        IList<TeamInRanking> TeamRanking();
         bool IsSeasonEnded();
     }
 }

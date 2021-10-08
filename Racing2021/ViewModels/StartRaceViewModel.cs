@@ -19,6 +19,7 @@ namespace Racing2021.ViewModels
         private RelayCommand _startRaceCommand;
         private RelayCommand _nextSeasonCommand;
         private ObservableCollection<CyclistInRanking> _cyclistRanking;
+        private ObservableCollection<TeamInRanking> _teamRanking;
         private Visibility _showNextRaceButton;
         private Visibility _showEndSeasonButton;
 
@@ -26,6 +27,7 @@ namespace Racing2021.ViewModels
         public RelayCommand NextSeasonCommand => _nextSeasonCommand ??= new RelayCommand(NextSeason);
 
         public ObservableCollection<CyclistInRanking> CyclistRanking { get => _cyclistRanking; set { _cyclistRanking = value; RaisePropertyChanged(); } }
+        public ObservableCollection<TeamInRanking> TeamRanking { get => _teamRanking; set { _teamRanking = value; RaisePropertyChanged(); } }
 
         public Visibility ShowNextRaceButton { get => _showNextRaceButton; set { _showNextRaceButton = value; RaisePropertyChanged(); } }
         public Visibility ShowEndSeasonButton { get => _showEndSeasonButton; set { _showEndSeasonButton = value; RaisePropertyChanged(); } }
@@ -46,7 +48,10 @@ namespace Racing2021.ViewModels
         private void StartRace()
         {
             _seasonService.NextRace();
-            CyclistRanking = new ObservableCollection<CyclistInRanking>(_seasonService.Ranking());
+
+            CyclistRanking = new ObservableCollection<CyclistInRanking>(_seasonService.CyclistRanking());
+            TeamRanking = new ObservableCollection<TeamInRanking>(_seasonService.TeamRanking());
+
             if (_seasonService.IsSeasonEnded())
             {
                 ShowNextRaceButton = Visibility.Collapsed;
@@ -58,6 +63,7 @@ namespace Racing2021.ViewModels
         {
             _seasonService.NextSeason();
             CyclistRanking.Clear();
+            TeamRanking.Clear();
             ShowNextRaceButton = Visibility.Visible;
             ShowEndSeasonButton = Visibility.Collapsed;
         }
@@ -67,11 +73,15 @@ namespace Racing2021.ViewModels
             var cyclists = new List<Cyclist>();
 
             cyclists.Add(new Cyclist(0,80f, 100f, 95f, "Tadej Pogacar",0, 22));
-            cyclists.Add(new Cyclist(1,95f, 90f, 90f, "Wout Van Aert",1, 26));
-            cyclists.Add(new Cyclist(2,90f, 95f, 80f, "Remco Evenepoel",2, 21));
-            cyclists.Add(new Cyclist(3,100f, 85f, 90f, "Mathieu Van Der Poel",3, 26));
-            cyclists.Add(new Cyclist(4,50f, 50f, 50f, "Olav Hendrickx",4, 33));
-            cyclists.Add(new Cyclist(5,55f, 45f, 50f, "Arne Hendrickx",4, 35));
+            cyclists.Add(new Cyclist(1,75f, 80f, 90f, "Rui Costa", 0, 35));
+            cyclists.Add(new Cyclist(2,95f, 90f, 90f, "Wout Van Aert",1, 26));
+            cyclists.Add(new Cyclist(3,90f, 70f, 85f, "Nathan Van Hooydonck", 1, 26));
+            cyclists.Add(new Cyclist(4,90f, 95f, 80f, "Remco Evenepoel",2, 21));
+            cyclists.Add(new Cyclist(5,85f, 75f, 75f, "Tim Declercq", 2, 32));
+            cyclists.Add(new Cyclist(6,100f, 85f, 90f, "Mathieu Van Der Poel",3, 26));
+            cyclists.Add(new Cyclist(7,95f, 65f, 85f, "Tim Merlier", 3, 32));
+            cyclists.Add(new Cyclist(8,50f, 50f, 50f, "Olav Hendrickx",4, 33));
+            cyclists.Add(new Cyclist(9,55f, 45f, 50f, "Arne Hendrickx",4, 35));
 
             _cyclistService.CreateCyclists(cyclists);
         }

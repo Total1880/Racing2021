@@ -16,7 +16,8 @@ namespace Racing2021.Services
         private IRaceService _raceService;
         private ITeamService _teamService;
         private IList<Track> _tracks;
-        private IList<CyclistInRanking> _ranking;
+        private IList<CyclistInRanking> _cyclistRanking;
+        private IList<TeamInRanking> _teamRanking;
         private IList<Cyclist> _cyclists;
         private IList<Team> _teams;
         private bool _justStartedUp = true;
@@ -27,12 +28,18 @@ namespace Racing2021.Services
             _trackService = trackService;
             _raceService = raceService;
             _teamService = teamService;
-            _ranking = new List<CyclistInRanking>();
+            _cyclistRanking = new List<CyclistInRanking>();
+            _teamRanking = new List<TeamInRanking>();
         }
 
-        public IList<CyclistInRanking> Ranking()
+        public IList<CyclistInRanking> CyclistRanking()
         {
-            return _ranking;
+            return _cyclistRanking;
+        }
+
+        public IList<TeamInRanking> TeamRanking()
+        {
+            return _teamRanking;
         }
 
         public void NextRace()
@@ -57,26 +64,55 @@ namespace Racing2021.Services
 
         private void UpdateAfterRace()
         {
+            UpdateCyclistRankingAfterRace();
+        }
+
+        private void UpdateCyclistRankingAfterRace()
+        {
             foreach (var cyclist in _raceService.FinishedCyclists())
             {
-                _ranking.Where(c => c.Id == cyclist.Id).FirstOrDefault().TotalTime += cyclist.TotalTime;
+                _cyclistRanking.Where(c => c.Id == cyclist.Id).FirstOrDefault().TotalTime += cyclist.TotalTime;
+
+                UpdateTeamRankingAfterRace(cyclist.Team.Id, cyclist.TotalTime);
             }
 
-            _ranking = _ranking.OrderBy(c => c.TotalTime).ToList();
+            _cyclistRanking = _cyclistRanking.OrderBy(c => c.TotalTime).ToList();
 
             tracknumber++;
         }
 
+        private void UpdateTeamRankingAfterRace(int teamId, TimeSpan time)
+        {
+            if(!_teamRanking.Any(t => t.Id == teamId))
+            {
+                throw new Exception(teamId + " teamid does not exist");
+            }
+
+            _teamRanking.Where(t => t.Id == teamId).FirstOrDefault().TotalTime += time;
+
+            _teamRanking = _teamRanking.OrderBy(t => t.TotalTime).ToList();
+        }
+
         private void ResetRanking()
         {
-            if (_ranking != null)
+            if (_cyclistRanking != null)
             {
-                _ranking.Clear();
+                _cyclistRanking.Clear();
+            }
+
+            if(_teamRanking != null)
+            {
+                _teamRanking.Clear();
             }
             
             foreach (var cyclist in _cyclists)
             {
-                _ranking.Add(new CyclistInRanking(cyclist.Id, cyclist.Name, TimeSpan.Zero, _teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().Name));
+                _cyclistRanking.Add(new CyclistInRanking(cyclist.Id, cyclist.Name, TimeSpan.Zero, _teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().Name));
+
+                if(!_teamRanking.Any(t => t.Id == cyclist.TeamId))
+                {
+                    _teamRanking.Add(new TeamInRanking(cyclist.TeamId, _teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().Name, TimeSpan.Zero));
+                }
             }
         }
 
