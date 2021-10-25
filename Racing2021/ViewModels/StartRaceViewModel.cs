@@ -16,6 +16,7 @@ namespace Racing2021.ViewModels
         private ITrackService _trackService;
         private ISeasonService _seasonService;
         private ITeamService _teamService;
+        private IDivisionService _divisionService;
         private RelayCommand _startRaceCommand;
         private RelayCommand _nextSeasonCommand;
         private ObservableCollection<CyclistInRanking> _cyclistRanking;
@@ -32,12 +33,14 @@ namespace Racing2021.ViewModels
         public Visibility ShowNextRaceButton { get => _showNextRaceButton; set { _showNextRaceButton = value; RaisePropertyChanged(); } }
         public Visibility ShowEndSeasonButton { get => _showEndSeasonButton; set { _showEndSeasonButton = value; RaisePropertyChanged(); } }
 
-        public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService)
+        public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService, IDivisionService divisionService)
         {
             _cyclistService = cyclistService;
             _trackService = trackService;
             _seasonService = seasonService;
             _teamService = teamService;
+            _divisionService = divisionService;
+            CreateDivisions();
             CreateTeams();
             CreateCyclists();
             CreateTracks();
@@ -68,6 +71,22 @@ namespace Racing2021.ViewModels
             ShowEndSeasonButton = Visibility.Collapsed;
         }
 
+        private void CreateDivisions()
+        {
+            var divisions = new List<Division>();
+
+            divisions.Add(new Division(0, 1, "Division 1"));
+            divisions.Add(new Division(1, 2, "Division 2"));
+
+            divisions[0].TeamsId.Add(0);
+            divisions[0].TeamsId.Add(1);
+            divisions[0].TeamsId.Add(2);
+            divisions[1].TeamsId.Add(3);
+            divisions[1].TeamsId.Add(4);
+
+            _divisionService.CreateDivisions(divisions);
+        }
+
         private void CreateCyclists()
         {
             var cyclists = new List<Cyclist>();
@@ -80,8 +99,8 @@ namespace Racing2021.ViewModels
             cyclists.Add(new Cyclist(5,85f, 75f, 75f, "Tim Declercq", 2, 32));
             cyclists.Add(new Cyclist(6,100f, 85f, 90f, "Mathieu Van Der Poel",3, 26));
             cyclists.Add(new Cyclist(7,95f, 65f, 85f, "Tim Merlier", 3, 32));
-            cyclists.Add(new Cyclist(8,50f, 50f, 50f, "Olav Hendrickx",4, 33));
-            cyclists.Add(new Cyclist(9,55f, 45f, 50f, "Arne Hendrickx",4, 35));
+            cyclists.Add(new Cyclist(8,70f, 70f, 70f, "Olav Hendrickx",4, 33));
+            cyclists.Add(new Cyclist(9,75f, 65f, 70f, "Arne Hendrickx",4, 35));
 
             _cyclistService.CreateCyclists(cyclists);
         }
@@ -106,6 +125,7 @@ namespace Racing2021.ViewModels
 
             var counter = 0;
             tracks.Add(new Track());
+            tracks[0].Id = 0;
             tracks[0].Name = "track 1";
 
             do
@@ -116,6 +136,7 @@ namespace Racing2021.ViewModels
 
             counter = 0;
             tracks.Add(new Track());
+            tracks[1].Id = 1;
             tracks[1].Name = "track 2";
 
             do
@@ -126,6 +147,7 @@ namespace Racing2021.ViewModels
 
             counter = 0;
             tracks.Add(new Track());
+            tracks[2].Id = 2;
             tracks[2].Name = "track 3";
 
             do

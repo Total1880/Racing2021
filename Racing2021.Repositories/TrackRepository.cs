@@ -28,7 +28,8 @@ namespace Racing2021.Repositories
                 foreach (var track in itemList)
                 {
                     writer.WriteStartElement(nameof(Track));
-                    writer.WriteAttributeString(nameof(Track.Name), track.Name.ToString());
+                    writer.WriteAttributeString(nameof(Track.Id), track.Id.ToString());
+                    writer.WriteAttributeString(nameof(Track.Name), track.Name);
                     foreach (var tracktile in track.TrackTiles)
                     {
                         writer.WriteStartElement(nameof(TrackTile));
@@ -76,6 +77,7 @@ namespace Racing2021.Repositories
                     {
                         var readTrack = new Track();
 
+                        readTrack.Id = int.Parse(xmlReader.GetAttribute(nameof(Track.Id)));
                         readTrack.Name = xmlReader.GetAttribute(nameof(Track.Name));
 
                         xmlReader.ReadStartElement(nameof(Track));

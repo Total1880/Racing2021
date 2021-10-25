@@ -5,6 +5,7 @@ namespace Racing2021.Models
 {
     public class Track
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public IList<TrackTile> TrackTiles { get; set; }
 

@@ -9,6 +9,7 @@ namespace Racing2021.Repositories
             builder.RegisterType<CyclistRepository>().AsImplementedInterfaces();
             builder.RegisterType<TrackRepository>().AsImplementedInterfaces();
             builder.RegisterType<TeamRepository>().AsImplementedInterfaces();
+            builder.RegisterType<DivisionRepository>().AsImplementedInterfaces();
         }
     }
 }

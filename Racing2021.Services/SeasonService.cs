@@ -10,36 +10,57 @@ namespace Racing2021.Services
 {
     public class SeasonService : ISeasonService
     {
-        private int tracknumber = 0;
         private ITrackService _trackService;
         private ICyclistService _cyclistService;
         private IRaceService _raceService;
         private ITeamService _teamService;
+        private IDivisionService _divisionService;
         private IList<Track> _tracks;
         private IList<CyclistInRanking> _cyclistRanking;
         private IList<TeamInRanking> _teamRanking;
         private IList<Cyclist> _cyclists;
         private IList<Team> _teams;
+        private IList<Division> _divisions;
         private bool _justStartedUp = true;
+        private bool _seasonHasEnded = false;
+        private SaveGame _saveGame;
+        private int _currentDivisionId;
 
-        public SeasonService(ICyclistService cyclistService, ITrackService trackService, IRaceService raceService, ITeamService teamService)
+        public SaveGame SaveGameData => _saveGame;
+
+        public SeasonService(ICyclistService cyclistService, ITrackService trackService, IRaceService raceService, ITeamService teamService, IDivisionService divisionService)
         {
             _cyclistService = cyclistService;
             _trackService = trackService;
             _raceService = raceService;
             _teamService = teamService;
+            _divisionService = divisionService;
             _cyclistRanking = new List<CyclistInRanking>();
             _teamRanking = new List<TeamInRanking>();
+            _saveGame = new SaveGame() { Id = 0 };
+        }
+
+        private IList<CyclistInRanking> CyclistRanking(int divisionId)
+        {
+            var selectedDivision = _divisions.Where(d => d.Id == divisionId).FirstOrDefault();
+            var teamsOfSelectedDivision = _teamRanking.Where(tm => selectedDivision.TeamsId.Contains(tm.Id)).ToList();
+            return _cyclistRanking.Where(c => teamsOfSelectedDivision.Any(tm => tm.Name == c.TeamName)).ToList(); ;
+        }
+
+        private IList<TeamInRanking> TeamRanking(int divisionId)
+        {
+            var selectedDivision = _divisions.Where(d => d.Id == divisionId).FirstOrDefault();
+            return _teamRanking.Where(tm => selectedDivision.TeamsId.Contains(tm.Id)).ToList();
         }
 
         public IList<CyclistInRanking> CyclistRanking()
         {
-            return _cyclistRanking;
+           return CyclistRanking(_currentDivisionId);
         }
 
         public IList<TeamInRanking> TeamRanking()
         {
-            return _teamRanking;
+            return TeamRanking(_currentDivisionId);
         }
 
         public void NextRace()
@@ -49,22 +70,53 @@ namespace Racing2021.Services
                 _tracks = _trackService.GetTracks();
                 _cyclists = _cyclistService.GetCyclists();
                 _teams = _teamService.GetTeams();
+                _divisions = _divisionService.GetDivisions();
                 ResetRanking();
                 _justStartedUp = false;
             }
 
-            if (tracknumber > _tracks.Count)
+            if (!_tracks.Any(t => t.Id == _saveGame.NextRaceId))
             {
-                throw new Exception("Tracknumber is greater than the number of tracks");
+                throw new Exception($"{_saveGame.NextRaceId}: This race id does not exist");
             }
 
-            _raceService.StartRace(_tracks[tracknumber].TrackTiles, _cyclists, _teams);
+            if (!_divisions.Any(d => d.Id == _saveGame.NextDivisionId))
+            {
+                throw new Exception($"{_saveGame.NextDivisionId}: This division id does not exist");
+            }
+
+            var divisionForThisRace = _divisions.Where(d => d.Id == _saveGame.NextDivisionId).FirstOrDefault();
+            var teamsForThisRace = _teams.Where(tm => divisionForThisRace.TeamsId.Contains(tm.Id)).ToList();
+            var cyclistsForThisRace = _cyclists.Where(c => teamsForThisRace.Any(tm => tm.Id == c.TeamId)).ToList();
+            _raceService.StartRace(_tracks.Where(t => t.Id == _saveGame.NextRaceId).FirstOrDefault().TrackTiles, cyclistsForThisRace, teamsForThisRace);
             UpdateAfterRace();
         }
 
         private void UpdateAfterRace()
         {
+            _currentDivisionId = _saveGame.NextDivisionId;
             UpdateCyclistRankingAfterRace();
+            if(_saveGame.NextDivisionId == _divisions.Last().Id)
+            {
+                _saveGame.NextDivisionId = _divisions[0].Id;
+                if (_saveGame.NextRaceId == _tracks.Last().Id)
+                {
+                    //_saveGame.NextRaceId = _tracks[0].Id;
+                    _seasonHasEnded = true;
+                }
+                else
+                {
+                    //_saveGame.NextRaceId = _tracks.Where(t => t.Id == _saveGame.NextRaceId + 1).FirstOrDefault().Id;
+                    _saveGame.NextRaceId = _tracks.SkipWhile(t => t.Id <= _saveGame.NextRaceId).FirstOrDefault().Id;
+                    
+                }
+            }
+            else
+            {
+                //_saveGame.NextDivisionId = _divisions.Where(d => d.Id == _saveGame.NextDivisionId + 1).FirstOrDefault().Id;
+                _saveGame.NextDivisionId = _divisions.SkipWhile(d => d.Id <= _saveGame.NextDivisionId).FirstOrDefault().Id;
+
+            }
         }
 
         private void UpdateCyclistRankingAfterRace()
@@ -77,8 +129,6 @@ namespace Racing2021.Services
             }
 
             _cyclistRanking = _cyclistRanking.OrderBy(c => c.TotalTime).ToList();
-
-            tracknumber++;
         }
 
         private void UpdateTeamRankingAfterRace(int teamId, TimeSpan time)
@@ -118,13 +168,39 @@ namespace Racing2021.Services
 
         public bool IsSeasonEnded()
         {
-            return tracknumber >= _tracks.Count;
+            //return tracknumber >= _tracks.Count;
+            return _seasonHasEnded;
         }
 
         public void NextSeason()
         {
+            CalculateRelegationsAndPromotions();
             ResetRanking();
-            tracknumber = 0;
+            _saveGame.NextDivisionId = _divisions[0].Id;
+            _saveGame.NextRaceId = _tracks[0].Id;
+            _seasonHasEnded = false;
+        }
+
+        private void CalculateRelegationsAndPromotions()
+        {
+            var lowestTier = _divisions.Max(d => d.Tier);
+
+            foreach (var division in _divisions)
+            {
+                if (division.Tier > 1)
+                {
+                    var promotedTeam = TeamRanking(division.Id).First().Id;
+                    _divisions.Where(d => d.Tier == division.Tier - 1).FirstOrDefault().TeamsId.Add(promotedTeam);
+                    division.TeamsId.Remove(promotedTeam);
+                }
+
+                if (division.Tier != lowestTier)
+                {
+                    var relegatedTeam = TeamRanking(division.Id).Last().Id;
+                    _divisions.Where(d => d.Tier == division.Tier + 1).FirstOrDefault().TeamsId.Add(relegatedTeam);
+                    division.TeamsId.Remove(relegatedTeam);
+                }
+            }
         }
     }
 }
