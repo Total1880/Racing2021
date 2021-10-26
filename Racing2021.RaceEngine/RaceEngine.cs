@@ -28,7 +28,7 @@ namespace Racing2021.RaceEngine
 
         private float _screenPosition;
         private float _centerX;
-        private float _timeSpeed = 2f;
+        private float _timeSpeed = 1f;
         private float _leaderDifferenceWithStandardY;
 
         public RaceEngine()
@@ -96,6 +96,7 @@ namespace Racing2021.RaceEngine
             var kstate = Keyboard.GetState();
 
             var raceLeader = _cyclists[0];
+            var lastTrack = _trackTileGraphics.Last();
 
             foreach (var cyclist in _cyclists)
             {
@@ -112,6 +113,12 @@ namespace Racing2021.RaceEngine
                     }
                     cyclist.CyclistPositionY = centreTrack.Y;
                     cyclist.CyclistPositionX += cyclist.CyclistSpeedHorizontal * gameTime;
+
+                    if (centreTrack.X == lastTrack.X)
+                    {
+                        continue;
+                    }
+                    CheckSlipstream(cyclist);
                 }
                 else if (centreTrack.TrackTile == TrackTile.Up)
                 {
@@ -123,6 +130,13 @@ namespace Racing2021.RaceEngine
                     var differenceX = cyclist.CyclistPositionX - (positionCentertrack - _screenPosition);
                     cyclist.CyclistPositionY = (centreTrack.Y + TextureParameters.UpDown / 2) - differenceX / 2;
                     cyclist.CyclistPositionX += cyclist.CyclistSpeedUp * gameTime;
+
+                    if (centreTrack.X == lastTrack.X)
+                    {
+                        continue;
+                    }
+                    CheckSlipstream(cyclist);
+
                 }
                 else if (centreTrack.TrackTile == TrackTile.Down)
                 {
@@ -134,6 +148,12 @@ namespace Racing2021.RaceEngine
                     var differenceX = cyclist.CyclistPositionX - (positionCentertrack - _screenPosition);
                     cyclist.CyclistPositionY = centreTrack.Y + differenceX / 2;
                     cyclist.CyclistPositionX += cyclist.CyclistSpeedDown * gameTime;
+
+                    if (centreTrack.X == lastTrack.X)
+                    {
+                        continue;
+                    }
+                    CheckSlipstream(cyclist);
                 }
 
                 if (cyclist.CyclistPositionX > raceLeader.CyclistPositionX)
@@ -210,6 +230,14 @@ namespace Racing2021.RaceEngine
                 {
                     cyclist.FinishTime = cyclist.FinishTime + (cyclist.TotalTime * (_timeSpeed - 1));
                 }
+            }
+        }
+
+        private void CheckSlipstream(CyclistRaceEngine cyclist)
+        {
+            if (_cyclists.Any(c => c.CyclistPositionX - cyclist.CyclistPositionX < 50 && c.CyclistPositionX - cyclist.CyclistPositionX > 0 && c.Id != cyclist.Id))
+            {
+                cyclist.CyclistPositionX += 0.2f;
             }
         }
     }
