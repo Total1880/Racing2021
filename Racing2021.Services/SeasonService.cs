@@ -184,22 +184,30 @@ namespace Racing2021.Services
         private void CalculateRelegationsAndPromotions()
         {
             var lowestTier = _divisions.Max(d => d.Tier);
+            var changedTeams = new Dictionary<int, int>();
 
             foreach (var division in _divisions)
             {
                 if (division.Tier > 1)
                 {
                     var promotedTeam = TeamRanking(division.Id).First().Id;
-                    _divisions.Where(d => d.Tier == division.Tier - 1).FirstOrDefault().TeamsId.Add(promotedTeam);
+                    //_divisions.Where(d => d.Tier == division.Tier - 1).FirstOrDefault().TeamsId.Add(promotedTeam);
                     division.TeamsId.Remove(promotedTeam);
+                    changedTeams.Add(promotedTeam, division.Tier - 1);
                 }
 
                 if (division.Tier != lowestTier)
                 {
                     var relegatedTeam = TeamRanking(division.Id).Last().Id;
-                    _divisions.Where(d => d.Tier == division.Tier + 1).FirstOrDefault().TeamsId.Add(relegatedTeam);
+                    //_divisions.Where(d => d.Tier == division.Tier + 1).FirstOrDefault().TeamsId.Add(relegatedTeam);
                     division.TeamsId.Remove(relegatedTeam);
+                    changedTeams.Add(relegatedTeam, division.Tier + 1);
                 }
+            }
+
+            foreach (var changedTeam in changedTeams)
+            {
+                _divisions.Where(d => d.Tier == changedTeam.Value).FirstOrDefault().TeamsId.Add(changedTeam.Key);
             }
         }
     }
