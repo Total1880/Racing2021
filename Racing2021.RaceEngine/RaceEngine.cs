@@ -28,7 +28,7 @@ namespace Racing2021.RaceEngine
 
         private float _screenPosition;
         private float _centerX;
-        private float _scrollSpeed = 200f;
+        private float _timeSpeed = 2f;
         private float _leaderDifferenceWithStandardY;
 
         public RaceEngine()
@@ -86,8 +86,9 @@ namespace Racing2021.RaceEngine
             }
         }
 
-        protected override void Update(GameTime gameTime)
+        protected override void Update(GameTime gameTimeInput)
         {
+            var gameTime = (float) gameTimeInput.ElapsedGameTime.TotalSeconds * _timeSpeed;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -106,45 +107,33 @@ namespace Racing2021.RaceEngine
                 {
                     if (centreTrack.X + TextureParameters.Horizontal < cyclist.CyclistPositionX + _screenPosition)
                     {
-                        if (!_finishedCyclists.Contains(cyclist))
-                        {
-                            _finishedCyclists.Enqueue(cyclist);
-                            cyclist.FinishTime = DateTime.Now;
-                        }
+                        AddFinishedCyclists(cyclist);
                         continue;
                     }
                     cyclist.CyclistPositionY = centreTrack.Y;
-                    cyclist.CyclistPositionX += cyclist.CyclistSpeedHorizontal * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    cyclist.CyclistPositionX += cyclist.CyclistSpeedHorizontal * gameTime;
                 }
                 else if (centreTrack.TrackTile == TrackTile.Up)
                 {
                     if (centreTrack.X + TextureParameters.UpDown < cyclist.CyclistPositionX + _screenPosition)
                     {
-                        if (!_finishedCyclists.Contains(cyclist))
-                        {
-                            _finishedCyclists.Enqueue(cyclist);
-                            cyclist.FinishTime = DateTime.Now;
-                        }
+                        AddFinishedCyclists(cyclist);
                         continue;
                     }
                     var differenceX = cyclist.CyclistPositionX - (positionCentertrack - _screenPosition);
                     cyclist.CyclistPositionY = (centreTrack.Y + TextureParameters.UpDown / 2) - differenceX / 2;
-                    cyclist.CyclistPositionX += cyclist.CyclistSpeedUp * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    cyclist.CyclistPositionX += cyclist.CyclistSpeedUp * gameTime;
                 }
                 else if (centreTrack.TrackTile == TrackTile.Down)
                 {
                     if (centreTrack.X + TextureParameters.UpDown < cyclist.CyclistPositionX + _screenPosition)
                     {
-                        if (!_finishedCyclists.Contains(cyclist))
-                        {
-                            _finishedCyclists.Enqueue(cyclist);
-                            cyclist.FinishTime = DateTime.Now;
-                        }
+                        AddFinishedCyclists(cyclist);
                         continue;
                     }
                     var differenceX = cyclist.CyclistPositionX - (positionCentertrack - _screenPosition);
                     cyclist.CyclistPositionY = centreTrack.Y + differenceX / 2;
-                    cyclist.CyclistPositionX += cyclist.CyclistSpeedDown * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    cyclist.CyclistPositionX += cyclist.CyclistSpeedDown * gameTime;
                 }
 
                 if (cyclist.CyclistPositionX > raceLeader.CyclistPositionX)
@@ -161,7 +150,7 @@ namespace Racing2021.RaceEngine
                 cyclist.CyclistPositionX -= _raceLeaderGain;
             }
             _screenPosition += _raceLeaderGain;
-            base.Update(gameTime);
+            base.Update(gameTimeInput);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -209,6 +198,19 @@ namespace Racing2021.RaceEngine
         public List<CyclistRaceEngine> GetFinishedCyclists()
         {
             return _finishedCyclists.ToList();
+        }
+
+        private void AddFinishedCyclists(CyclistRaceEngine cyclist)
+        {
+            if (!_finishedCyclists.Contains(cyclist))
+            {
+                _finishedCyclists.Enqueue(cyclist);
+                cyclist.FinishTime = DateTime.Now;
+                if (_timeSpeed > 1)
+                {
+                    cyclist.FinishTime = cyclist.FinishTime + (cyclist.TotalTime * (_timeSpeed - 1));
+                }
+            }
         }
     }
 }
