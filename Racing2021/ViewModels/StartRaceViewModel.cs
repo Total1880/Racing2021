@@ -83,6 +83,7 @@ namespace Racing2021.ViewModels
             divisions[0].TeamsId.Add(2);
             divisions[1].TeamsId.Add(3);
             divisions[1].TeamsId.Add(4);
+            divisions[1].TeamsId.Add(5);
 
             _divisionService.CreateDivisions(divisions);
         }
@@ -101,6 +102,8 @@ namespace Racing2021.ViewModels
             cyclists.Add(new Cyclist(7,95f, 65f, 85f, "Tim Merlier", 3, 32));
             cyclists.Add(new Cyclist(8,70f, 70f, 70f, "Olav Hendrickx",4, 33));
             cyclists.Add(new Cyclist(9,75f, 65f, 70f, "Arne Hendrickx",4, 35));
+            cyclists.Add(new Cyclist(10,85f, 75f, 80f, "Sander Delmeire",5, 34));
+            cyclists.Add(new Cyclist(11,80f, 70f, 75f, "Loic Vandenbroucke", 5, 26));
 
             _cyclistService.CreateCyclists(cyclists);
         }
@@ -114,6 +117,7 @@ namespace Racing2021.ViewModels
             teams.Add(new Team(2, "Team C", TextureNames.CyclistRed));
             teams.Add(new Team(3, "Team D", TextureNames.CyclistRoseGrey));
             teams.Add(new Team(4, "Team E", TextureNames.CyclistYellow));
+            teams.Add(new Team(5, "Team F", TextureNames.CyclistBlackYellow));
 
             _teamService.CreateTeams(teams);
         }

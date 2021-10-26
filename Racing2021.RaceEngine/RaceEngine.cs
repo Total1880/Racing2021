@@ -28,7 +28,7 @@ namespace Racing2021.RaceEngine
 
         private float _screenPosition;
         private float _centerX;
-        private float _timeSpeed = 1f;
+        private float _timeSpeed = 3f;
         private float _leaderDifferenceWithStandardY;
 
         public RaceEngine()

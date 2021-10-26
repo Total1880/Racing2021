@@ -7,5 +7,6 @@
         public static string CyclistRed = "Cyclist_Red";
         public static string CyclistRoseGrey = "Cyclist_RoseGrey";
         public static string CyclistYellow = "Cyclist_Yellow";
+        public static string CyclistBlackYellow = "Cyclist_BlackYellow";
     }
 }
