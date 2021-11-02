@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Racing2021.Models;
 using Racing2021.Services.Interfaces;
 using System;
@@ -14,8 +15,21 @@ namespace Racing2021.ViewModels
     {
         private ITrackService _trackService;
         private ObservableCollection<Track> _tracks;
+        private Track _selectedTrack;
+        private RelayCommand _saveChangesCommand;
 
         public ObservableCollection<Track> Tracks { get => _tracks; set { _tracks = value; RaisePropertyChanged(); } }
+
+        public RelayCommand SaveChangesCommand => _saveChangesCommand ??= new RelayCommand(SaveChanges);
+
+        public Track SelectedTrack
+        {
+            get => _selectedTrack; set
+            {
+                _selectedTrack = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         public EditorTracksViewModel(ITrackService trackService)
@@ -23,6 +37,11 @@ namespace Racing2021.ViewModels
             _trackService = trackService;
 
             _tracks = new ObservableCollection<Track>(trackService.GetTracks());
+        }
+
+        private void SaveChanges()
+        {
+            _trackService.CreateTracks(Tracks);
         }
     }
 }

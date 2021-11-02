@@ -10,16 +10,34 @@
       DataContext="{Binding EditorTracks, Source={StaticResource Locator}}">
 
     <Grid>
-        <ListView ItemsSource="{Binding Tracks}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListView 
+            Grid.Column="0"
+            ItemsSource="{Binding Tracks}"
+            SelectedItem="{Binding SelectedTrack}">
             <ListView.View>
-                <GridView AllowsColumnReorder="False"
-                          ColumnHeaderToolTip="Track name">
-                    <GridViewColumn Width="150"
-                                    DisplayMemberBinding="{Binding Name}">
-                        <GridViewColumnHeader Content="Track name"/>
+                <GridView 
+                    AllowsColumnReorder="False"
+                    ColumnHeaderToolTip="Track name">
+                    <GridViewColumn 
+                        Width="150"
+                        DisplayMemberBinding="{Binding Name}">
+                        <GridViewColumnHeader 
+                            Content="Track name"/>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
+        <StackPanel
+            Grid.Column="1">
+            <TextBox 
+                Text="{Binding SelectedTrack.Name}"/>
+            <Button
+                Content="Save changes"
+                Command="{Binding SaveChangesCommand}"/>
+        </StackPanel>
     </Grid>
 </Page>
