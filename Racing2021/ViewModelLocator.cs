@@ -15,10 +15,12 @@ namespace Racing2021
             builder.RegisterModule<ServicesModule>();
 
             builder.RegisterType<StartRaceViewModel>().SingleInstance();
+            builder.RegisterType<HomePageViewModel>().SingleInstance();
 
             _container = builder.Build();
         }
 
         public StartRaceViewModel StartRace => _container.Resolve<StartRaceViewModel>();
+        public HomePageViewModel HomePage => _container.Resolve<HomePageViewModel>();
     }
 }
