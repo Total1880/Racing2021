@@ -42,12 +42,12 @@ namespace Racing2021.ViewModels
             _divisionService = divisionService;
             CreateDivisions();
             CreateTeams();
-            CreateCyclists();
+
+            if (_cyclistService.GetCyclists().Count < 1)
+                CreateCyclists();
 
             if (_trackService.GetTracks().Count < 1)
-            {
                 CreateTracks();
-            }
 
             ShowNextRaceButton = Visibility.Visible;
             ShowEndSeasonButton = Visibility.Collapsed;
@@ -97,18 +97,18 @@ namespace Racing2021.ViewModels
         {
             var cyclists = new List<Cyclist>();
 
-            cyclists.Add(new Cyclist(0,80f, 100f, 95f, "Tadej Pogacar",0, 22));
-            cyclists.Add(new Cyclist(1,75f, 80f, 90f, "Rui Costa", 0, 35));
-            cyclists.Add(new Cyclist(2,95f, 90f, 90f, "Wout Van Aert",1, 26));
-            cyclists.Add(new Cyclist(3,90f, 70f, 85f, "Nathan Van Hooydonck", 1, 26));
-            cyclists.Add(new Cyclist(4,90f, 95f, 80f, "Remco Evenepoel",2, 21));
-            cyclists.Add(new Cyclist(5,85f, 75f, 75f, "Tim Declercq", 2, 32));
-            cyclists.Add(new Cyclist(6,100f, 85f, 90f, "Mathieu Van Der Poel",3, 26));
-            cyclists.Add(new Cyclist(7,95f, 65f, 85f, "Tim Merlier", 3, 32));
-            cyclists.Add(new Cyclist(8,70f, 70f, 70f, "Olav Hendrickx",4, 33));
-            cyclists.Add(new Cyclist(9,75f, 65f, 70f, "Arne Hendrickx",4, 35));
-            cyclists.Add(new Cyclist(10,85f, 75f, 80f, "Sander Delmeire",5, 34));
-            cyclists.Add(new Cyclist(11,80f, 70f, 75f, "Loic Vandenbroucke", 5, 26));
+            cyclists.Add(new Cyclist(0, 80f, 100f, 95f, "Tadej Pogacar", 0, 22));
+            cyclists.Add(new Cyclist(1, 75f, 80f, 90f, "Rui Costa", 0, 35));
+            cyclists.Add(new Cyclist(2, 95f, 90f, 90f, "Wout Van Aert", 1, 26));
+            cyclists.Add(new Cyclist(3, 90f, 70f, 85f, "Nathan Van Hooydonck", 1, 26));
+            cyclists.Add(new Cyclist(4, 90f, 95f, 80f, "Remco Evenepoel", 2, 21));
+            cyclists.Add(new Cyclist(5, 85f, 75f, 75f, "Tim Declercq", 2, 32));
+            cyclists.Add(new Cyclist(6, 100f, 85f, 90f, "Mathieu Van Der Poel", 3, 26));
+            cyclists.Add(new Cyclist(7, 95f, 65f, 85f, "Tim Merlier", 3, 32));
+            cyclists.Add(new Cyclist(8, 70f, 70f, 70f, "Olav Hendrickx", 4, 33));
+            cyclists.Add(new Cyclist(9, 75f, 65f, 70f, "Arne Hendrickx", 4, 35));
+            cyclists.Add(new Cyclist(10, 85f, 75f, 80f, "Sander Delmeire", 5, 34));
+            cyclists.Add(new Cyclist(11, 80f, 70f, 75f, "Loic Vandenbroucke", 5, 26));
 
             _cyclistService.CreateCyclists(cyclists);
         }
