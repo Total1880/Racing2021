@@ -12,12 +12,19 @@ namespace Racing2021.ViewModels
     public class EditorHomePageViewModel : ViewModelBase
     {
         private RelayCommand _openEditorTracksPageCommand;
+        private RelayCommand _openEditorCyclistPageCommand;
 
         public RelayCommand OpenEditorTracksPageCommand => _openEditorTracksPageCommand ??= new RelayCommand(OpenEditorTracksPage);
+        public RelayCommand OpenEditorCyclistPageCommand => _openEditorCyclistPageCommand ??= new RelayCommand(OpenEditorCyclistsPage);
 
         private void OpenEditorTracksPage()
         {
             MessengerInstance.Send(new OpenEditorTracksPageMessage());
+        }
+
+        private void OpenEditorCyclistsPage()
+        {
+            MessengerInstance.Send(new OpenEditorCyclistPageMessage());
         }
     }
 }

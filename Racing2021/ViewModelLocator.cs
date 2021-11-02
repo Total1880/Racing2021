@@ -14,6 +14,7 @@ namespace Racing2021
 
             builder.RegisterModule<ServicesModule>();
 
+            builder.RegisterType<EditorCyclistsViewModel>().SingleInstance();
             builder.RegisterType<EditorHomePageViewModel>().SingleInstance();
             builder.RegisterType<EditorTracksViewModel>().SingleInstance();
             builder.RegisterType<StartRaceViewModel>().SingleInstance();
@@ -22,6 +23,7 @@ namespace Racing2021
             _container = builder.Build();
         }
 
+        public EditorCyclistsViewModel EditorCyclists => _container.Resolve<EditorCyclistsViewModel>();
         public EditorHomePageViewModel EditorHomePage => _container.Resolve<EditorHomePageViewModel>();
         public EditorTracksViewModel EditorTracks => _container.Resolve<EditorTracksViewModel>();
         public StartRaceViewModel StartRace => _container.Resolve<StartRaceViewModel>();

@@ -11,11 +11,13 @@ namespace Racing2021
     /// </summary>
     public partial class MainWindow : Window
     {
+        private EditorCyclistsPage _editorCyclistsPage;
         private EditorHomePage _editorHomePage;
         private EditorTracksPage _editorTracksPage;
         private HomePage _homePage;
         private StartRacePage _startRacePage;
 
+        public EditorCyclistsPage EditorCyclistsPage => _editorCyclistsPage ??= new EditorCyclistsPage();
         public EditorHomePage EditorHomePage => _editorHomePage ??= new EditorHomePage();
         public EditorTracksPage EditorTracksPage => _editorTracksPage ??= new EditorTracksPage();
         public StartRacePage StartRacePage => _startRacePage ??= new StartRacePage();
@@ -25,9 +27,16 @@ namespace Racing2021
         {
             InitializeComponent();
             MainFrame.NavigationService.Navigate(HomePage);
+            Messenger.Default.Register<OpenEditorCyclistPageMessage>(this, OpenEditorCyclistPage);
             Messenger.Default.Register<OpenEditorHomePageMessage>(this, OpenEditorHomePage);
             Messenger.Default.Register<OpenEditorTracksPageMessage>(this, OpenEditorTracksPage);
             Messenger.Default.Register<OpenStartRacePageMessage>(this, OpenStartRacePage);
+        }
+
+        private void OpenEditorCyclistPage(OpenEditorCyclistPageMessage obj)
+        {
+            MainFrame.NavigationService.Navigate(EditorCyclistsPage);
+
         }
 
         private void OpenEditorHomePage(OpenEditorHomePageMessage obj)
