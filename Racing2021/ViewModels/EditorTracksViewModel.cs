@@ -22,6 +22,8 @@ namespace Racing2021.ViewModels
         private RelayCommand _saveChangesCommand;
         private RelayCommand _addTrackTileCommand;
         private RelayCommand _deleteLastTrackTileCommand;
+        private RelayCommand _addNewTrackCommand;
+        private RelayCommand _deleteSelectedTrackCommand;
 
         public ObservableCollection<Track> Tracks { get => _tracks; set { _tracks = value; RaisePropertyChanged(); } }
         public ObservableCollection<string> TrackTiles { get => _trackTiles; set { _trackTiles = value; RaisePropertyChanged(); } }
@@ -30,6 +32,8 @@ namespace Racing2021.ViewModels
         public RelayCommand SaveChangesCommand => _saveChangesCommand ??= new RelayCommand(SaveChanges);
         public RelayCommand AddTrackTileCommand => _addTrackTileCommand ??= new RelayCommand(AddTrackTile);
         public RelayCommand DeleteLastTrackTileCommand => _deleteLastTrackTileCommand ??= new RelayCommand(DeleteLastTrackTile);
+        public RelayCommand AddNewTrackCommand => _addNewTrackCommand ??= new RelayCommand(AddNewTrack);
+        public RelayCommand DeleteSelectedTrackCommand => _deleteSelectedTrackCommand ??= new RelayCommand(DeleteSelectedTrack);
 
         public Track SelectedTrack
         {
@@ -37,7 +41,12 @@ namespace Racing2021.ViewModels
             set
             {
                 _selectedTrack = value;
-                SelectedTrackTrackTiles = new ObservableCollection<TrackTile>(_selectedTrack.TrackTiles);
+
+                if (_selectedTrack != null)
+                {
+                    SelectedTrackTrackTiles = new ObservableCollection<TrackTile>(_selectedTrack.TrackTiles);
+                }
+
                 RaisePropertyChanged();
             }
         }
@@ -74,6 +83,23 @@ namespace Racing2021.ViewModels
                 return;
 
             SelectedTrackTrackTiles.RemoveAt(SelectedTrackTrackTiles.Count - 1);
+        }
+
+        private void AddNewTrack()
+        {
+            SelectedTrack = new Track();
+            SelectedTrack.Name = "new track";
+            SelectedTrack.Id = Tracks.Max(t => t.Id) + 1;
+            SelectedTrack.TrackTiles = new List<TrackTile>();
+            Tracks.Add(SelectedTrack);
+        }
+
+        private void DeleteSelectedTrack()
+        {
+            if (SelectedTrack == null)
+                return;
+
+            Tracks.Remove(SelectedTrack);
         }
 
         private void CreateListOfTrackTiles()

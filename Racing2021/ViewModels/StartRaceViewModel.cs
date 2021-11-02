@@ -43,7 +43,12 @@ namespace Racing2021.ViewModels
             CreateDivisions();
             CreateTeams();
             CreateCyclists();
-            CreateTracks();
+
+            if (_trackService.GetTracks().Count < 1)
+            {
+                CreateTracks();
+            }
+
             ShowNextRaceButton = Visibility.Visible;
             ShowEndSeasonButton = Visibility.Collapsed;
         }

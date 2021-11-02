@@ -14,23 +14,32 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListView 
-            Grid.Column="0"
+        <StackPanel            
+            Grid.Column="0">
+            <ListView 
             ItemsSource="{Binding Tracks}"
             SelectedItem="{Binding SelectedTrack}">
-            <ListView.View>
-                <GridView 
+                <ListView.View>
+                    <GridView 
                     AllowsColumnReorder="False"
                     ColumnHeaderToolTip="Track name">
-                    <GridViewColumn 
+                        <GridViewColumn 
                         Width="150"
                         DisplayMemberBinding="{Binding Name}">
-                        <GridViewColumnHeader 
+                            <GridViewColumnHeader 
                             Content="Track name"/>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button
+                Content="Add new track"
+                Command="{Binding AddNewTrackCommand}"/>
+            <Button
+                Content="Delete track"
+                Command="{Binding DeleteSelectedTrackCommand}"/>
+        </StackPanel>
+
         <StackPanel
             Grid.Column="1">
             <TextBox 
