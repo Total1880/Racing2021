@@ -36,9 +36,20 @@
             <TextBox 
                 Text="{Binding SelectedTrack.Name}"/>
             <ListView 
-                ItemsSource="{Binding SelectedTrack.TrackTiles}"/>
-            <ComboBox 
-                ItemsSource="{Binding TrackTiles}"/>
+                ItemsSource="{Binding SelectedTrackTrackTiles}"/>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox 
+                    Width="150"
+                    ItemsSource="{Binding TrackTiles}"
+                    SelectedItem="{Binding SelectedTrackTile}"/>
+                <Button 
+                    Content="Add"
+                    Command="{Binding AddTrackTileCommand}"/>
+                <Button
+                    Content="Delete last"
+                    Command="{Binding DeleteLastTrackTileCommand}"/>
+            </StackPanel>
+
             <Button
                 Content="Save changes"
                 Command="{Binding SaveChangesCommand}"/>
