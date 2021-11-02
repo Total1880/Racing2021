@@ -35,6 +35,10 @@
             Grid.Column="1">
             <TextBox 
                 Text="{Binding SelectedTrack.Name}"/>
+            <ListView 
+                ItemsSource="{Binding SelectedTrack.TrackTiles}"/>
+            <ComboBox 
+                ItemsSource="{Binding TrackTiles}"/>
             <Button
                 Content="Save changes"
                 Command="{Binding SaveChangesCommand}"/>
