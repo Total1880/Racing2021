@@ -29,8 +29,9 @@ namespace Racing2021.Repositories
                     writer.WriteAttributeString(nameof(Cyclist.Id), cyclist.Id.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.TeamId), cyclist.TeamId.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.Name), cyclist.Name.ToString());
-                    writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedDown), cyclist.CyclistSpeedDown.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedHorizontal), cyclist.CyclistSpeedHorizontal.ToString());
+                    writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedCobblestones), cyclist.CyclistSpeedCobblestones.ToString());
+                    writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedDown), cyclist.CyclistSpeedDown.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedUp), cyclist.CyclistSpeedUp.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.Age), cyclist.Age.ToString());
                     writer.WriteEndElement();
@@ -77,8 +78,9 @@ namespace Racing2021.Repositories
                         readCyclist.Id = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Id)));
                         readCyclist.TeamId = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.TeamId)));
                         readCyclist.Name = xmlReader.GetAttribute(nameof(Cyclist.Name));
-                        readCyclist.CyclistSpeedDown = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedDown)));
                         readCyclist.CyclistSpeedHorizontal = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedHorizontal)));
+                        readCyclist.CyclistSpeedCobblestones = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedCobblestones)));
+                        readCyclist.CyclistSpeedDown = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedDown)));
                         readCyclist.CyclistSpeedUp = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedUp)));
                         readCyclist.Age = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Age)));
 

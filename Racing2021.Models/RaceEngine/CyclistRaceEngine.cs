@@ -10,6 +10,7 @@ namespace Racing2021.Models.RaceEngine
         private float _cyclistPositionX;
         private float _cyclistPositionY = GeneralParameters.CentralPositionY;
         private float _cyclistSpeedHorizontal;
+        private float _cyclistSpeedCobblestone;
         private float _cyclistSpeedUp;
         private float _cyclistSpeedDown;
         private float _cyclistFormOfTheDay;
@@ -22,6 +23,7 @@ namespace Racing2021.Models.RaceEngine
         public float CyclistPositionY { get => _cyclistPositionY; set { _cyclistPositionY = value; } }
         public Texture2D CyclistTexture { get => _cyclistTexture; set { _cyclistTexture = value; } }
         public float CyclistSpeedHorizontal { get => _cyclistSpeedHorizontal + CyclistFormOfTheDay; set { _cyclistSpeedHorizontal = value; } }
+        public float CyclistSpeedCobblestone { get => _cyclistSpeedCobblestone + CyclistFormOfTheDay; set { _cyclistSpeedCobblestone = value; } }
         public float CyclistSpeedUp { get => _cyclistSpeedUp + CyclistFormOfTheDay; set { _cyclistSpeedUp = value; } }
         public float CyclistSpeedDown { get => _cyclistSpeedDown + CyclistFormOfTheDay; set { _cyclistSpeedDown = value; } }
         public float CyclistFormOfTheDay { get => _cyclistFormOfTheDay; set { _cyclistFormOfTheDay = value; } }
@@ -32,10 +34,11 @@ namespace Racing2021.Models.RaceEngine
         public string ShowTime { get => TotalTime.Minutes.ToString() + ":" + TotalTime.Seconds.ToString(); }
         public Team Team{ get => _team; set { _team = value; } }
 
-        public CyclistRaceEngine(int id, float speedHorizontal, float speedUp, float speedDown, string name, float cyclistFormOfTheDay, Team team)
+        public CyclistRaceEngine(int id, float speedHorizontal, float speedCobblestone, float speedUp, float speedDown, string name, float cyclistFormOfTheDay, Team team)
         {
             Id = id;
             CyclistSpeedHorizontal = speedHorizontal;
+            CyclistSpeedCobblestone = speedCobblestone;
             CyclistSpeedUp = speedUp;
             CyclistSpeedDown = speedDown;
             CyclistFormOfTheDay = cyclistFormOfTheDay;

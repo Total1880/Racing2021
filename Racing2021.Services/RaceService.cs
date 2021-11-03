@@ -45,7 +45,7 @@ namespace Racing2021.Services
             foreach (var cyclist in cyclists)
             {
                 var team = teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault();
-                _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.Id, cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f), team));
+                _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.Id, cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedCobblestones, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f), team));
             }
         }
 

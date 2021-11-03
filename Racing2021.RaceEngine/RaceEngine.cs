@@ -15,10 +15,12 @@ namespace Racing2021.RaceEngine
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _trackHorizontal;
+        private Texture2D _trackHorizontalCoblestones;
         private Texture2D _trackUp;
         private Texture2D _trackDown;
         private SpriteFont _spriteFont;
 
+        private CyclistRaceEngine _raceleader;
 
         private IList<TrackTile> _trackTiles;
         private IList<TrackTileGraphic> _trackTileGraphics;
@@ -28,7 +30,7 @@ namespace Racing2021.RaceEngine
 
         private float _screenPosition;
         private float _centerX;
-        private float _timeSpeed = 3f;
+        private float _timeSpeed = 2f;
         private float _leaderDifferenceWithStandardY;
 
         public RaceEngine()
@@ -68,6 +70,8 @@ namespace Racing2021.RaceEngine
                 cyclist.StartTime = DateTime.Now;
             }
 
+            _raceleader = _cyclists[5];
+
             base.Initialize();
         }
 
@@ -76,6 +80,7 @@ namespace Racing2021.RaceEngine
             // TODO: use this.Content to load your game content here
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _trackHorizontal = Content.Load<Texture2D>("TrackHorizontal");
+            _trackHorizontalCoblestones = Content.Load<Texture2D>("TrackHorizontalCoblestones");
             _trackUp = Content.Load<Texture2D>("TrackDownUp");
             _trackDown = Content.Load<Texture2D>("TrackUpDown");
             _spriteFont = Content.Load<SpriteFont>("Fonts/DefaultFont");
@@ -95,7 +100,7 @@ namespace Racing2021.RaceEngine
             // TODO: Add your update logic here
             var kstate = Keyboard.GetState();
 
-            var raceLeader = _cyclists[0];
+            
             var lastTrack = _trackTileGraphics.Last();
 
             foreach (var cyclist in _cyclists)
@@ -104,7 +109,7 @@ namespace Racing2021.RaceEngine
                 var centreTrack = _trackTileGraphics.Where(x => x.X == positionCentertrack).FirstOrDefault();
                 var oldPosition = cyclist.CyclistPositionX;
 
-                if (centreTrack.TrackTile == TrackTile.Horizontal)
+                if (centreTrack.TrackTile == TrackTile.Horizontal || centreTrack.TrackTile == TrackTile.HorizontalCobblestones)
                 {
                     if (centreTrack.X + TextureParameters.Horizontal < cyclist.CyclistPositionX + _screenPosition)
                     {
@@ -112,7 +117,14 @@ namespace Racing2021.RaceEngine
                         continue;
                     }
                     cyclist.CyclistPositionY = centreTrack.Y;
-                    cyclist.CyclistPositionX += cyclist.CyclistSpeedHorizontal * gameTime;
+                    if (centreTrack.TrackTile == TrackTile.Horizontal)
+                    {
+                        cyclist.CyclistPositionX += cyclist.CyclistSpeedHorizontal * gameTime;
+                    }
+                    else
+                    {
+                        cyclist.CyclistPositionX += (cyclist.CyclistSpeedHorizontal + cyclist.CyclistSpeedCobblestone) / 2 * gameTime;
+                    }
 
                     if (centreTrack.X == lastTrack.X)
                     {
@@ -120,6 +132,7 @@ namespace Racing2021.RaceEngine
                     }
                     CheckSlipstream(cyclist);
                 }
+
                 else if (centreTrack.TrackTile == TrackTile.Up)
                 {
                     if (centreTrack.X + TextureParameters.UpDown < cyclist.CyclistPositionX + _screenPosition)
@@ -156,14 +169,14 @@ namespace Racing2021.RaceEngine
                     CheckSlipstream(cyclist);
                 }
 
-                if (cyclist.CyclistPositionX > raceLeader.CyclistPositionX)
+                if (cyclist.CyclistPositionX > _raceleader.CyclistPositionX)
                 {
-                    raceLeader = cyclist;
+                    _raceleader = cyclist;
                 }
 
             }
-            var _raceLeaderGain = raceLeader.CyclistPositionX - _centerX;
-            _leaderDifferenceWithStandardY = GeneralParameters.CentralPositionY - raceLeader.CyclistPositionY;
+            var _raceLeaderGain = _raceleader.CyclistPositionX - _centerX;
+            _leaderDifferenceWithStandardY = GeneralParameters.CentralPositionY - _raceleader.CyclistPositionY;
 
             foreach (var cyclist in _cyclists)
             {
@@ -185,6 +198,9 @@ namespace Racing2021.RaceEngine
                 {
                     case TrackTile.Horizontal:
                         _spriteBatch.Draw(_trackHorizontal, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y + _leaderDifferenceWithStandardY), Color.White);
+                        break;
+                    case TrackTile.HorizontalCobblestones:
+                        _spriteBatch.Draw(_trackHorizontalCoblestones, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y + _leaderDifferenceWithStandardY), Color.White);
                         break;
                     case TrackTile.Up:
                         _spriteBatch.Draw(_trackUp, new Vector2(trackTileGraphic.X - _screenPosition, trackTileGraphic.Y + _leaderDifferenceWithStandardY), Color.White);

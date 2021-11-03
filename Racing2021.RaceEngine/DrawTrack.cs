@@ -19,6 +19,7 @@ namespace Racing2021.RaceEngine
 
                 switch (tile)
                 {
+                    case TrackTile.HorizontalCobblestones:
                     case TrackTile.Horizontal:
                         track.Add(new TrackTileGraphic(tile, x, y));
 

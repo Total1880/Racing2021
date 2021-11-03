@@ -2,6 +2,6 @@
 {
     public enum TrackTile
     {
-        Horizontal, Up, Down
+        Horizontal, Up, Down, HorizontalCobblestones
     }
 }

@@ -220,30 +220,35 @@ namespace Racing2021.Services
                 {
                     cyclist.CyclistSpeedDown += RandomFloat(0f, 10f);
                     cyclist.CyclistSpeedHorizontal += RandomFloat(0f, 10f);
+                    cyclist.CyclistSpeedCobblestones += RandomFloat(0f, 10f);
                     cyclist.CyclistSpeedUp += RandomFloat(0f, 10f);
                 }
                 else if (cyclist.Age < 25)
                 {
                     cyclist.CyclistSpeedDown += RandomFloat(0f, 5f);
                     cyclist.CyclistSpeedHorizontal += RandomFloat(0f, 5f);
+                    cyclist.CyclistSpeedCobblestones += RandomFloat(0f, 5f);
                     cyclist.CyclistSpeedUp += RandomFloat(0f, 5f);
                 }
                 else if (cyclist.Age < 30)
                 {
                     cyclist.CyclistSpeedDown += RandomFloat(0f, 2f);
                     cyclist.CyclistSpeedHorizontal += RandomFloat(0f, 2f);
+                    cyclist.CyclistSpeedCobblestones += RandomFloat(0f, 2f);
                     cyclist.CyclistSpeedUp += RandomFloat(0f, 2f);
                 }
                 else if (cyclist.Age < 35)
                 {
                     cyclist.CyclistSpeedDown -= RandomFloat(0f, 5f);
                     cyclist.CyclistSpeedHorizontal -= RandomFloat(0f, 5f);
+                    cyclist.CyclistSpeedCobblestones -= RandomFloat(0f, 5f);
                     cyclist.CyclistSpeedUp -= RandomFloat(0f, 5f);
                 }
                 else
                 {
                     cyclist.CyclistSpeedDown -= RandomFloat(0f, 10f);
                     cyclist.CyclistSpeedHorizontal -= RandomFloat(0f, 10f);
+                    cyclist.CyclistSpeedCobblestones -= RandomFloat(0f, 10f);
                     cyclist.CyclistSpeedUp -= RandomFloat(0f, 10f);
                 }
 
@@ -256,6 +261,7 @@ namespace Racing2021.Services
                         cyclist.Age = 16;
                         cyclist.CyclistSpeedDown = 50f;
                         cyclist.CyclistSpeedHorizontal = 50f;
+                        cyclist.CyclistSpeedCobblestones = 50f;
                         cyclist.CyclistSpeedUp = 50f;
                     }
                 }
