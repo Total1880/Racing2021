@@ -139,7 +139,7 @@ namespace Racing2021.ViewModels
 
             do
             {
-                tracks[0].TrackTiles.Add((Models.Enums.TrackTile)random.Next(0, 3));
+                tracks[0].TrackTiles.Add((Models.Enums.TrackTile)random.Next(0, 4));
                 counter++;
             } while (counter < 10);
 
@@ -150,7 +150,7 @@ namespace Racing2021.ViewModels
 
             do
             {
-                tracks[1].TrackTiles.Add((Models.Enums.TrackTile)random.Next(0, 3));
+                tracks[1].TrackTiles.Add((Models.Enums.TrackTile)random.Next(0, 4));
                 counter++;
             } while (counter < 10);
 
@@ -161,7 +161,7 @@ namespace Racing2021.ViewModels
 
             do
             {
-                tracks[2].TrackTiles.Add((Models.Enums.TrackTile)random.Next(0, 3));
+                tracks[2].TrackTiles.Add((Models.Enums.TrackTile)random.Next(0, 4));
                 counter++;
             } while (counter < 10);
 
