@@ -13,9 +13,11 @@ namespace Racing2021.ViewModels
     {
         private RelayCommand _openEditorTracksPageCommand;
         private RelayCommand _openEditorCyclistPageCommand;
+        private RelayCommand _openEditorTeamsPageCommand;
 
         public RelayCommand OpenEditorTracksPageCommand => _openEditorTracksPageCommand ??= new RelayCommand(OpenEditorTracksPage);
         public RelayCommand OpenEditorCyclistPageCommand => _openEditorCyclistPageCommand ??= new RelayCommand(OpenEditorCyclistsPage);
+        public RelayCommand OpenEditorTeamsPageCommand => _openEditorTeamsPageCommand ??= new RelayCommand(OpenEditorTeamsPage);
 
         private void OpenEditorTracksPage()
         {
@@ -25,6 +27,11 @@ namespace Racing2021.ViewModels
         private void OpenEditorCyclistsPage()
         {
             MessengerInstance.Send(new OpenEditorCyclistPageMessage());
+        }
+
+        private void OpenEditorTeamsPage()
+        {
+            MessengerInstance.Send(new OpenEditorTeamsPageMessage());
         }
     }
 }

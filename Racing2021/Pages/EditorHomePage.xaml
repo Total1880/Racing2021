@@ -17,6 +17,9 @@
             <Button
                 Content="Edit Cyclists"
                 Command="{Binding OpenEditorCyclistPageCommand}"/>
+            <Button
+                Content="Edit Teams"
+                Command="{Binding OpenEditorTeamsPageCommand}"/>
         </StackPanel>
     </Grid>
 </Page>

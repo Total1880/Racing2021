@@ -17,6 +17,7 @@ namespace Racing2021
             builder.RegisterType<EditorCyclistsViewModel>().SingleInstance();
             builder.RegisterType<EditorHomePageViewModel>().SingleInstance();
             builder.RegisterType<EditorTracksViewModel>().SingleInstance();
+            builder.RegisterType<EditorTeamsViewModel>().SingleInstance();
             builder.RegisterType<StartRaceViewModel>().SingleInstance();
             builder.RegisterType<HomePageViewModel>().SingleInstance();
 
@@ -26,6 +27,7 @@ namespace Racing2021
         public EditorCyclistsViewModel EditorCyclists => _container.Resolve<EditorCyclistsViewModel>();
         public EditorHomePageViewModel EditorHomePage => _container.Resolve<EditorHomePageViewModel>();
         public EditorTracksViewModel EditorTracks => _container.Resolve<EditorTracksViewModel>();
+        public EditorTeamsViewModel EditorTeams => _container.Resolve<EditorTeamsViewModel>();
         public StartRaceViewModel StartRace => _container.Resolve<StartRaceViewModel>();
         public HomePageViewModel HomePage => _container.Resolve<HomePageViewModel>();
     }
