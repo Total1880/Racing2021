@@ -10,6 +10,67 @@
       DataContext="{Binding EditorTeams, Source={StaticResource Locator}}">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            Grid.Column="0">
+            <ListView 
+                ItemsSource="{Binding Teams}"
+                SelectedItem="{Binding SelectedTeam}">
+                <ListView.View>
+                    <GridView 
+                    AllowsColumnReorder="False"
+                    ColumnHeaderToolTip="Team name">
+                        <GridViewColumn 
+                        Width="150"
+                        DisplayMemberBinding="{Binding Name}">
+                            <GridViewColumnHeader 
+                            Content="Team name"/>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button
+                Content="Add new team"
+                Command="{Binding AddNewTeamCommand}"/>
+            <Button
+                Content="Delete team"
+                Command="{Binding DeleteSelectedTeamCommand}"/>
+        </StackPanel>
+        <StackPanel 
+            Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    Text="Team name"
+                    Width="100"/>
+                <TextBox
+                    Width="300"
+                    Text="{Binding SelectedTeam.Name}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Text="Jersey"
+                    Width="100"/>
+                <ComboBox
+                    Width="300"
+                    ItemsSource="{Binding TeamJerseys}"
+                    SelectedItem="{Binding SelectedTeam.JerseyName}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Text="Division"
+                    Width="100"/>
+                <ComboBox
+                    Width="300"
+                    ItemsSource="{Binding Divisions}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding SelectedDivision}"/>
+            </StackPanel>
+            <Button
+                Content="Save changes"
+                Command="{Binding SaveChangesCommand}"/>
+        </StackPanel>
     </Grid>
 </Page>

@@ -70,7 +70,7 @@ namespace Racing2021.RaceEngine
                 cyclist.StartTime = DateTime.Now;
             }
 
-            _raceleader = _cyclists[5];
+            _raceleader = _cyclists[_cyclists.Count - 1];
 
             base.Initialize();
         }

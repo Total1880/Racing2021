@@ -73,6 +73,7 @@ namespace Racing2021.ViewModels
                 return;
 
             Cyclists.Remove(SelectedCyclist);
+            _cyclistService.CreateCyclists(Cyclists);
         }
     }
 }

@@ -4,10 +4,10 @@ namespace Racing2021.Models
 {
     public class Division
     {
-        public int Id;
-        public int Tier;
-        public string Name;
-        public IList<int> TeamsId;
+        public int Id { get; set; }
+        public int Tier { get; set; }
+        public string Name { get; set; }
+        public IList<int> TeamsId { get; set; }
 
         public Division()
         {
