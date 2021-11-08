@@ -17,6 +17,7 @@ namespace Racing2021
         private EditorTeamsPage _editorTeamsPage;
         private HomePage _homePage;
         private StartRacePage _startRacePage;
+        private NavigationButtonsPage _navigationButtonsPage;
 
         public EditorCyclistsPage EditorCyclistsPage => _editorCyclistsPage ??= new EditorCyclistsPage();
         public EditorHomePage EditorHomePage => _editorHomePage ??= new EditorHomePage();
@@ -24,6 +25,7 @@ namespace Racing2021
         public EditorTeamsPage EditorTeamsPage => _editorTeamsPage ??= new EditorTeamsPage();
         public StartRacePage StartRacePage => _startRacePage ??= new StartRacePage();
         public HomePage HomePage => _homePage ??= new HomePage();
+        public NavigationButtonsPage NavigationButtonsPage => _navigationButtonsPage ??= new NavigationButtonsPage();
 
         public MainWindow()
         {
@@ -34,19 +36,19 @@ namespace Racing2021
             Messenger.Default.Register<OpenEditorTracksPageMessage>(this, OpenEditorTracksPage);
             Messenger.Default.Register<OpenEditorTeamsPageMessage>(this, OpenEditorTeamsPage);
             Messenger.Default.Register<OpenStartRacePageMessage>(this, OpenStartRacePage);
+            Messenger.Default.Register<OpenHomePageMessage>(this, OpenHomePage);
         }
 
         private void OpenEditorCyclistPage(OpenEditorCyclistPageMessage obj)
         {
             MainFrame.NavigationService.Navigate(EditorCyclistsPage);
-
         }
 
         private void OpenEditorHomePage(OpenEditorHomePageMessage obj)
         {
             MainFrame.NavigationService.Navigate(EditorHomePage);
+            NavigationFrame.NavigationService.Navigate(NavigationButtonsPage);
         }
-
 
         private void OpenEditorTracksPage(OpenEditorTracksPageMessage obj)
         {
@@ -61,6 +63,14 @@ namespace Racing2021
         private void OpenStartRacePage(OpenStartRacePageMessage obj)
         {
             MainFrame.NavigationService.Navigate(StartRacePage);
+            NavigationFrame.NavigationService.Navigate(NavigationButtonsPage);
+
+        }
+
+        private void OpenHomePage(OpenHomePageMessage obj)
+        {
+            MainFrame.NavigationService.Navigate(HomePage);
+            NavigationFrame.Content = null;
         }
     }
 }
