@@ -10,20 +10,110 @@
       DataContext="{Binding EditorCyclists, Source={StaticResource Locator}}">
 
     <Grid>
-        <ListView 
-            ItemsSource="{Binding Cyclists}">
-            <ListView.View>
-                <GridView 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <ListView 
+                ItemsSource="{Binding Cyclists}"
+                SelectedItem="{Binding SelectedCyclist}">
+                <ListView.View>
+                    <GridView 
                     AllowsColumnReorder="False"
-                    ColumnHeaderToolTip="name">
-                    <GridViewColumn 
+                    ColumnHeaderToolTip="Cyclists">
+                        <GridViewColumn 
                         Width="150"
                         DisplayMemberBinding="{Binding Name}">
-                        <GridViewColumnHeader 
-                            Content="name"/>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                            <GridViewColumnHeader 
+                            Content="Name"/>
+                        </GridViewColumn>
+                        <GridViewColumn 
+                        Width="150"
+                        DisplayMemberBinding="{Binding TeamId}">
+                            <GridViewColumnHeader 
+                            Content="Team Id"/>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button
+                Content="Add new cyclist"
+                Command="{Binding AddNewCyclistCommand}"/>
+            <Button
+                Content="Delete cyclist"
+                Command="{Binding DeleteSelectedCyclistCommand}"/>
+        </StackPanel>
+        <StackPanel 
+            Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    Text="First name"
+                    Width="100"/>
+                <TextBox
+                    Width="300"
+                    Text="{Binding SelectedCyclist.Name}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    Text="Last name"
+                    Width="100"/>
+                <TextBox
+                    Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Text="Team"
+                    Width="100"/>
+                <ComboBox
+                    Width="300"
+                    ItemsSource="{Binding Teams}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding SelectedTeam}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    Text="Age"
+                    Width="100"/>
+                <TextBox
+                    Width="100"
+                    Text="{Binding SelectedCyclist.Age}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    Text="Horizontal"
+                    Width="100"/>
+                <TextBox
+                    Width="100"
+                    Text="{Binding SelectedCyclist.CyclistSpeedHorizontal}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    Text="Cobblestones"
+                    Width="100"/>
+                <TextBox
+                    Width="100"
+                    Text="{Binding SelectedCyclist.CyclistSpeedCobblestones}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    Text="Up"
+                    Width="100"/>
+                <TextBox
+                    Width="100"
+                    Text="{Binding SelectedCyclist.CyclistSpeedUp}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    Text="Down"
+                    Width="100"/>
+                <TextBox
+                    Width="100"
+                    Text="{Binding SelectedCyclist.CyclistSpeedDown}"/>
+            </StackPanel>
+            <Button
+                Content="Save changes"
+                Command="{Binding SaveChangesCommand}"/>
+        </StackPanel>
     </Grid>
 </Page>
