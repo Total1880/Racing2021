@@ -55,6 +55,10 @@ namespace Racing2021.ViewModels
 
         private void SaveChanges()
         {
+            if (SelectedCyclist == null)
+            {
+                return;
+            }
             SelectedCyclist.TeamId = SelectedTeam.Id;
             _cyclistService.CreateCyclists(Cyclists);
         }

@@ -274,5 +274,10 @@ namespace Racing2021.Services
             double val = (random.NextDouble() * (max - min) + min);
             return (float)val;
         }
+
+        public IList<Cyclist> Cyclists()
+        {
+            return _cyclists;
+        }
     }
 }

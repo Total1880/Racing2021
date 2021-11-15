@@ -6,6 +6,7 @@ using Racing2021.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 
 namespace Racing2021.ViewModels
@@ -21,17 +22,45 @@ namespace Racing2021.ViewModels
         private RelayCommand _nextSeasonCommand;
         private ObservableCollection<CyclistInRanking> _cyclistRanking;
         private ObservableCollection<TeamInRanking> _teamRanking;
+        private ObservableCollection<Cyclist> _cyclistsWithStats;
         private Visibility _showNextRaceButton;
         private Visibility _showEndSeasonButton;
+        private TeamInRanking _selectedTeam;
+        private CyclistInRanking _selectedCyclist;
 
         public RelayCommand StartRaceCommand => _startRaceCommand ??= new RelayCommand(StartRace);
         public RelayCommand NextSeasonCommand => _nextSeasonCommand ??= new RelayCommand(NextSeason);
 
         public ObservableCollection<CyclistInRanking> CyclistRanking { get => _cyclistRanking; set { _cyclistRanking = value; RaisePropertyChanged(); } }
         public ObservableCollection<TeamInRanking> TeamRanking { get => _teamRanking; set { _teamRanking = value; RaisePropertyChanged(); } }
+        public ObservableCollection<Cyclist> CyclistsWithStats { get => _cyclistsWithStats; set { _cyclistsWithStats = value; RaisePropertyChanged(); } }
 
         public Visibility ShowNextRaceButton { get => _showNextRaceButton; set { _showNextRaceButton = value; RaisePropertyChanged(); } }
         public Visibility ShowEndSeasonButton { get => _showEndSeasonButton; set { _showEndSeasonButton = value; RaisePropertyChanged(); } }
+
+        public TeamInRanking SelectedTeam
+        {
+            get => _selectedTeam;
+            set
+            {
+                _selectedTeam = value;
+                if (_selectedTeam != null)
+                    RefreshTeamListView();
+                RaisePropertyChanged();
+            }
+        }
+
+        public CyclistInRanking SelectedCyclist
+        {
+            get => _selectedCyclist;
+            set
+            {
+                _selectedCyclist = value;
+                if (_selectedCyclist != null)
+                    RefreshTeamListViewWithCyclist();
+                RaisePropertyChanged();
+            }
+        }
 
         public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService, IDivisionService divisionService)
         {
@@ -69,6 +98,8 @@ namespace Racing2021.ViewModels
                 ShowNextRaceButton = Visibility.Collapsed;
                 ShowEndSeasonButton = Visibility.Visible;
             }
+
+            CyclistsWithStats = null;
         }
 
         private void NextSeason()
@@ -78,6 +109,8 @@ namespace Racing2021.ViewModels
             TeamRanking.Clear();
             ShowNextRaceButton = Visibility.Visible;
             ShowEndSeasonButton = Visibility.Collapsed;
+
+            CyclistsWithStats = null;
         }
 
         private void CreateDivisions()
@@ -170,6 +203,30 @@ namespace Racing2021.ViewModels
             } while (counter < 10);
 
             _trackService.CreateTracks(tracks);
+        }
+
+        private void RefreshTeamListView()
+        {
+            CyclistsWithStats = new ObservableCollection<Cyclist>(_seasonService.Cyclists().Where(c => c.TeamId == SelectedTeam.Id));
+            foreach (var cyclist in CyclistsWithStats)
+            {
+                cyclist.CyclistSpeedCobblestones = (float)Math.Round(cyclist.CyclistSpeedCobblestones);
+                cyclist.CyclistSpeedDown = (float)Math.Round(cyclist.CyclistSpeedDown);
+                cyclist.CyclistSpeedHorizontal = (float)Math.Round(cyclist.CyclistSpeedHorizontal);
+                cyclist.CyclistSpeedUp = (float)Math.Round(cyclist.CyclistSpeedUp);
+            }
+        }
+
+        private void RefreshTeamListViewWithCyclist()
+        {
+            CyclistsWithStats = new ObservableCollection<Cyclist>(_seasonService.Cyclists().Where(c => c.Id == SelectedCyclist.Id));
+            foreach (var cyclist in CyclistsWithStats)
+            {
+                cyclist.CyclistSpeedCobblestones = (float)Math.Round(cyclist.CyclistSpeedCobblestones);
+                cyclist.CyclistSpeedDown = (float)Math.Round(cyclist.CyclistSpeedDown);
+                cyclist.CyclistSpeedHorizontal = (float)Math.Round(cyclist.CyclistSpeedHorizontal);
+                cyclist.CyclistSpeedUp = (float)Math.Round(cyclist.CyclistSpeedUp);
+            }
         }
     }
 }
