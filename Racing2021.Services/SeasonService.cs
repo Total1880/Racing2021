@@ -25,7 +25,7 @@ namespace Racing2021.Services
         private bool _seasonHasEnded = false;
         private SaveGame _saveGame;
         private int _currentDivisionId;
-        private int _playerTeamId = 5;
+        private int _playerTeamId = 4;
 
         public SaveGame SaveGameData => _saveGame;
 
@@ -102,21 +102,17 @@ namespace Racing2021.Services
                 _saveGame.NextDivisionId = _divisions[0].Id;
                 if (_saveGame.NextRaceId == _tracks.Last().Id)
                 {
-                    //_saveGame.NextRaceId = _tracks[0].Id;
                     _seasonHasEnded = true;
                 }
                 else
                 {
-                    //_saveGame.NextRaceId = _tracks.Where(t => t.Id == _saveGame.NextRaceId + 1).FirstOrDefault().Id;
                     _saveGame.NextRaceId = _tracks.SkipWhile(t => t.Id <= _saveGame.NextRaceId).FirstOrDefault().Id;
-
                 }
             }
             else
             {
-                //_saveGame.NextDivisionId = _divisions.Where(d => d.Id == _saveGame.NextDivisionId + 1).FirstOrDefault().Id;
                 _saveGame.NextDivisionId = _divisions.SkipWhile(d => d.Id <= _saveGame.NextDivisionId).FirstOrDefault().Id;
-
+                NextRace();
             }
         }
 
