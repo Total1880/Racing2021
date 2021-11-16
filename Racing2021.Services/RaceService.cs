@@ -23,11 +23,11 @@ namespace Racing2021.Services
             
         }
 
-        public void StartRace(IList<TrackTile> trackTileGraphics, IList<Cyclist> cyclists, IList<Team> teams)
+        public void StartRace(IList<TrackTile> trackTileGraphics, IList<Cyclist> cyclists, IList<Team> teams, bool playerWatches)
         {
             InitializeTestCyclists(cyclists, teams);
 
-            _raceEngineStart.Main(_cyclistsRaceEngine, trackTileGraphics);
+            _raceEngineStart.Main(_cyclistsRaceEngine, trackTileGraphics, playerWatches);
             _finishedCyclists = _raceEngineStart.FinishedCyclists();
         }
 

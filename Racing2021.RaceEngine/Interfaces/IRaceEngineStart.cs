@@ -7,6 +7,6 @@ namespace Racing2021.RaceEngine.Interfaces
     public interface IRaceEngineStart
     {
         IList<CyclistRaceEngine> FinishedCyclists();
-        void Main(IList<CyclistRaceEngine> cyclists, IList<TrackTile> trackTileGraphics);
+        void Main(IList<CyclistRaceEngine> cyclists, IList<TrackTile> trackTileGraphics, bool playerWatches);
     }
 }

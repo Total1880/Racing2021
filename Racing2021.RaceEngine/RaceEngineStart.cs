@@ -10,6 +10,7 @@ namespace Racing2021.RaceEngine
         private static IList<CyclistRaceEngine> _cyclists;
         private static IList<CyclistRaceEngine> _finishedCyclists;
         private static IList<TrackTile> _trackTiles;
+        private static bool _playerWatches;
 
         static void Main()
         {
@@ -17,6 +18,7 @@ namespace Racing2021.RaceEngine
             {
                 game.InitializeCyclists(_cyclists);
                 game.InitializeTrack(_trackTiles);
+                game.InitializeSettings(_playerWatches);
                 game.Run();
                 _finishedCyclists = game.GetFinishedCyclists();
             }
@@ -27,10 +29,11 @@ namespace Racing2021.RaceEngine
             return _finishedCyclists;
         }
 
-        void IRaceEngineStart.Main(IList<CyclistRaceEngine> cyclists, IList<TrackTile> trackTileGraphics)
+        void IRaceEngineStart.Main(IList<CyclistRaceEngine> cyclists, IList<TrackTile> trackTileGraphics, bool playerWatches)
         {
             _cyclists = cyclists;
             _trackTiles = trackTileGraphics;
+            _playerWatches = playerWatches;
             Main();
         }
     }

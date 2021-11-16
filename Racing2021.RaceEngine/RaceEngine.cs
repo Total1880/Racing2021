@@ -30,8 +30,10 @@ namespace Racing2021.RaceEngine
 
         private float _screenPosition;
         private float _centerX;
-        private float _timeSpeed = 2f;
+        private float _timeSpeed = 20f;
         private float _leaderDifferenceWithStandardY;
+
+        private bool _playerWatches;
 
         public RaceEngine()
         {
@@ -52,6 +54,19 @@ namespace Racing2021.RaceEngine
         public void InitializeTrack(IList<TrackTile> trackTiles)
         {
             _trackTiles = trackTiles;
+        }
+        public void InitializeSettings(bool playerWatches)
+        {
+            _playerWatches = playerWatches;
+
+            if (_playerWatches)
+            {
+                _timeSpeed = 2f;
+            }
+            else
+            {
+                _timeSpeed = 20f;
+            }
         }
 
         protected override void Initialize()
@@ -93,14 +108,19 @@ namespace Racing2021.RaceEngine
 
         protected override void Update(GameTime gameTimeInput)
         {
-            var gameTime = (float) gameTimeInput.ElapsedGameTime.TotalSeconds * _timeSpeed;
+            var gameTime = (float)gameTimeInput.ElapsedGameTime.TotalSeconds * _timeSpeed;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (_finishedCyclists.Count >= _cyclists.Count && !_playerWatches)
+            {
+                Exit();
+            }
 
             // TODO: Add your update logic here
             var kstate = Keyboard.GetState();
 
-            
+
             var lastTrack = _trackTileGraphics.Last();
 
             foreach (var cyclist in _cyclists)

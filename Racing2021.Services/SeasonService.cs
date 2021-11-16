@@ -25,6 +25,7 @@ namespace Racing2021.Services
         private bool _seasonHasEnded = false;
         private SaveGame _saveGame;
         private int _currentDivisionId;
+        private int _playerTeamId = 5;
 
         public SaveGame SaveGameData => _saveGame;
 
@@ -88,7 +89,7 @@ namespace Racing2021.Services
             var divisionForThisRace = _divisions.Where(d => d.Id == _saveGame.NextDivisionId).FirstOrDefault();
             var teamsForThisRace = _teams.Where(tm => divisionForThisRace.TeamsId.Contains(tm.Id)).ToList();
             var cyclistsForThisRace = _cyclists.Where(c => teamsForThisRace.Any(tm => tm.Id == c.TeamId)).ToList();
-            _raceService.StartRace(_tracks.Where(t => t.Id == _saveGame.NextRaceId).FirstOrDefault().TrackTiles, cyclistsForThisRace, teamsForThisRace);
+            _raceService.StartRace(_tracks.Where(t => t.Id == _saveGame.NextRaceId).FirstOrDefault().TrackTiles, cyclistsForThisRace, teamsForThisRace, teamsForThisRace.Any(t => t.Id == _playerTeamId));
             UpdateAfterRace();
         }
 
