@@ -72,8 +72,17 @@ namespace Racing2021.RaceEngine
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            if (_playerWatches)
+            {
+                _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+                _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            }
+            else
+            {
+                _graphics.PreferredBackBufferWidth = 50;
+                _graphics.PreferredBackBufferHeight = 50;
+            }
+
             _graphics.ApplyChanges();
 
             _trackTileGraphics = DrawTrack.Track(_trackTiles, GraphicsDevice.DisplayMode.Width / 2);
@@ -209,6 +218,10 @@ namespace Racing2021.RaceEngine
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            if (!_playerWatches)
+            {
+                return;
+            }
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
