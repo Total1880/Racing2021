@@ -41,14 +41,14 @@ namespace Racing2021.Services
             _saveGame = new SaveGame() { Id = 0 };
         }
 
-        private IList<CyclistInRanking> CyclistRanking(int divisionId)
+        public IList<CyclistInRanking> CyclistRanking(int divisionId)
         {
             var selectedDivision = _divisions.Where(d => d.Id == divisionId).FirstOrDefault();
             var teamsOfSelectedDivision = _teamRanking.Where(tm => selectedDivision.TeamsId.Contains(tm.Id)).ToList();
             return _cyclistRanking.Where(c => teamsOfSelectedDivision.Any(tm => tm.Name == c.TeamName)).ToList(); ;
         }
 
-        private IList<TeamInRanking> TeamRanking(int divisionId)
+        public IList<TeamInRanking> TeamRanking(int divisionId)
         {
             var selectedDivision = _divisions.Where(d => d.Id == divisionId).FirstOrDefault();
             return _teamRanking.Where(tm => selectedDivision.TeamsId.Contains(tm.Id)).ToList();

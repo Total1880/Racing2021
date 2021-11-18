@@ -23,10 +23,12 @@ namespace Racing2021.ViewModels
         private ObservableCollection<CyclistInRanking> _cyclistRanking;
         private ObservableCollection<TeamInRanking> _teamRanking;
         private ObservableCollection<Cyclist> _cyclistsWithStats;
+        private ObservableCollection<Division> _divisions;
         private Visibility _showNextRaceButton;
         private Visibility _showEndSeasonButton;
         private TeamInRanking _selectedTeam;
         private CyclistInRanking _selectedCyclist;
+        private Division _selectedDivision;
 
         public RelayCommand StartRaceCommand => _startRaceCommand ??= new RelayCommand(StartRace);
         public RelayCommand NextSeasonCommand => _nextSeasonCommand ??= new RelayCommand(NextSeason);
@@ -34,6 +36,7 @@ namespace Racing2021.ViewModels
         public ObservableCollection<CyclistInRanking> CyclistRanking { get => _cyclistRanking; set { _cyclistRanking = value; RaisePropertyChanged(); } }
         public ObservableCollection<TeamInRanking> TeamRanking { get => _teamRanking; set { _teamRanking = value; RaisePropertyChanged(); } }
         public ObservableCollection<Cyclist> CyclistsWithStats { get => _cyclistsWithStats; set { _cyclistsWithStats = value; RaisePropertyChanged(); } }
+        public ObservableCollection<Division> Divisions{ get => _divisions; set { _divisions = value; RaisePropertyChanged(); } }
 
         public Visibility ShowNextRaceButton { get => _showNextRaceButton; set { _showNextRaceButton = value; RaisePropertyChanged(); } }
         public Visibility ShowEndSeasonButton { get => _showEndSeasonButton; set { _showEndSeasonButton = value; RaisePropertyChanged(); } }
@@ -62,6 +65,19 @@ namespace Racing2021.ViewModels
             }
         }
 
+        public Division SelectedDivision
+        {
+            get => _selectedDivision;
+            set
+            {
+                _selectedDivision = value;
+                if (_selectedDivision != null)
+                {
+                    RefreshRankings();
+                }
+            }
+        }
+
         public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService, IDivisionService divisionService)
         {
             _cyclistService = cyclistService;
@@ -84,6 +100,7 @@ namespace Racing2021.ViewModels
 
             ShowNextRaceButton = Visibility.Visible;
             ShowEndSeasonButton = Visibility.Collapsed;
+            Divisions = new ObservableCollection<Division>(_divisionService.GetDivisions());
         }
 
         private void StartRace()
@@ -115,19 +132,19 @@ namespace Racing2021.ViewModels
 
         private void CreateDivisions()
         {
-            var divisions = new List<Division>();
+            var newDivisions = new List<Division>();
 
-            divisions.Add(new Division(0, 1, "Division 1"));
-            divisions.Add(new Division(1, 2, "Division 2"));
+            newDivisions.Add(new Division(0, 1, "Division 1"));
+            newDivisions.Add(new Division(1, 2, "Division 2"));
 
-            divisions[0].TeamsId.Add(0);
-            divisions[0].TeamsId.Add(1);
-            divisions[0].TeamsId.Add(2);
-            divisions[1].TeamsId.Add(3);
-            divisions[1].TeamsId.Add(4);
-            divisions[1].TeamsId.Add(5);
+            newDivisions[0].TeamsId.Add(0);
+            newDivisions[0].TeamsId.Add(1);
+            newDivisions[0].TeamsId.Add(2);
+            newDivisions[1].TeamsId.Add(3);
+            newDivisions[1].TeamsId.Add(4);
+            newDivisions[1].TeamsId.Add(5);
 
-            _divisionService.CreateDivisions(divisions);
+            _divisionService.CreateDivisions(newDivisions);
         }
 
         private void CreateCyclists()
@@ -227,6 +244,12 @@ namespace Racing2021.ViewModels
                 cyclist.CyclistSpeedHorizontal = (float)Math.Round(cyclist.CyclistSpeedHorizontal);
                 cyclist.CyclistSpeedUp = (float)Math.Round(cyclist.CyclistSpeedUp);
             }
+        }
+
+        private void RefreshRankings()
+        {
+            CyclistRanking = new ObservableCollection<CyclistInRanking>(_seasonService.CyclistRanking(SelectedDivision.Id));
+            TeamRanking = new ObservableCollection<TeamInRanking>(_seasonService.TeamRanking(SelectedDivision.Id));
         }
     }
 }

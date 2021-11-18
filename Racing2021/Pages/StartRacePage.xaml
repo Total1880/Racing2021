@@ -19,6 +19,11 @@
                 Content="End season"
                 Command="{Binding NextSeasonCommand}"
                 Visibility="{Binding ShowEndSeasonButton}"/>
+            <ComboBox
+                Width="150"
+                ItemsSource="{Binding Divisions}"
+                DisplayMemberPath="Name"
+                SelectedItem="{Binding SelectedDivision}"/>
             <StackPanel Orientation="Horizontal">
                 <ListView 
                     ItemsSource="{Binding CyclistRanking}"
