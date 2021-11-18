@@ -12,6 +12,7 @@ namespace Racing2021.Services.Interfaces
         IList<CyclistInRanking> CyclistRanking(int divisionId);
         IList<TeamInRanking> TeamRanking(int divisionId);
         IList<Cyclist> Cyclists();
+        public IList<string> Messages();
         bool IsSeasonEnded();
     }
 }

@@ -21,6 +21,7 @@ namespace Racing2021.Services
         private IList<Cyclist> _cyclists;
         private IList<Team> _teams;
         private IList<Division> _divisions;
+        private IList<string> _messages;
         private bool _justStartedUp = true;
         private bool _seasonHasEnded = false;
         private SaveGame _saveGame;
@@ -62,6 +63,11 @@ namespace Racing2021.Services
         public IList<TeamInRanking> TeamRanking()
         {
             return TeamRanking(_currentDivisionId);
+        }
+
+        public IList<string> Messages()
+        {
+            return _messages;
         }
 
         public void NextRace()
@@ -171,6 +177,7 @@ namespace Racing2021.Services
 
         public void NextSeason()
         {
+            _messages = new List<string>();
             CalculateRelegationsAndPromotions();
             ResetRanking();
             UpdateCyclists();
@@ -189,17 +196,17 @@ namespace Racing2021.Services
                 if (division.Tier > 1)
                 {
                     var promotedTeam = TeamRanking(division.Id).First().Id;
-                    //_divisions.Where(d => d.Tier == division.Tier - 1).FirstOrDefault().TeamsId.Add(promotedTeam);
                     division.TeamsId.Remove(promotedTeam);
                     changedTeams.Add(promotedTeam, division.Tier - 1);
+                    _messages.Add($"{_teamRanking.Where(t => t.Id == promotedTeam).FirstOrDefault().Name} is promoted from {division.Name} to {_divisions.Where(d => d.Tier == division.Tier - 1).FirstOrDefault().Name}");
                 }
 
                 if (division.Tier != lowestTier)
                 {
                     var relegatedTeam = TeamRanking(division.Id).Last().Id;
-                    //_divisions.Where(d => d.Tier == division.Tier + 1).FirstOrDefault().TeamsId.Add(relegatedTeam);
                     division.TeamsId.Remove(relegatedTeam);
                     changedTeams.Add(relegatedTeam, division.Tier + 1);
+                    _messages.Add($"{_teamRanking.Where(t => t.Id == relegatedTeam).FirstOrDefault().Name} is relegated from {division.Name} to {_divisions.Where(d => d.Tier == division.Tier + 1).FirstOrDefault().Name}");
                 }
             }
 
@@ -260,6 +267,7 @@ namespace Racing2021.Services
                         cyclist.CyclistSpeedHorizontal = 50f;
                         cyclist.CyclistSpeedCobblestones = 50f;
                         cyclist.CyclistSpeedUp = 50f;
+                        _messages.Add($"{cyclist.Name} has retired");
                     }
                 }
             }

@@ -128,6 +128,8 @@ namespace Racing2021.ViewModels
             ShowEndSeasonButton = Visibility.Collapsed;
 
             CyclistsWithStats = null;
+
+            MessageBox.Show(String.Join(Environment.NewLine, _seasonService.Messages()));
         }
 
         private void CreateDivisions()
