@@ -19,6 +19,9 @@
                 Content="Editor Home"
                 Width="100"
                 Command="{Binding OpenEditorHomePageCommand}"/>
+            <Button 
+                Content="Player Team"
+                Width="100"/>
         </StackPanel>
     </Grid>
 </Page>
