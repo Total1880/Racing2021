@@ -15,6 +15,7 @@ namespace Racing2021.Services
         private IRaceService _raceService;
         private ITeamService _teamService;
         private IDivisionService _divisionService;
+        private IDataService _dataService;
         private IList<Track> _tracks;
         private IList<CyclistInRanking> _cyclistRanking;
         private IList<TeamInRanking> _teamRanking;
@@ -30,13 +31,14 @@ namespace Racing2021.Services
 
         public SaveGame SaveGameData => _saveGame;
 
-        public SeasonService(ICyclistService cyclistService, ITrackService trackService, IRaceService raceService, ITeamService teamService, IDivisionService divisionService)
+        public SeasonService(ICyclistService cyclistService, ITrackService trackService, IRaceService raceService, ITeamService teamService, IDivisionService divisionService, IDataService dataService)
         {
             _cyclistService = cyclistService;
             _trackService = trackService;
             _raceService = raceService;
             _teamService = teamService;
             _divisionService = divisionService;
+            _dataService = dataService;
             _cyclistRanking = new List<CyclistInRanking>();
             _teamRanking = new List<TeamInRanking>();
             _saveGame = new SaveGame() { Id = 0 };
@@ -268,6 +270,8 @@ namespace Racing2021.Services
                         cyclist.CyclistSpeedCobblestones = 50f;
                         cyclist.CyclistSpeedUp = 50f;
                         _messages.Add($"{cyclist.Name} has retired");
+                        cyclist.Name = _dataService.GetRandomFirstName() + " " + _dataService.GetRandomLastName();
+                        _messages.Add($"{cyclist.Name} started at {_teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().Name}");
                     }
                 }
             }
