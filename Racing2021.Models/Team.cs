@@ -5,10 +5,12 @@
         private int _id;
         private string _name;
         private string _jerseyName;
+        private int _money;
 
         public int Id { get => _id; set { _id = value; } }
         public string Name { get => _name; set { _name = value; } }
         public string JerseyName { get => _jerseyName; set { _jerseyName = value; } }
+        public int Money { get => _money; set { _money = value; } }
 
         public Team()
         {

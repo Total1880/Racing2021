@@ -105,6 +105,7 @@ namespace Racing2021.Services
         {
             _currentDivisionId = _saveGame.NextDivisionId;
             UpdateCyclistRankingAfterRace();
+            UpdateTeamFinanceAfterRace(_raceService.FinishedCyclists()[0].Team.Id, _saveGame.NextRaceId);
             if (_saveGame.NextDivisionId == _divisions.Last().Id)
             {
                 _saveGame.NextDivisionId = _divisions[0].Id;
@@ -146,6 +147,11 @@ namespace Racing2021.Services
             _teamRanking.Where(t => t.Id == teamId).FirstOrDefault().TotalTime += time;
 
             _teamRanking = _teamRanking.OrderBy(t => t.TotalTime).ToList();
+        }
+
+        private void UpdateTeamFinanceAfterRace(int firstPlaceTeamId, int raceId)
+        {
+            _teams.Where(t => t.Id == firstPlaceTeamId).FirstOrDefault().Money += _tracks.FirstOrDefault(tr => tr.Id == raceId).FirstPlacePrizeMoney / _divisions.FirstOrDefault(d => d.Id == _saveGame.NextDivisionId).Tier;
         }
 
         private void ResetRanking()

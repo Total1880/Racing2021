@@ -30,6 +30,7 @@ namespace Racing2021.Repositories
                     writer.WriteStartElement(nameof(Track));
                     writer.WriteAttributeString(nameof(Track.Id), track.Id.ToString());
                     writer.WriteAttributeString(nameof(Track.Name), track.Name);
+                    writer.WriteAttributeString(nameof(Track.FirstPlacePrizeMoney), track.FirstPlacePrizeMoney.ToString());
                     foreach (var tracktile in track.TrackTiles)
                     {
                         writer.WriteStartElement(nameof(TrackTile));
@@ -79,6 +80,7 @@ namespace Racing2021.Repositories
 
                         readTrack.Id = int.Parse(xmlReader.GetAttribute(nameof(Track.Id)));
                         readTrack.Name = xmlReader.GetAttribute(nameof(Track.Name));
+                        readTrack.FirstPlacePrizeMoney = int.Parse(xmlReader.GetAttribute(nameof(Track.FirstPlacePrizeMoney)));
 
                         xmlReader.ReadStartElement(nameof(Track));
 

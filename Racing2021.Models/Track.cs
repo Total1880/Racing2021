@@ -8,6 +8,7 @@ namespace Racing2021.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public IList<TrackTile> TrackTiles { get; set; }
+        public int FirstPlacePrizeMoney { get; set; }
 
         public Track()
         {

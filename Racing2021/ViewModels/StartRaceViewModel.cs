@@ -192,6 +192,7 @@ namespace Racing2021.ViewModels
             tracks.Add(new Track());
             tracks[0].Id = 0;
             tracks[0].Name = "track 1";
+            tracks[0].FirstPlacePrizeMoney = 1000;
 
             do
             {
@@ -203,6 +204,8 @@ namespace Racing2021.ViewModels
             tracks.Add(new Track());
             tracks[1].Id = 1;
             tracks[1].Name = "track 2";
+            tracks[1].FirstPlacePrizeMoney = 2000;
+
 
             do
             {
@@ -214,6 +217,7 @@ namespace Racing2021.ViewModels
             tracks.Add(new Track());
             tracks[2].Id = 2;
             tracks[2].Name = "track 3";
+            tracks[2].FirstPlacePrizeMoney = 3000;
 
             do
             {
