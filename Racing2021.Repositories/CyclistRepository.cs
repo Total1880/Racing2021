@@ -78,10 +78,10 @@ namespace Racing2021.Repositories
                         readCyclist.Id = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Id)));
                         readCyclist.TeamId = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.TeamId)));
                         readCyclist.Name = xmlReader.GetAttribute(nameof(Cyclist.Name));
-                        readCyclist.CyclistSpeedHorizontal = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedHorizontal)));
-                        readCyclist.CyclistSpeedCobblestones = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedCobblestones)));
-                        readCyclist.CyclistSpeedDown = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedDown)));
-                        readCyclist.CyclistSpeedUp = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedUp)));
+                        readCyclist.CyclistSpeedHorizontal = float.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedHorizontal)));
+                        readCyclist.CyclistSpeedCobblestones = float.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedCobblestones)));
+                        readCyclist.CyclistSpeedDown = float.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedDown)));
+                        readCyclist.CyclistSpeedUp = float.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedUp)));
                         readCyclist.Age = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Age)));
 
                         CyclistList.Add(readCyclist);

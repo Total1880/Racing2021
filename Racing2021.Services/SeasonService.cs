@@ -122,6 +122,8 @@ namespace Racing2021.Services
                 _saveGame.NextDivisionId = _divisions.SkipWhile(d => d.Id <= _saveGame.NextDivisionId).FirstOrDefault().Id;
                 NextRace();
             }
+
+            Save();
         }
 
         private void UpdateCyclistRankingAfterRace()
@@ -186,11 +188,13 @@ namespace Racing2021.Services
         {
             _messages = new List<string>();
             CalculateRelegationsAndPromotions();
-            ResetRanking();
             UpdateCyclists();
+            ResetRanking();
             _saveGame.NextDivisionId = _divisions[0].Id;
             _saveGame.NextRaceId = _tracks[0].Id;
             _seasonHasEnded = false;
+
+            Save();
         }
 
         private void CalculateRelegationsAndPromotions()
@@ -297,6 +301,13 @@ namespace Racing2021.Services
         public int PlayerTeamId()
         {
             return _saveGame.PlayerTeamId;
+        }
+
+        private void Save()
+        {
+            _cyclists = _cyclistService.CreateCyclists(_cyclists);
+            _teams = _teamService.CreateTeams(_teams);
+            _divisions = _divisionService.CreateDivisions(_divisions);
         }
     }
 }
