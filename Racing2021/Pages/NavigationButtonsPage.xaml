@@ -21,7 +21,8 @@
                 Command="{Binding OpenEditorHomePageCommand}"/>
             <Button 
                 Content="Player Team"
-                Width="100"/>
+                Width="100"
+                Command="{Binding OpenTeamPageCommand}"/>
         </StackPanel>
     </Grid>
 </Page>

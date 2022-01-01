@@ -13,9 +13,11 @@ namespace Racing2021.ViewModels
     {
         private RelayCommand _openEditorHomePageCommand;
         private RelayCommand _openHomePageCommand;
+        private RelayCommand _openTeamPageCommand;
 
         public RelayCommand OpenEditorHomePageCommand => _openEditorHomePageCommand ??= new RelayCommand(OpenEditorHomePage);
         public RelayCommand OpenHomePageCommand => _openHomePageCommand ??= new RelayCommand(OpenHomePage);
+        public RelayCommand OpenTeamPageCommand => _openTeamPageCommand ??= new RelayCommand(OpenTeamPage);
 
 
 
@@ -27,6 +29,11 @@ namespace Racing2021.ViewModels
         private void OpenHomePage()
         {
             MessengerInstance.Send(new OpenHomePageMessage());
+        }
+
+        private void OpenTeamPage()
+        {
+            MessengerInstance.Send(new OpenTeamPageMessage());
         }
     }
 }

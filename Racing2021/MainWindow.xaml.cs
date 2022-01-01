@@ -18,6 +18,7 @@ namespace Racing2021
         private HomePage _homePage;
         private StartRacePage _startRacePage;
         private NavigationButtonsPage _navigationButtonsPage;
+        private TeamPage _teamPage;
 
         public EditorCyclistsPage EditorCyclistsPage => _editorCyclistsPage ??= new EditorCyclistsPage();
         public EditorHomePage EditorHomePage => _editorHomePage ??= new EditorHomePage();
@@ -26,6 +27,7 @@ namespace Racing2021
         public StartRacePage StartRacePage => _startRacePage ??= new StartRacePage();
         public HomePage HomePage => _homePage ??= new HomePage();
         public NavigationButtonsPage NavigationButtonsPage => _navigationButtonsPage ??= new NavigationButtonsPage();
+        public TeamPage TeamPage => _teamPage ??= new TeamPage();
 
         public MainWindow()
         {
@@ -37,6 +39,7 @@ namespace Racing2021
             Messenger.Default.Register<OpenEditorTeamsPageMessage>(this, OpenEditorTeamsPage);
             Messenger.Default.Register<OpenStartRacePageMessage>(this, OpenStartRacePage);
             Messenger.Default.Register<OpenHomePageMessage>(this, OpenHomePage);
+            Messenger.Default.Register<OpenTeamPageMessage>(this, OpenTeamPage);
         }
 
         private void OpenEditorCyclistPage(OpenEditorCyclistPageMessage obj)
@@ -64,13 +67,17 @@ namespace Racing2021
         {
             MainFrame.NavigationService.Navigate(StartRacePage);
             NavigationFrame.NavigationService.Navigate(NavigationButtonsPage);
-
         }
 
         private void OpenHomePage(OpenHomePageMessage obj)
         {
             MainFrame.NavigationService.Navigate(HomePage);
             NavigationFrame.Content = null;
+        }
+
+        private void OpenTeamPage(OpenTeamPageMessage obj)
+        {
+            MainFrame.NavigationService.Navigate(TeamPage);
         }
     }
 }

@@ -9,5 +9,6 @@ namespace Racing2021.Models
         public int Id;
         public int NextRaceId;
         public int NextDivisionId;
+        public int PlayerTeamId = 4;
     }
 }

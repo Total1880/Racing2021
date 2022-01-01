@@ -21,6 +21,7 @@ namespace Racing2021
             builder.RegisterType<StartRaceViewModel>().SingleInstance();
             builder.RegisterType<HomePageViewModel>().SingleInstance();
             builder.RegisterType<NavigationButtonsViewModel>().SingleInstance();
+            builder.RegisterType<TeamPageViewModel>().SingleInstance();
 
             _container = builder.Build();
         }
@@ -32,5 +33,6 @@ namespace Racing2021
         public StartRaceViewModel StartRace => _container.Resolve<StartRaceViewModel>();
         public HomePageViewModel HomePage => _container.Resolve<HomePageViewModel>();
         public NavigationButtonsViewModel NavigationButtons => _container.Resolve<NavigationButtonsViewModel>();
+        public TeamPageViewModel TeamPage => _container.Resolve<TeamPageViewModel>();
     }
 }
