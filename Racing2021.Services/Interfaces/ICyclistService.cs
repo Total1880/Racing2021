@@ -7,5 +7,6 @@ namespace Racing2021.Services.Interfaces
     {
         IList<Cyclist> GetCyclists();
         IList<Cyclist> CreateCyclists(IList<Cyclist> cyclists);
+        Cyclist CreateYoungCyclist(int teamId);
     }
 }

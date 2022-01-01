@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Racing2021.Messages.WindowOpener;
 using Racing2021.Models;
@@ -16,6 +17,10 @@ namespace Racing2021.ViewModels
         private ICyclistService _cyclistService;
         private Team _team;
         private IList<Cyclist> _cyclists;
+        private RelayCommand _addYoungCyclistCommand;
+        private int _maxCyclistsPerTeam = 3;
+
+        public RelayCommand AddYoungCyclistCommand => _addYoungCyclistCommand ??= new RelayCommand(AddYoungCyclist);
 
         public Team Team => _team;
         public IList<Cyclist> Cyclists => _cyclists;
@@ -43,6 +48,15 @@ namespace Racing2021.ViewModels
 
         private void OpenTeamPage(OpenTeamPageMessage obj)
         {
+            InitializeTeamPage();
+        }
+
+        private void AddYoungCyclist()
+        {
+            if (Cyclists.Count >= _maxCyclistsPerTeam)
+                return;
+
+            _cyclistService.CreateYoungCyclist(_team.Id);
             InitializeTeamPage();
         }
     }

@@ -45,6 +45,10 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Add young cyclist"
+                        Command="{Binding AddYoungCyclistCommand}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

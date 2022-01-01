@@ -273,6 +273,12 @@ namespace Racing2021.Services
                 {
                     if (RandomFloat(0f, 10f) < 2f)
                     {
+                        if (cyclist.TeamId == PlayerTeamId())
+                        {
+                            _cyclists.Remove(cyclist);
+                            _messages.Add($"{cyclist.Name} has retired");
+                            continue;
+                        }
                         cyclist.Age = 16;
                         cyclist.CyclistSpeedDown = 50f;
                         cyclist.CyclistSpeedHorizontal = 50f;
