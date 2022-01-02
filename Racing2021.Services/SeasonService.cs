@@ -20,6 +20,7 @@ namespace Racing2021.Services
         private IList<CyclistInRanking> _cyclistRanking;
         private IList<TeamInRanking> _teamRanking;
         private IList<Cyclist> _cyclists;
+        private IList<Cyclist> _cyclistsToDelete;
         private IList<Team> _teams;
         private IList<Division> _divisions;
         private IList<string> _messages;
@@ -41,6 +42,7 @@ namespace Racing2021.Services
             _cyclistRanking = new List<CyclistInRanking>();
             _teamRanking = new List<TeamInRanking>();
             _saveGame = new SaveGame() { Id = 0 };
+            _cyclistsToDelete = new List<Cyclist>();
         }
 
         public IList<CyclistInRanking> CyclistRanking(int divisionId)
@@ -275,7 +277,7 @@ namespace Racing2021.Services
                     {
                         if (cyclist.TeamId == PlayerTeamId())
                         {
-                            _cyclists.Remove(cyclist);
+                            _cyclistsToDelete.Add(cyclist);
                             _messages.Add($"{cyclist.Name} has retired");
                             continue;
                         }
@@ -290,6 +292,7 @@ namespace Racing2021.Services
                     }
                 }
             }
+            DeleteCyclists();
         }
 
         static float RandomFloat(float min, float max)
@@ -314,6 +317,14 @@ namespace Racing2021.Services
             _cyclists = _cyclistService.CreateCyclists(_cyclists);
             _teams = _teamService.CreateTeams(_teams);
             _divisions = _divisionService.CreateDivisions(_divisions);
+        }
+
+        private void DeleteCyclists()
+        {
+            foreach (var cyclist in _cyclistsToDelete)
+	        {
+                _cyclists.Remove(cyclist);
+	        }
         }
     }
 }
