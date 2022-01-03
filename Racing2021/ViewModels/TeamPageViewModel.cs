@@ -6,6 +6,7 @@ using Racing2021.Models;
 using Racing2021.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Racing2021.ViewModels
@@ -16,14 +17,22 @@ namespace Racing2021.ViewModels
         private ITeamService _teamService;
         private ICyclistService _cyclistService;
         private Team _team;
-        private IList<Cyclist> _cyclists;
+        private ObservableCollection<Cyclist> _cyclists;
         private RelayCommand _addYoungCyclistCommand;
         private int _maxCyclistsPerTeam = 3;
 
         public RelayCommand AddYoungCyclistCommand => _addYoungCyclistCommand ??= new RelayCommand(AddYoungCyclist);
 
         public Team Team => _team;
-        public IList<Cyclist> Cyclists => _cyclists;
+        public ObservableCollection<Cyclist> Cyclists
+        {
+            get => _cyclists;
+            set
+            {
+                _cyclists = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public TeamPageViewModel(ISeasonService seasonService, ITeamService teamService, ICyclistService cyclistService)
         {
@@ -43,7 +52,7 @@ namespace Racing2021.ViewModels
             if (_team == null)
                 return;
 
-            _cyclists = _cyclistService.GetCyclists().Where(c => c.TeamId == _seasonService.PlayerTeamId()).ToList();
+            Cyclists = new ObservableCollection<Cyclist>(_cyclistService.GetCyclists().Where(c => c.TeamId == _seasonService.PlayerTeamId()).ToList());
         }
 
         private void OpenTeamPage(OpenTeamPageMessage obj)
