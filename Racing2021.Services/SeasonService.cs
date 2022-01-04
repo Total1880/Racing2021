@@ -75,10 +75,11 @@ namespace Racing2021.Services
 
         public void NextRace()
         {
+            _cyclists = _cyclistService.GetCyclists().Where(c => c.SelectedForRace).ToList();
+
             if (_justStartedUp)
             {
                 _tracks = _trackService.GetTracks();
-                _cyclists = _cyclistService.GetCyclists();
                 _teams = _teamService.GetTeams();
                 _divisions = _divisionService.GetDivisions();
                 ResetRanking();
@@ -132,6 +133,10 @@ namespace Racing2021.Services
         {
             foreach (var cyclist in _raceService.FinishedCyclists())
             {
+                if (!_cyclistRanking.Any(c => c.Id == cyclist.Id))
+                {
+                    _cyclistRanking.Add(new CyclistInRanking(cyclist.Id, cyclist.Name, TimeSpan.Zero, _teams.Where(t => t.Id == cyclist.Team.Id).FirstOrDefault().Name));
+                }
                 _cyclistRanking.Where(c => c.Id == cyclist.Id).FirstOrDefault().TotalTime += cyclist.TotalTime;
 
                 UpdateTeamRankingAfterRace(cyclist.Team.Id, cyclist.TotalTime);
@@ -167,6 +172,11 @@ namespace Racing2021.Services
             if (_teamRanking != null)
             {
                 _teamRanking.Clear();
+            }
+
+            if (_cyclists == null)
+            {
+                throw new Exception("there are no cyclists");
             }
 
             foreach (var cyclist in _cyclists)
@@ -231,75 +241,11 @@ namespace Racing2021.Services
 
         private void UpdateCyclists()
         {
-            foreach (var cyclist in _cyclists)
-            {
-                if (cyclist.Age < 20)
-                {
-                    cyclist.CyclistSpeedDown += RandomFloat(0f, 10f);
-                    cyclist.CyclistSpeedHorizontal += RandomFloat(0f, 10f);
-                    cyclist.CyclistSpeedCobblestones += RandomFloat(0f, 10f);
-                    cyclist.CyclistSpeedUp += RandomFloat(0f, 10f);
-                }
-                else if (cyclist.Age < 25)
-                {
-                    cyclist.CyclistSpeedDown += RandomFloat(0f, 5f);
-                    cyclist.CyclistSpeedHorizontal += RandomFloat(0f, 5f);
-                    cyclist.CyclistSpeedCobblestones += RandomFloat(0f, 5f);
-                    cyclist.CyclistSpeedUp += RandomFloat(0f, 5f);
-                }
-                else if (cyclist.Age < 30)
-                {
-                    cyclist.CyclistSpeedDown += RandomFloat(0f, 2f);
-                    cyclist.CyclistSpeedHorizontal += RandomFloat(0f, 2f);
-                    cyclist.CyclistSpeedCobblestones += RandomFloat(0f, 2f);
-                    cyclist.CyclistSpeedUp += RandomFloat(0f, 2f);
-                }
-                else if (cyclist.Age < 35)
-                {
-                    cyclist.CyclistSpeedDown -= RandomFloat(0f, 5f);
-                    cyclist.CyclistSpeedHorizontal -= RandomFloat(0f, 5f);
-                    cyclist.CyclistSpeedCobblestones -= RandomFloat(0f, 5f);
-                    cyclist.CyclistSpeedUp -= RandomFloat(0f, 5f);
-                }
-                else
-                {
-                    cyclist.CyclistSpeedDown -= RandomFloat(0f, 10f);
-                    cyclist.CyclistSpeedHorizontal -= RandomFloat(0f, 10f);
-                    cyclist.CyclistSpeedCobblestones -= RandomFloat(0f, 10f);
-                    cyclist.CyclistSpeedUp -= RandomFloat(0f, 10f);
-                }
 
-                cyclist.Age++;
+            _cyclists = _cyclistService.UpdateCyclistsEndOfSeason(PlayerTeamId());
 
-                if (cyclist.Age > 30)
-                {
-                    if (RandomFloat(0f, 10f) < 2f)
-                    {
-                        if (cyclist.TeamId == PlayerTeamId())
-                        {
-                            _cyclistsToDelete.Add(cyclist);
-                            _messages.Add($"{cyclist.Name} has retired");
-                            continue;
-                        }
-                        cyclist.Age = 16;
-                        cyclist.CyclistSpeedDown = 50f;
-                        cyclist.CyclistSpeedHorizontal = 50f;
-                        cyclist.CyclistSpeedCobblestones = 50f;
-                        cyclist.CyclistSpeedUp = 50f;
-                        _messages.Add($"{cyclist.Name} has retired");
-                        cyclist.Name = _dataService.GetRandomFirstName() + " " + _dataService.GetRandomLastName();
-                        _messages.Add($"{cyclist.Name} started at {_teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().Name}");
-                    }
-                }
-            }
-            DeleteCyclists();
-        }
-
-        static float RandomFloat(float min, float max)
-        {
-            Random random = new Random();
-            double val = (random.NextDouble() * (max - min) + min);
-            return (float)val;
+            foreach (var message in _cyclistService.GetAllMessages())
+                _messages.Add(message);
         }
 
         public IList<Cyclist> Cyclists()
@@ -314,7 +260,10 @@ namespace Racing2021.Services
 
         private void Save()
         {
-            _cyclists = _cyclistService.CreateCyclists(_cyclists);
+            foreach (var cyclist in _cyclists)
+            {
+                _cyclistService.saveCyclist(cyclist);
+            }
             _teams = _teamService.CreateTeams(_teams);
             _divisions = _divisionService.CreateDivisions(_divisions);
         }

@@ -18,10 +18,18 @@ namespace Racing2021.ViewModels
         private ICyclistService _cyclistService;
         private Team _team;
         private ObservableCollection<Cyclist> _cyclists;
+        private ObservableCollection<Cyclist> _cyclistsForRace;
         private RelayCommand _addYoungCyclistCommand;
+        private RelayCommand _addCyclistToRaceCommand;
+        private RelayCommand _removeCyclistFromRaceCommand;
         private int _maxCyclistsPerTeam = 3;
+        private Cyclist _selectedCyclist;
+        private Cyclist _selectedCyclistForRace;
 
         public RelayCommand AddYoungCyclistCommand => _addYoungCyclistCommand ??= new RelayCommand(AddYoungCyclist);
+        public RelayCommand AddCyclistToRaceCommand => _addCyclistToRaceCommand ??= new RelayCommand(AddCyclistToRace);
+
+        public RelayCommand RemoveCyclistFromRaceCommand => _removeCyclistFromRaceCommand ??= new RelayCommand(RemoveCyclistFromRace);
 
         public Team Team => _team;
         public ObservableCollection<Cyclist> Cyclists
@@ -30,6 +38,36 @@ namespace Racing2021.ViewModels
             set
             {
                 _cyclists = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Cyclist> CyclistsForRace
+        {
+            get => _cyclistsForRace;
+            set
+            {
+                _cyclistsForRace = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public Cyclist SelectedCyclist
+        {
+            get => _selectedCyclist;
+            set
+            {
+                _selectedCyclist = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public Cyclist SelectedCyclistForRace
+        {
+            get => _selectedCyclistForRace;
+            set
+            {
+                _selectedCyclistForRace = value;
                 RaisePropertyChanged();
             }
         }
@@ -52,7 +90,8 @@ namespace Racing2021.ViewModels
             if (_team == null)
                 return;
 
-            Cyclists = new ObservableCollection<Cyclist>(_cyclistService.GetCyclists().Where(c => c.TeamId == _seasonService.PlayerTeamId()).ToList());
+            Cyclists = new ObservableCollection<Cyclist>(_cyclistService.GetCyclists().Where(c => c.TeamId == _seasonService.PlayerTeamId() && !c.SelectedForRace).ToList());
+            CyclistsForRace = new ObservableCollection<Cyclist>(_cyclistService.GetCyclists().Where(c => c.TeamId == _seasonService.PlayerTeamId() && c.SelectedForRace).ToList());
         }
 
         private void OpenTeamPage(OpenTeamPageMessage obj)
@@ -62,10 +101,45 @@ namespace Racing2021.ViewModels
 
         private void AddYoungCyclist()
         {
-            if (Cyclists.Count >= _maxCyclistsPerTeam)
+            if (Cyclists.Count + CyclistsForRace.Count >= _maxCyclistsPerTeam)
                 return;
 
             _cyclistService.CreateYoungCyclist(_team.Id);
+            InitializeTeamPage();
+        }
+
+        private void AddCyclistToRace()
+        {
+            if (SelectedCyclist == null)
+                return;
+
+            if (CyclistsForRace.Any(c => c.Id == SelectedCyclist.Id))
+            {
+                throw new Exception("This shouldn't happen");
+            }
+            SelectedCyclist.SelectedForRace = true;
+
+            _cyclistService.saveCyclist(SelectedCyclist);
+
+            SelectedCyclist = null;
+
+            InitializeTeamPage();
+        }
+
+        private void RemoveCyclistFromRace()
+        {
+            if (SelectedCyclistForRace == null)
+                return;
+
+            if (Cyclists.Any(c => c.Id == SelectedCyclistForRace.Id))
+            {
+                throw new Exception("This shouldn't happen");
+            }
+            SelectedCyclistForRace.SelectedForRace = false;
+
+            _cyclistService.saveCyclist(SelectedCyclistForRace);
+            SelectedCyclistForRace = null;
+
             InitializeTeamPage();
         }
     }

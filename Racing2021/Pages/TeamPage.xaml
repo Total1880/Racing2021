@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Racing2021.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1000"
       Title="TeamPage"
       DataContext="{Binding TeamPage, Source={StaticResource Locator}}">
 
@@ -21,30 +21,64 @@
                 <Label Content="EUR"/>
             </StackPanel>
             <Label Content="Cyclists: " Width="150"/>
-            <ListView ItemsSource="{Binding Cyclists}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding Name}">
-                            <GridViewColumnHeader Content="Name"/>
-                        </GridViewColumn>
-                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding Age}">
-                            <GridViewColumnHeader Content="Age"/>
-                        </GridViewColumn>
-                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedHorizontal}">
-                            <GridViewColumnHeader Content="Hor"/>
-                        </GridViewColumn>
-                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedDown}">
-                            <GridViewColumnHeader Content="Dwn"/>
-                        </GridViewColumn>
-                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedUp}">
-                            <GridViewColumnHeader Content="Up"/>
-                        </GridViewColumn>
-                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedCobblestones}">
-                            <GridViewColumnHeader Content="Cob"/>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <StackPanel Orientation="Horizontal">
+                <ListView ItemsSource="{Binding Cyclists}"
+                          SelectedItem="{Binding SelectedCyclist}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="150" DisplayMemberBinding="{Binding Name}">
+                                <GridViewColumnHeader Content="Name"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Age}">
+                                <GridViewColumnHeader Content="Age"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedHorizontal}">
+                                <GridViewColumnHeader Content="Hor"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedDown}">
+                                <GridViewColumnHeader Content="Dwn"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedUp}">
+                                <GridViewColumnHeader Content="Up"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedCobblestones}">
+                                <GridViewColumnHeader Content="Cob"/>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <StackPanel>
+                    <Button Content="add"
+                            Command="{Binding AddCyclistToRaceCommand}"/>
+                    <Button Content="remove"
+                            Command="{Binding RemoveCyclistFromRaceCommand}"/>
+                </StackPanel>
+                <ListView ItemsSource="{Binding CyclistsForRace}"
+                          SelectedItem="{Binding SelectedCyclistForRace}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="150" DisplayMemberBinding="{Binding Name}">
+                                <GridViewColumnHeader Content="Name"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Age}">
+                                <GridViewColumnHeader Content="Age"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedHorizontal}">
+                                <GridViewColumnHeader Content="Hor"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedDown}">
+                                <GridViewColumnHeader Content="Dwn"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedUp}">
+                                <GridViewColumnHeader Content="Up"/>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedCobblestones}">
+                                <GridViewColumnHeader Content="Cob"/>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Add young cyclist"
                         Command="{Binding AddYoungCyclistCommand}"/>

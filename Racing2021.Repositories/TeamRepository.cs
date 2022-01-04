@@ -29,6 +29,7 @@ namespace Racing2021.Repositories
                     writer.WriteAttributeString(nameof(Team.Id), team.Id.ToString());
                     writer.WriteAttributeString(nameof(Team.Name), team.Name.ToString());
                     writer.WriteAttributeString(nameof(Team.JerseyName), team.JerseyName.ToString());
+                    writer.WriteAttributeString(nameof(Team.Money), team.Money.ToString());
                     writer.WriteEndElement();
                 }
 
@@ -73,6 +74,7 @@ namespace Racing2021.Repositories
                         readTeam.Id = int.Parse(xmlReader.GetAttribute(nameof(Team.Id)));
                         readTeam.Name = xmlReader.GetAttribute(nameof(Team.Name));
                         readTeam.JerseyName = xmlReader.GetAttribute(nameof(Team.JerseyName));
+                        readTeam.Money = int.Parse(xmlReader.GetAttribute(nameof(Team.Money)));
 
                         TeamList.Add(readTeam);
                     } while (xmlReader.ReadToNextSibling(nameof(Team)));

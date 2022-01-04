@@ -10,6 +10,7 @@
         private float _cyclistSpeedDown;
         private int _age;
         private int _teamId;
+        private bool _selectedForRace;
 
         public float CyclistSpeedHorizontal { get => _cyclistSpeedHorizontal; set { _cyclistSpeedHorizontal = value; } }
         public float CyclistSpeedCobblestones { get => _cyclistSpeedCobblestones; set { _cyclistSpeedCobblestones = value; } }
@@ -19,6 +20,7 @@
         public int Age { get => _age; set { _age = value; } }
         public int Id { get => _id; set { _id = value; } }
         public int TeamId { get => _teamId; set { _teamId = value; } }
+        public bool SelectedForRace { get => _selectedForRace; set { _selectedForRace = value; } }
 
         public Cyclist()
         {
@@ -35,6 +37,7 @@
             Name = name;
             Age = age;
             TeamId = teamId;
+            SelectedForRace = true;
         }
     }
 }
