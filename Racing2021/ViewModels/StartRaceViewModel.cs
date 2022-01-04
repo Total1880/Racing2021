@@ -107,6 +107,13 @@ namespace Racing2021.ViewModels
         {
             _seasonService.NextRace();
 
+            var messages = _seasonService.Messages();
+            if (messages != null && messages.Count > 0)
+            {
+                MessageBox.Show(string.Join(Environment.NewLine, messages));
+                return;
+            }
+
             CyclistRanking = new ObservableCollection<CyclistInRanking>(_seasonService.CyclistRanking());
             TeamRanking = new ObservableCollection<TeamInRanking>(_seasonService.TeamRanking());
 
@@ -129,7 +136,7 @@ namespace Racing2021.ViewModels
 
             CyclistsWithStats = null;
 
-            MessageBox.Show(String.Join(Environment.NewLine, _seasonService.Messages()));
+            MessageBox.Show(string.Join(Environment.NewLine, _seasonService.Messages()));
         }
 
         private void CreateDivisions()

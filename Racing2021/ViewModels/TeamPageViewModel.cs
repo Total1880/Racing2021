@@ -31,7 +31,15 @@ namespace Racing2021.ViewModels
 
         public RelayCommand RemoveCyclistFromRaceCommand => _removeCyclistFromRaceCommand ??= new RelayCommand(RemoveCyclistFromRace);
 
-        public Team Team => _team;
+        public Team Team
+        {
+            get => _team;
+            set
+            {
+                _team = value;
+                RaisePropertyChanged();
+            }
+        }
         public ObservableCollection<Cyclist> Cyclists
         {
             get => _cyclists;
@@ -85,9 +93,9 @@ namespace Racing2021.ViewModels
 
         private void InitializeTeamPage()
         {
-            _team = _teamService.GetTeams().Where(t => t.Id == _seasonService.PlayerTeamId()).FirstOrDefault();
+            Team = _teamService.GetTeams().Where(t => t.Id == _seasonService.PlayerTeamId()).FirstOrDefault();
 
-            if (_team == null)
+            if (Team == null)
                 return;
 
             Cyclists = new ObservableCollection<Cyclist>(_cyclistService.GetCyclists().Where(c => c.TeamId == _seasonService.PlayerTeamId() && !c.SelectedForRace).ToList());
@@ -104,7 +112,7 @@ namespace Racing2021.ViewModels
             if (Cyclists.Count + CyclistsForRace.Count >= _maxCyclistsPerTeam)
                 return;
 
-            _cyclistService.CreateYoungCyclist(_team.Id);
+            _cyclistService.CreateYoungCyclist(Team.Id);
             InitializeTeamPage();
         }
 

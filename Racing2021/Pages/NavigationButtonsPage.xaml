@@ -19,6 +19,10 @@
                 Content="Editor Home"
                 Width="100"
                 Command="{Binding OpenEditorHomePageCommand}"/>
+            <Button
+                Content="Start Race"
+                Width="100"
+                Command="{Binding OpenStartRacePageCommand}"/>
             <Button 
                 Content="Player Team"
                 Width="100"
