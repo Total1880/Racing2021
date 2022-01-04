@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OlavFramework\OlavFramework.csproj" />
     <ProjectReference Include="..\Racing2021.RaceEngine\Racing2021.RaceEngine.csproj" />
     <ProjectReference Include="..\Racing2021.Repositories\Racing2021.Repositories.csproj" />
   </ItemGroup>

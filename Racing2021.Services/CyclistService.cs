@@ -1,4 +1,5 @@
-﻿using Racing2021.Models;
+﻿using OlavFramework;
+using Racing2021.Models;
 using Racing2021.Repositories;
 using Racing2021.Services.Interfaces;
 using System;
@@ -7,19 +8,17 @@ using System.Linq;
 
 namespace Racing2021.Services
 {
-    class CyclistService : ICyclistService
+    class CyclistService : OlavMessages, ICyclistService
     {
         private IRepository<Cyclist> _cyclistRepository;
         private IDataService _dataService;
         private ITeamService _teamService;
-        private IList<string> _messages;
 
         public CyclistService(IRepository<Cyclist> cyclistRepository, IDataService dataService, ITeamService teamService)
         {
             _cyclistRepository = cyclistRepository;
             _dataService = dataService;
             _teamService = teamService;
-            _messages = new List<string>();
         }
 
         public IList<Cyclist> CreateCyclists(IList<Cyclist> cyclists)
@@ -39,8 +38,11 @@ namespace Racing2021.Services
                 CyclistSpeedDown = 50f,
                 CyclistSpeedUp = 50f,
                 Name = _dataService.GetRandomFirstName() + " " + _dataService.GetRandomLastName(),
-                Id = cyclists.Max(c => c.Id + 1)
+                Id = cyclists.Max(c => c.Id + 1),
+                SelectedForRace = false
             };
+
+            AddMessage($"{cyclist.Name} started at2 {_teamService.GetTeams().Where(t => t.Id == cyclist.TeamId).FirstOrDefault().Name}");
 
             cyclists.Add(cyclist);
             CreateCyclists(cyclists);
@@ -120,21 +122,13 @@ namespace Racing2021.Services
                         if (cyclist.TeamId == playerTeamId)
                         {
                             DeleteCyclist(cyclist.Id);
-                            _messages.Add($"{cyclist.Name} has retired");
+                            AddMessage($"{cyclist.Name} has retired");
                             continue;
                         }
-                        cyclist.Age = 16;
-                        cyclist.CyclistSpeedDown = 50f;
-                        cyclist.CyclistSpeedHorizontal = 50f;
-                        cyclist.CyclistSpeedCobblestones = 50f;
-                        cyclist.CyclistSpeedUp = 50f;
-                        _messages.Add($"{cyclist.Name} has retired");
-                        cyclist.Name = _dataService.GetRandomFirstName() + " " + _dataService.GetRandomLastName();
-                        _messages.Add($"{cyclist.Name} started at {_teamService.GetTeams().Where(t => t.Id == cyclist.TeamId).FirstOrDefault().Name}");
+                        DeleteCyclist(cyclist.Id);
+                        AddMessage($"{cyclist.Name} has retired");
                     }
                 }
-
-                saveCyclist(cyclist);
             }
 
             return GetCyclists();
@@ -154,9 +148,7 @@ namespace Racing2021.Services
 
         public IList<string> GetAllMessages()
         {
-            var messages = _messages;
-            _messages = new List<string>();
-            return messages;
+            return Messages();
         }
     }
 }

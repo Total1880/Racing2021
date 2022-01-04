@@ -21,13 +21,14 @@
         public int Id { get => _id; set { _id = value; } }
         public int TeamId { get => _teamId; set { _teamId = value; } }
         public bool SelectedForRace { get => _selectedForRace; set { _selectedForRace = value; } }
+        public float AllAttributes { get => _cyclistSpeedHorizontal + _cyclistSpeedCobblestones + _cyclistSpeedUp + _cyclistSpeedDown; }
 
         public Cyclist()
         {
 
         }
 
-        public Cyclist(int id,  float speedHorizontal, float cobblestones, float speedUp, float speedDown, string name, int teamId, int age = 16)
+        public Cyclist(int id, float speedHorizontal, float cobblestones, float speedUp, float speedDown, string name, int teamId, int age = 16)
         {
             Id = id;
             CyclistSpeedHorizontal = speedHorizontal;

@@ -1,4 +1,5 @@
-﻿using Racing2021.Models;
+﻿using OlavFramework;
+using Racing2021.Models;
 using Racing2021.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Racing2021.Services
 {
-    public class SeasonService : ISeasonService
+    public class SeasonService : OlavMessages, ISeasonService
     {
         private ITrackService _trackService;
         private ICyclistService _cyclistService;
@@ -16,6 +17,7 @@ namespace Racing2021.Services
         private ITeamService _teamService;
         private IDivisionService _divisionService;
         private IDataService _dataService;
+        private IAIManagerService _aiManagerService;
         private IList<Track> _tracks;
         private IList<CyclistInRanking> _cyclistRanking;
         private IList<TeamInRanking> _teamRanking;
@@ -23,7 +25,6 @@ namespace Racing2021.Services
         private IList<Cyclist> _cyclistsToDelete;
         private IList<Team> _teams;
         private IList<Division> _divisions;
-        private IList<string> _messages;
         private bool _justStartedUp = true;
         private bool _seasonHasEnded = false;
         private SaveGame _saveGame;
@@ -32,7 +33,7 @@ namespace Racing2021.Services
 
         public SaveGame SaveGameData => _saveGame;
 
-        public SeasonService(ICyclistService cyclistService, ITrackService trackService, IRaceService raceService, ITeamService teamService, IDivisionService divisionService, IDataService dataService)
+        public SeasonService(ICyclistService cyclistService, ITrackService trackService, IRaceService raceService, ITeamService teamService, IDivisionService divisionService, IDataService dataService, IAIManagerService aIManagerService)
         {
             _cyclistService = cyclistService;
             _trackService = trackService;
@@ -40,6 +41,7 @@ namespace Racing2021.Services
             _teamService = teamService;
             _divisionService = divisionService;
             _dataService = dataService;
+            _aiManagerService = aIManagerService;
             _cyclistRanking = new List<CyclistInRanking>();
             _teamRanking = new List<TeamInRanking>();
             _saveGame = new SaveGame() { Id = 0 };
@@ -69,20 +71,13 @@ namespace Racing2021.Services
             return TeamRanking(_currentDivisionId);
         }
 
-        public IList<string> Messages()
-        {
-            var newMessages = _messages;
-            _messages = new List<string>();
-            return newMessages;
-        }
-
         public void NextRace()
         {
             _cyclists = _cyclistService.GetCyclists().Where(c => c.SelectedForRace).ToList();
 
             if (_cyclists.Where(c => c.TeamId == PlayerTeamId()).Count() != _numberOfCyclistsPerTeam)
             {
-                _messages.Add("The number of cyclists in your team has to be " + _numberOfCyclistsPerTeam);
+                AddMessage("The number of cyclists in your team has to be " + _numberOfCyclistsPerTeam);
                 return;
             }
 
@@ -207,10 +202,15 @@ namespace Racing2021.Services
 
         public void NextSeason()
         {
-            _messages = new List<string>();
             CalculateRelegationsAndPromotions();
             UpdateCyclists();
             ResetRanking();
+            _aiManagerService.AtEndOfSeason(PlayerTeamId());
+
+            foreach (var message in _aiManagerService.GetAllMessages())
+            {
+                AddMessage(message);
+            }
             _saveGame.NextDivisionId = _divisions[0].Id;
             _saveGame.NextRaceId = _tracks[0].Id;
             _seasonHasEnded = false;
@@ -230,7 +230,7 @@ namespace Racing2021.Services
                     var promotedTeam = TeamRanking(division.Id).First().Id;
                     division.TeamsId.Remove(promotedTeam);
                     changedTeams.Add(promotedTeam, division.Tier - 1);
-                    _messages.Add($"{_teamRanking.Where(t => t.Id == promotedTeam).FirstOrDefault().Name} is promoted from {division.Name} to {_divisions.Where(d => d.Tier == division.Tier - 1).FirstOrDefault().Name}");
+                    AddMessage($"{_teamRanking.Where(t => t.Id == promotedTeam).FirstOrDefault().Name} is promoted from {division.Name} to {_divisions.Where(d => d.Tier == division.Tier - 1).FirstOrDefault().Name}");
                 }
 
                 if (division.Tier != lowestTier)
@@ -238,7 +238,7 @@ namespace Racing2021.Services
                     var relegatedTeam = TeamRanking(division.Id).Last().Id;
                     division.TeamsId.Remove(relegatedTeam);
                     changedTeams.Add(relegatedTeam, division.Tier + 1);
-                    _messages.Add($"{_teamRanking.Where(t => t.Id == relegatedTeam).FirstOrDefault().Name} is relegated from {division.Name} to {_divisions.Where(d => d.Tier == division.Tier + 1).FirstOrDefault().Name}");
+                    AddMessage($"{_teamRanking.Where(t => t.Id == relegatedTeam).FirstOrDefault().Name} is relegated from {division.Name} to {_divisions.Where(d => d.Tier == division.Tier + 1).FirstOrDefault().Name}");
                 }
             }
 
@@ -254,7 +254,7 @@ namespace Racing2021.Services
             _cyclists = _cyclistService.UpdateCyclistsEndOfSeason(PlayerTeamId());
 
             foreach (var message in _cyclistService.GetAllMessages())
-                _messages.Add(message);
+                AddMessage(message);
         }
 
         public IList<Cyclist> Cyclists()

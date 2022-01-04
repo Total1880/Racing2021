@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Racing2021", "Racing2021\Racing2021.csproj", "{E4067E98-29F5-4ABD-A55D-CE56E45C56C3}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Racing2021.RaceEngine", "Racing2021.RaceEngine\Racing2021.RaceEngine.csproj", "{83210350-6761-440E-8F9E-E06052F05955}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Racing2021.Models", "Racing2021.Models\Racing2021.Models.csproj", "{82B68653-1A76-46CD-A559-BFF78680ED6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlavFramework", "OlavFramework\OlavFramework.csproj", "{325DDD3B-A2D9-46F2-9606-7AED74760A21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{82B68653-1A76-46CD-A559-BFF78680ED6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82B68653-1A76-46CD-A559-BFF78680ED6A}.Release|x64.ActiveCfg = Release|x64
 		{82B68653-1A76-46CD-A559-BFF78680ED6A}.Release|x64.Build.0 = Release|x64
+		{325DDD3B-A2D9-46F2-9606-7AED74760A21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{325DDD3B-A2D9-46F2-9606-7AED74760A21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{325DDD3B-A2D9-46F2-9606-7AED74760A21}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{325DDD3B-A2D9-46F2-9606-7AED74760A21}.Debug|x64.Build.0 = Debug|Any CPU
+		{325DDD3B-A2D9-46F2-9606-7AED74760A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{325DDD3B-A2D9-46F2-9606-7AED74760A21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{325DDD3B-A2D9-46F2-9606-7AED74760A21}.Release|x64.ActiveCfg = Release|Any CPU
+		{325DDD3B-A2D9-46F2-9606-7AED74760A21}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
