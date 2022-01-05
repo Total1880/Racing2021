@@ -18,6 +18,7 @@ namespace Racing2021.ViewModels
         private ISeasonService _seasonService;
         private ITeamService _teamService;
         private IDivisionService _divisionService;
+        private IManagerService _managerService;
         private RelayCommand _startRaceCommand;
         private RelayCommand _nextSeasonCommand;
         private ObservableCollection<CyclistInRanking> _cyclistRanking;
@@ -78,13 +79,14 @@ namespace Racing2021.ViewModels
             }
         }
 
-        public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService, IDivisionService divisionService)
+        public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService, IDivisionService divisionService, IManagerService managerService)
         {
             _cyclistService = cyclistService;
             _trackService = trackService;
             _seasonService = seasonService;
             _teamService = teamService;
             _divisionService = divisionService;
+            _managerService = managerService;
 
             if (_divisionService.GetDivisions().Count < 1)
                 CreateDivisions();
@@ -179,6 +181,7 @@ namespace Racing2021.ViewModels
         private void CreateTeams()
         {
             var teams = new List<Team>();
+            var savegame = new SaveGame();
 
             teams.Add(new Team(0, "Team A", TextureNames.CyclistBlue));
             teams.Add(new Team(1, "Team B", TextureNames.CyclistGreen));
@@ -186,6 +189,17 @@ namespace Racing2021.ViewModels
             teams.Add(new Team(3, "Team D", TextureNames.CyclistRoseGrey));
             teams.Add(new Team(4, "Team E", TextureNames.CyclistYellow));
             teams.Add(new Team(5, "Team F", TextureNames.CyclistBlackYellow));
+
+            teams.Where(t => t.Id == savegame.PlayerTeamId).FirstOrDefault().ManagerId = savegame.PlayerManager.Id;
+
+            foreach (var team in teams)
+            {
+                if (team.ManagerId == 0)
+                {
+                    var newManager = _managerService.GenerateRandomManager(team.Id);
+                    team.ManagerId = newManager.Id;
+                }
+            }
 
             _teamService.CreateTeams(teams);
         }

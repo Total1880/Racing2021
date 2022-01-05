@@ -19,6 +19,7 @@ namespace Racing2021.Services
             builder.RegisterType<DivisionService>().AsImplementedInterfaces();
             builder.RegisterType<DataService>().AsImplementedInterfaces();
             builder.RegisterType<AIManagerService>().AsImplementedInterfaces();
+            builder.RegisterType<ManagerService>().AsImplementedInterfaces();
         }
     }
 }

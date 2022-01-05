@@ -6,11 +6,12 @@
         private string _name;
         private string _jerseyName;
         private int _money;
-
+        private int _managerId;
         public int Id { get => _id; set { _id = value; } }
         public string Name { get => _name; set { _name = value; } }
         public string JerseyName { get => _jerseyName; set { _jerseyName = value; } }
         public int Money { get => _money; set { _money = value; } }
+        public int ManagerId { get => _managerId; set { _managerId = value; } }
 
         public Team()
         {

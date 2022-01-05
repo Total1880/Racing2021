@@ -10,5 +10,18 @@ namespace Racing2021.Models
         public int NextRaceId;
         public int NextDivisionId;
         public int PlayerTeamId = 4;
+        public Manager PlayerManager;
+
+        public SaveGame()
+        {
+            PlayerManager = new Manager
+            {
+                Name = "Olav Hendrickx",
+                Nationality = "Belgian",
+                Id = 1,
+                Age = 34,
+                TeamId = PlayerTeamId
+            };
+        }
     }
 }

@@ -1,29 +1,24 @@
 ﻿namespace Racing2021.Models
 {
-    public class Cyclist
+    public class Cyclist : Person
     {
-        private int _id;
-        private string _name;
+
         private float _cyclistSpeedHorizontal;
         private float _cyclistSpeedCobblestones;
         private float _cyclistSpeedUp;
         private float _cyclistSpeedDown;
-        private int _age;
-        private int _teamId;
+
         private bool _selectedForRace;
-        private string _nationality;
 
         public float CyclistSpeedHorizontal { get => _cyclistSpeedHorizontal; set { _cyclistSpeedHorizontal = value; } }
         public float CyclistSpeedCobblestones { get => _cyclistSpeedCobblestones; set { _cyclistSpeedCobblestones = value; } }
         public float CyclistSpeedUp { get => _cyclistSpeedUp; set { _cyclistSpeedUp = value; } }
         public float CyclistSpeedDown { get => _cyclistSpeedDown; set { _cyclistSpeedDown = value; } }
-        public string Name { get => _name; set { _name = value; } }
-        public int Age { get => _age; set { _age = value; } }
-        public int Id { get => _id; set { _id = value; } }
-        public int TeamId { get => _teamId; set { _teamId = value; } }
+
+
         public bool SelectedForRace { get => _selectedForRace; set { _selectedForRace = value; } }
         public float AllAttributes { get => _cyclistSpeedHorizontal + _cyclistSpeedCobblestones + _cyclistSpeedUp + _cyclistSpeedDown; }
-        public string Nationality { get => _nationality; set { _nationality = value; } }
+
 
         public Cyclist()
         {
