@@ -2,7 +2,8 @@
 {
     public interface IDataService
     {
-        string GetRandomFirstName();
-        string GetRandomLastName();
+        string GetRandomFirstName(string nationality);
+        string GetRandomLastName(string nationality);
+        string GetRandomNationality();
     }
 }

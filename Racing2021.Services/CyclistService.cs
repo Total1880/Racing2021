@@ -29,6 +29,7 @@ namespace Racing2021.Services
         public Cyclist CreateYoungCyclist(int teamId)
         {
             var cyclists = GetCyclists();
+            var randomNationality = _dataService.GetRandomNationality();
             Cyclist cyclist = new Cyclist
             {
                 TeamId = teamId,
@@ -37,7 +38,8 @@ namespace Racing2021.Services
                 CyclistSpeedCobblestones = 50f,
                 CyclistSpeedDown = 50f,
                 CyclistSpeedUp = 50f,
-                Name = _dataService.GetRandomFirstName() + " " + _dataService.GetRandomLastName(),
+                Nationality = randomNationality,
+                Name = _dataService.GetRandomFirstName(randomNationality) + " " + _dataService.GetRandomLastName(randomNationality),
                 Id = cyclists.Max(c => c.Id + 1),
                 SelectedForRace = false
             };

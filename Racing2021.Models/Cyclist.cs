@@ -11,6 +11,7 @@
         private int _age;
         private int _teamId;
         private bool _selectedForRace;
+        private string _nationality;
 
         public float CyclistSpeedHorizontal { get => _cyclistSpeedHorizontal; set { _cyclistSpeedHorizontal = value; } }
         public float CyclistSpeedCobblestones { get => _cyclistSpeedCobblestones; set { _cyclistSpeedCobblestones = value; } }
@@ -22,13 +23,14 @@
         public int TeamId { get => _teamId; set { _teamId = value; } }
         public bool SelectedForRace { get => _selectedForRace; set { _selectedForRace = value; } }
         public float AllAttributes { get => _cyclistSpeedHorizontal + _cyclistSpeedCobblestones + _cyclistSpeedUp + _cyclistSpeedDown; }
+        public string Nationality { get => _nationality; set { _nationality = value; } }
 
         public Cyclist()
         {
 
         }
 
-        public Cyclist(int id, float speedHorizontal, float cobblestones, float speedUp, float speedDown, string name, int teamId, int age = 16)
+        public Cyclist(int id, float speedHorizontal, float cobblestones, float speedUp, float speedDown, string name, int teamId, string nationality, int age = 16)
         {
             Id = id;
             CyclistSpeedHorizontal = speedHorizontal;
@@ -39,6 +41,7 @@
             Age = age;
             TeamId = teamId;
             SelectedForRace = true;
+            Nationality = nationality;
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Racing2021.Repositories
                     writer.WriteAttributeString(nameof(Cyclist.CyclistSpeedUp), cyclist.CyclistSpeedUp.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.Age), cyclist.Age.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.SelectedForRace), cyclist.SelectedForRace.ToString());
+                    writer.WriteAttributeString(nameof(Cyclist.Nationality), cyclist.Nationality.ToString());
                     writer.WriteEndElement();
                 }
 
@@ -85,6 +86,7 @@ namespace Racing2021.Repositories
                         readCyclist.CyclistSpeedUp = float.Parse(xmlReader.GetAttribute(nameof(Cyclist.CyclistSpeedUp)));
                         readCyclist.Age = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Age)));
                         readCyclist.SelectedForRace = bool.Parse(xmlReader.GetAttribute(nameof(Cyclist.SelectedForRace)));
+                        readCyclist.Nationality = xmlReader.GetAttribute(nameof(Cyclist.Nationality));
 
                         CyclistList.Add(readCyclist);
                     } while (xmlReader.ReadToNextSibling(nameof(Cyclist)));
