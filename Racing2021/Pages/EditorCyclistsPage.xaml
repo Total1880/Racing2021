@@ -72,6 +72,15 @@
                     SelectedItem="{Binding SelectedTeam}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Text="Nationality"
+                    Width="100"/>
+                <ComboBox
+                    Width="300"
+                    ItemsSource="{Binding Nationalities}"
+                    SelectedItem="{Binding SelectedNationality}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <TextBlock 
                     Text="Age"
                     Width="100"/>

@@ -1,6 +1,7 @@
 ﻿using Racing2021.Repositories;
 using Racing2021.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace Racing2021.Services
 {
@@ -44,6 +45,11 @@ namespace Racing2021.Services
             int r = rnd.Next(listNationalities.Count);
 
             return listNationalities[r];
+        }
+
+        public IList<string> GetAllNationalities()
+        {
+            return _dataRepository.Nationalities();
         }
     }
 }
