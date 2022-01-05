@@ -251,7 +251,7 @@ namespace Racing2021.Services
         private void UpdateCyclists()
         {
 
-            _cyclists = _cyclistService.UpdateCyclistsEndOfSeason(PlayerTeamId());
+            _cyclists = _cyclistService.UpdateCyclistsEndOfSeason(PlayerTeamId()).Where(c => c.SelectedForRace).ToList();
 
             foreach (var message in _cyclistService.GetAllMessages())
                 AddMessage(message);
