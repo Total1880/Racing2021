@@ -119,16 +119,13 @@ namespace Racing2021.Services
                 {
                     if (RandomFloat(0f, 10f) < 2f)
                     {
-                        if (cyclist.TeamId == playerTeamId)
-                        {
-                            DeleteCyclist(cyclist.Id);
-                            AddMessage($"{cyclist.Name} has retired");
-                            continue;
-                        }
                         DeleteCyclist(cyclist.Id);
                         AddMessage($"{cyclist.Name} has retired");
+                        continue;
                     }
                 }
+
+                saveCyclist(cyclist);
             }
 
             return GetCyclists();
