@@ -126,6 +126,7 @@ namespace Racing2021.Services
             }
             else
             {
+                //Go trough all the divisions
                 _saveGame.NextDivisionId = _divisions.SkipWhile(d => d.Id <= _saveGame.NextDivisionId).FirstOrDefault().Id;
                 NextRace();
             }
@@ -162,6 +163,7 @@ namespace Racing2021.Services
         private void UpdateTeamFinanceAfterRace(int firstPlaceTeamId, int raceId)
         {
             _teams.Where(t => t.Id == firstPlaceTeamId).FirstOrDefault().Money += _tracks.FirstOrDefault(tr => tr.Id == raceId).FirstPlacePrizeMoney / _divisions.FirstOrDefault(d => d.Id == _saveGame.NextDivisionId).Tier;
+            _teams = _teamService.CreateTeams(_teams);
         }
 
         private void ResetRanking()
