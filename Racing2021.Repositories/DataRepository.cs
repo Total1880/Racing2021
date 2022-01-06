@@ -114,7 +114,7 @@ namespace Racing2021.Repositories
             }
             else if (nationality == "German")
             {
-                listLastNames.Add("Müller");
+                listLastNames.Add("Muller");
                 listLastNames.Add("Schmidt");
                 listLastNames.Add("Schneider");
                 listLastNames.Add("Fischer");

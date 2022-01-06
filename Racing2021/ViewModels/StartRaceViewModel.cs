@@ -76,6 +76,7 @@ namespace Racing2021.ViewModels
                 {
                     RefreshRankings();
                 }
+                RaisePropertyChanged();
             }
         }
 
@@ -124,6 +125,8 @@ namespace Racing2021.ViewModels
                 ShowNextRaceButton = Visibility.Collapsed;
                 ShowEndSeasonButton = Visibility.Visible;
             }
+
+            SelectedDivision = Divisions.Where(d => d.TeamsId.Contains(_seasonService.PlayerTeamId())).FirstOrDefault();
 
             CyclistsWithStats = null;
         }

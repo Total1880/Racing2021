@@ -204,8 +204,8 @@ namespace Racing2021.Services
         {
             CalculateRelegationsAndPromotions();
             UpdateCyclists();
-            ResetRanking();
             _aiManagerService.AtEndOfSeason(PlayerTeamId());
+            ResetRanking();
 
             foreach (var message in _aiManagerService.GetAllMessages())
             {
