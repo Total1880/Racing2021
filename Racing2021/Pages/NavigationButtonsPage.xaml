@@ -27,6 +27,10 @@
                 Content="Player Team"
                 Width="100"
                 Command="{Binding OpenTeamPageCommand}"/>
+            <Button 
+                Content="Other Team"
+                Width="100"
+                Command="{Binding OpenOtherTeamPageCommand}"/>
         </StackPanel>
     </Grid>
 </Page>
