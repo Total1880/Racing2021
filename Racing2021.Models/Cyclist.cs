@@ -1,4 +1,6 @@
-﻿namespace Racing2021.Models
+﻿using System;
+
+namespace Racing2021.Models
 {
     public class Cyclist : Person
     {
@@ -10,10 +12,10 @@
 
         private bool _selectedForRace;
 
-        public float CyclistSpeedHorizontal { get => _cyclistSpeedHorizontal; set { _cyclistSpeedHorizontal = value; } }
-        public float CyclistSpeedCobblestones { get => _cyclistSpeedCobblestones; set { _cyclistSpeedCobblestones = value; } }
-        public float CyclistSpeedUp { get => _cyclistSpeedUp; set { _cyclistSpeedUp = value; } }
-        public float CyclistSpeedDown { get => _cyclistSpeedDown; set { _cyclistSpeedDown = value; } }
+        public float CyclistSpeedHorizontal { get => _cyclistSpeedHorizontal; set { _cyclistSpeedHorizontal = (float)Math.Round(value); } }
+        public float CyclistSpeedCobblestones { get => _cyclistSpeedCobblestones; set { _cyclistSpeedCobblestones = (float)Math.Round(value); } }
+        public float CyclistSpeedUp { get => _cyclistSpeedUp; set { _cyclistSpeedUp = (float)Math.Round(value); } }
+        public float CyclistSpeedDown { get => _cyclistSpeedDown; set { _cyclistSpeedDown = (float)Math.Round(value); } }
 
 
         public bool SelectedForRace { get => _selectedForRace; set { _selectedForRace = value; } }
