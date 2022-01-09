@@ -79,6 +79,9 @@ namespace Racing2021.Services
 
             foreach (var cyclist in cyclists)
             {
+                if (cyclist.Contract.YearsLeft > 0)
+                    cyclist.Contract.YearsLeft--;
+
                 if (cyclist.Age < 20)
                 {
                     cyclist.CyclistSpeedDown += RandomFloat(0f, 10f);

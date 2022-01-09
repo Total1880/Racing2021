@@ -36,6 +36,8 @@ namespace Racing2021.Repositories
                     writer.WriteAttributeString(nameof(Cyclist.Age), cyclist.Age.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.SelectedForRace), cyclist.SelectedForRace.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.Nationality), cyclist.Nationality.ToString());
+                    writer.WriteAttributeString(nameof(Cyclist.Contract.YearsLeft), cyclist.Contract.YearsLeft.ToString());
+                    writer.WriteAttributeString(nameof(Cyclist.Contract.SalaryPerYear), cyclist.Contract.SalaryPerYear.ToString());
                     writer.WriteEndElement();
                 }
 
@@ -76,6 +78,7 @@ namespace Racing2021.Repositories
                     do
                     {
                         var readCyclist = new Cyclist();
+                        readCyclist.Contract = new Contract();
 
                         readCyclist.Id = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Id)));
                         readCyclist.TeamId = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.TeamId)));
@@ -87,6 +90,8 @@ namespace Racing2021.Repositories
                         readCyclist.Age = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Age)));
                         readCyclist.SelectedForRace = bool.Parse(xmlReader.GetAttribute(nameof(Cyclist.SelectedForRace)));
                         readCyclist.Nationality = xmlReader.GetAttribute(nameof(Cyclist.Nationality));
+                        readCyclist.Contract.YearsLeft = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Contract.YearsLeft)));
+                        readCyclist.Contract.SalaryPerYear = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Contract.SalaryPerYear)));
 
                         CyclistList.Add(readCyclist);
                     } while (xmlReader.ReadToNextSibling(nameof(Cyclist)));

@@ -164,6 +164,7 @@ namespace Racing2021.ViewModels
         private void CreateCyclists()
         {
             var cyclists = new List<Cyclist>();
+            var random = new Random();
 
             cyclists.Add(new Cyclist(0, 80f, 70f, 100f, 95f, "Tadej Pogacar", 0, "none", 22));
             cyclists.Add(new Cyclist(1, 75f, 60f, 80f, 90f, "Rui Costa", 0, "none", 35));
@@ -177,6 +178,15 @@ namespace Racing2021.ViewModels
             cyclists.Add(new Cyclist(9, 75f, 80f, 65f, 70f, "Arne Hendrickx", 4, "Belgian", 35));
             cyclists.Add(new Cyclist(10, 85f, 90f, 75f, 80f, "Sander Delmeire", 5, "Belgian", 34));
             cyclists.Add(new Cyclist(11, 80f, 85f, 70f, 75f, "Loic Vandenbroucke", 5, "Belgian", 26));
+
+            foreach (var cyclist in cyclists)
+            {
+                cyclist.Contract = new Contract
+                {
+                    YearsLeft = random.Next(1, 5),
+                    SalaryPerYear = 0
+                };
+            }
 
             _cyclistService.CreateCyclists(cyclists);
         }

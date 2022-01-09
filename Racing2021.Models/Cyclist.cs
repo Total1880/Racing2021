@@ -12,6 +12,8 @@ namespace Racing2021.Models
 
         private bool _selectedForRace;
 
+        private Contract _contract;
+
         public float CyclistSpeedHorizontal { get => _cyclistSpeedHorizontal; set { _cyclistSpeedHorizontal = (float)Math.Round(value); } }
         public float CyclistSpeedCobblestones { get => _cyclistSpeedCobblestones; set { _cyclistSpeedCobblestones = (float)Math.Round(value); } }
         public float CyclistSpeedUp { get => _cyclistSpeedUp; set { _cyclistSpeedUp = (float)Math.Round(value); } }
@@ -19,12 +21,13 @@ namespace Racing2021.Models
 
 
         public bool SelectedForRace { get => _selectedForRace; set { _selectedForRace = value; } }
+        public Contract Contract { get => _contract; set { _contract = value; } }
         public float AllAttributes { get => _cyclistSpeedHorizontal + _cyclistSpeedCobblestones + _cyclistSpeedUp + _cyclistSpeedDown; }
 
 
         public Cyclist()
         {
-
+            Contract = new Contract();
         }
 
         public Cyclist(int id, float speedHorizontal, float cobblestones, float speedUp, float speedDown, string name, int teamId, string nationality, int age = 16)
@@ -39,6 +42,7 @@ namespace Racing2021.Models
             TeamId = teamId;
             SelectedForRace = true;
             Nationality = nationality;
+            Contract = new Contract();
         }
     }
 }
