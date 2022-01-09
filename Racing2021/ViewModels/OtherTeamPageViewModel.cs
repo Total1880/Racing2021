@@ -1,6 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
+using Racing2021.Messages.WindowOpener;
 using Racing2021.Models;
 using Racing2021.Services.Interfaces;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -28,10 +31,22 @@ namespace Racing2021.ViewModels
             _cyclistService = cyclistService;
 
             Teams = new ObservableCollection<Team>(_teamService.GetTeams());
+
+            Messenger.Default.Register<OpenOtherTeamPageMessage>(this, ResetScreen);
+        }
+
+        private void ResetScreen(OpenOtherTeamPageMessage obj)
+        {
+            Teams = new ObservableCollection<Team>(_teamService.GetTeams());
+
         }
 
         private void InitializeTeam()
         {
+            if (SelectedTeam == null)
+            {
+                SelectedTeam = Teams[0];
+            }
             Manager = _managerService.GetManagers().Where(m => m.Id == SelectedTeam.ManagerId).FirstOrDefault();
             Cyclists = new ObservableCollection<Cyclist>(_cyclistService.GetCyclists().Where(c => c.TeamId == SelectedTeam.Id).ToList());
         }

@@ -203,6 +203,7 @@ namespace Racing2021.Services
 
         public void NextSeason()
         {
+            UpdateTeamReputation();
             CalculateRelegationsAndPromotions();
             UpdateCyclists();
             _aiManagerService.AtEndOfSeason(PlayerTeamId());
@@ -221,12 +222,14 @@ namespace Racing2021.Services
         {
             var lowestTier = _divisions.Max(d => d.Tier);
             var changedTeams = new Dictionary<int, int>();
+            var baseReputation = 100;
 
             foreach (var division in _divisions)
             {
                 if (division.Tier > 1)
                 {
                     var promotedTeam = TeamRanking(division.Id).First().Id;
+                    _teams.Where(t => t.Id == promotedTeam).FirstOrDefault().Reputation += baseReputation;
                     division.TeamsId.Remove(promotedTeam);
                     changedTeams.Add(promotedTeam, division.Tier - 1);
                     AddMessage($"{_teamRanking.Where(t => t.Id == promotedTeam).FirstOrDefault().Name} is promoted from {division.Name} to {_divisions.Where(d => d.Tier == division.Tier - 1).FirstOrDefault().Name}");
@@ -235,6 +238,7 @@ namespace Racing2021.Services
                 if (division.Tier != lowestTier)
                 {
                     var relegatedTeam = TeamRanking(division.Id).Last().Id;
+                    _teams.Where(t => t.Id == relegatedTeam).FirstOrDefault().Reputation -= baseReputation;
                     division.TeamsId.Remove(relegatedTeam);
                     changedTeams.Add(relegatedTeam, division.Tier + 1);
                     AddMessage($"{_teamRanking.Where(t => t.Id == relegatedTeam).FirstOrDefault().Name} is relegated from {division.Name} to {_divisions.Where(d => d.Tier == division.Tier + 1).FirstOrDefault().Name}");
@@ -247,6 +251,7 @@ namespace Racing2021.Services
             }
 
             _divisions = _divisionService.CreateDivisions(_divisions);
+            _teams = _teamService.CreateTeams(_teams);
         }
 
         private void UpdateCyclists()
@@ -281,9 +286,34 @@ namespace Racing2021.Services
         private void DeleteCyclists()
         {
             foreach (var cyclist in _cyclistsToDelete)
-	        {
+            {
                 _cyclists.Remove(cyclist);
-	        }
+            }
+        }
+
+        private void UpdateTeamReputation()
+        {
+            var baseReputation = 100;
+
+            foreach (var division in _divisions)
+            {
+                var counter = 0;
+                var teamranking = TeamRanking(division.Id);
+                foreach (var team in teamranking)
+                {
+                    if (_teams.Where(t => t.Id == team.Id).FirstOrDefault().Reputation < division.Reputation)
+                    {
+                        _teams.Where(t => t.Id == team.Id).FirstOrDefault().Reputation += baseReputation / division.Tier / (counter + 1);
+
+                    }
+                    else if (_teams.Where(t => t.Id == team.Id).FirstOrDefault().Reputation > division.Reputation)
+                    {
+                        _teams.Where(t => t.Id == team.Id).FirstOrDefault().Reputation -= baseReputation;
+                    }
+                    counter++;
+                }
+            }
+            _teams = _teamService.CreateTeams(_teams);
         }
     }
 }

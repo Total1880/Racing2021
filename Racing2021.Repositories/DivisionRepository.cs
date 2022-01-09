@@ -29,6 +29,7 @@ namespace Racing2021.Repositories
                     writer.WriteStartElement(nameof(Division));
                     writer.WriteAttributeString(nameof(Division.Id), division.Id.ToString());
                     writer.WriteAttributeString(nameof(Division.Tier), division.Tier.ToString());
+                    writer.WriteAttributeString(nameof(Division.Reputation), division.Reputation.ToString());
                     writer.WriteAttributeString(nameof(Division.Name), division.Name.ToString());
                     foreach (var teamId in division.TeamsId)
                     {
@@ -80,6 +81,7 @@ namespace Racing2021.Repositories
 
                         readDivision.Id = int.Parse(xmlReader.GetAttribute(nameof(Division.Id)));
                         readDivision.Tier = int.Parse(xmlReader.GetAttribute(nameof(Division.Tier)));
+                        readDivision.Reputation = int.Parse(xmlReader.GetAttribute(nameof(Division.Reputation)));
                         readDivision.Name = xmlReader.GetAttribute(nameof(Division.Name));
 
                         xmlReader.ReadStartElement(nameof(Division));

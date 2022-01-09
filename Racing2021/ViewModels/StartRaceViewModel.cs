@@ -148,8 +148,8 @@ namespace Racing2021.ViewModels
         {
             var newDivisions = new List<Division>();
 
-            newDivisions.Add(new Division(0, 1, "Division 1"));
-            newDivisions.Add(new Division(1, 2, "Division 2"));
+            newDivisions.Add(new Division(0, 1, "Division 1", 9000));
+            newDivisions.Add(new Division(1, 2, "Division 2", 8000));
 
             newDivisions[0].TeamsId.Add(0);
             newDivisions[0].TeamsId.Add(1);
@@ -186,12 +186,12 @@ namespace Racing2021.ViewModels
             var teams = new List<Team>();
             var savegame = new SaveGame();
 
-            teams.Add(new Team(0, "Team A", TextureNames.CyclistBlue));
-            teams.Add(new Team(1, "Team B", TextureNames.CyclistGreen));
-            teams.Add(new Team(2, "Team C", TextureNames.CyclistRed));
-            teams.Add(new Team(3, "Team D", TextureNames.CyclistRoseGrey));
-            teams.Add(new Team(4, "Team E", TextureNames.CyclistYellow));
-            teams.Add(new Team(5, "Team F", TextureNames.CyclistBlackYellow));
+            teams.Add(new Team(0, "Team A", TextureNames.CyclistBlue, 8000));
+            teams.Add(new Team(1, "Team B", TextureNames.CyclistGreen, 8000));
+            teams.Add(new Team(2, "Team C", TextureNames.CyclistRed, 8000));
+            teams.Add(new Team(3, "Team D", TextureNames.CyclistRoseGrey, 7000));
+            teams.Add(new Team(4, "Team E", TextureNames.CyclistYellow, 7000));
+            teams.Add(new Team(5, "Team F", TextureNames.CyclistBlackYellow, 7000));
 
             teams.Where(t => t.Id == savegame.PlayerTeamId).FirstOrDefault().ManagerId = savegame.PlayerManager.Id;
 
