@@ -24,6 +24,7 @@ namespace Racing2021.Services
             var teams = _teamService.GetTeams();
             var cyclists = _cyclistService.GetCyclists();
 
+            GiveCyclistsNewContract(cyclists);
             AddYoungCyclists(cyclists, teams, playerTeamId);
             SelectStarterCyclists(cyclists, teams, playerTeamId);
         }
@@ -89,6 +90,18 @@ namespace Racing2021.Services
                 if (cyclists.Where(c => c.TeamId == team.Id && c.SelectedForRace).Count() < Configuration.NumberOfCyclistsPerTeamForRace)
                 {
                     throw new Exception("Den AI heeft te weinig renners geselecteerd");
+                }
+            }
+        }
+        private void GiveCyclistsNewContract(IList<Cyclist> cyclists)
+        {
+            var random = new Random();
+            foreach ( var cyclist in cyclists)
+            {
+                if (cyclist.Contract.YearsLeft < 1)
+                {
+                    cyclist.Contract.YearsLeft = random.Next(1, 5);
+                    _cyclistService.saveCyclist(cyclist);
                 }
             }
         }
