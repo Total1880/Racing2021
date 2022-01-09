@@ -85,6 +85,8 @@ namespace Racing2021.Services
                 _tracks = _trackService.GetTracks();
                 _teams = _teamService.GetTeams();
                 _divisions = _divisionService.GetDivisions();
+                _aiManagerService.AtEndOfSeason(PlayerTeamId());
+
                 ResetRanking();
                 _justStartedUp = false;
             }
