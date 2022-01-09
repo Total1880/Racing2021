@@ -31,6 +31,10 @@
                 Content="Other Team"
                 Width="100"
                 Command="{Binding OpenOtherTeamPageCommand}"/>
+            <Button 
+                Content="Search Cyclist"
+                Width="100"
+                Command="{Binding OpenSearchCyclistPageCommand}"/>
         </StackPanel>
     </Grid>
 </Page>
