@@ -17,7 +17,8 @@
         <StackPanel>
             <ListView 
                 ItemsSource="{Binding Cyclists}"
-                SelectedItem="{Binding SelectedCyclist}">
+                SelectedItem="{Binding SelectedCyclist}"
+                Height="600">
                 <ListView.View>
                     <GridView 
                     AllowsColumnReorder="False"

@@ -43,7 +43,7 @@ namespace Racing2021.Repositories
                 listFirstNames.Add("Liam");
                 listFirstNames.Add("Lucas");
                 listFirstNames.Add("Raphael");
-                listFirstNames.Add("Léo");
+                listFirstNames.Add("Leo");
                 listFirstNames.Add("Noah");
                 listFirstNames.Add("Ethan");
                 listFirstNames.Add("Louis");
