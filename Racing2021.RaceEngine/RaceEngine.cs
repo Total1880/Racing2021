@@ -111,7 +111,15 @@ namespace Racing2021.RaceEngine
 
             foreach (var cyclist in _cyclists)
             {
-                cyclist.CyclistTexture = Content.Load<Texture2D>(cyclist.Team.JerseyName);
+                try
+                {
+                    cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist_" + cyclist.Team.Id);
+                }
+                catch (Microsoft.Xna.Framework.Content.ContentLoadException)
+                {
+
+                    cyclist.CyclistTexture = Content.Load<Texture2D>("Cyclist_default");
+                }
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using OlavFramework;
 using Racing2021.Messages.WindowOpener;
 using Racing2021.Models;
 using Racing2021.Services.Interfaces;
@@ -22,7 +23,6 @@ namespace Racing2021.ViewModels
         private RelayCommand _addYoungCyclistCommand;
         private RelayCommand _addCyclistToRaceCommand;
         private RelayCommand _removeCyclistFromRaceCommand;
-        private int _maxCyclistsPerTeam = 3;
         private Cyclist _selectedCyclist;
         private Cyclist _selectedCyclistForRace;
 
@@ -109,7 +109,7 @@ namespace Racing2021.ViewModels
 
         private void AddYoungCyclist()
         {
-            if (Cyclists.Count + CyclistsForRace.Count >= _maxCyclistsPerTeam)
+            if (Cyclists.Count + CyclistsForRace.Count >= Configuration.NumberOfCyclistsInTeam)
                 return;
 
             _cyclistService.CreateYoungCyclist(Team.Id);

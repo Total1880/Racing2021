@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OlavFramework;
 
 namespace Racing2021.Models
 {
@@ -9,11 +7,12 @@ namespace Racing2021.Models
         public int Id;
         public int NextRaceId;
         public int NextDivisionId;
-        public int PlayerTeamId = 4;
+        public int PlayerTeamId;
         public Manager PlayerManager;
 
         public SaveGame()
         {
+            PlayerTeamId = Configuration.UserTeamId;
             PlayerManager = new Manager
             {
                 Name = "Olav Hendrickx",

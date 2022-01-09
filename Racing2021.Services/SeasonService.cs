@@ -29,7 +29,6 @@ namespace Racing2021.Services
         private bool _seasonHasEnded = false;
         private SaveGame _saveGame;
         private int _currentDivisionId;
-        private int _numberOfCyclistsPerTeam = 2;
 
         public SaveGame SaveGameData => _saveGame;
 
@@ -75,9 +74,9 @@ namespace Racing2021.Services
         {
             _cyclists = _cyclistService.GetCyclists().Where(c => c.SelectedForRace).ToList();
 
-            if (_cyclists.Where(c => c.TeamId == PlayerTeamId()).Count() != _numberOfCyclistsPerTeam)
+            if (_cyclists.Where(c => c.TeamId == PlayerTeamId()).Count() != Configuration.NumberOfCyclistsPerTeamForRace)
             {
-                AddMessage("The number of cyclists in your team has to be " + _numberOfCyclistsPerTeam);
+                AddMessage("The number of cyclists in your team has to be " + Configuration.NumberOfCyclistsPerTeamForRace);
                 return;
             }
 

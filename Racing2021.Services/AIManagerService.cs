@@ -13,8 +13,6 @@ namespace Racing2021.Services
     {
         private ITeamService _teamService;
         private ICyclistService _cyclistService;
-        private int _numberOfCyclistsInTeam = 3;
-        private int _numberOfCyclistsPerTeamForRace = 2;
 
         public AIManagerService(ITeamService teamService, ICyclistService cyclistService)
         {
@@ -42,7 +40,7 @@ namespace Racing2021.Services
                 if (team.Id == playerTeamId)
                     continue;
 
-                while (cyclists.Where(c => c.TeamId == team.Id).Count() < _numberOfCyclistsInTeam)
+                while (cyclists.Where(c => c.TeamId == team.Id).Count() < Configuration.NumberOfCyclistsInTeam)
                 {
                     var newCyclist = _cyclistService.CreateYoungCyclist(team.Id);
                     cyclists.Add(newCyclist);
@@ -67,7 +65,7 @@ namespace Racing2021.Services
 
                 foreach (var cyclist in cyclistsInTeam)
                 {
-                    if (cyclistsThatShouldRace.Count() < _numberOfCyclistsPerTeamForRace)
+                    if (cyclistsThatShouldRace.Count() < Configuration.NumberOfCyclistsPerTeamForRace)
                     {
                         cyclistsThatShouldRace.Add(cyclist);
                         continue;
@@ -88,7 +86,7 @@ namespace Racing2021.Services
                     _cyclistService.saveCyclist(cyclist);
                 }
 
-                if (cyclists.Where(c => c.TeamId == team.Id && c.SelectedForRace).Count() < _numberOfCyclistsPerTeamForRace)
+                if (cyclists.Where(c => c.TeamId == team.Id && c.SelectedForRace).Count() < Configuration.NumberOfCyclistsPerTeamForRace)
                 {
                     throw new Exception("Den AI heeft te weinig renners geselecteerd");
                 }
