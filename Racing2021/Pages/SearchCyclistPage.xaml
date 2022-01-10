@@ -10,7 +10,7 @@
       DataContext="{Binding SearchCyclistPage, Source={StaticResource Locator}}">
 
     <Grid>
-        <ListView ItemsSource="{Binding AllCyclists}">
+        <ListView ItemsSource="{Binding AllCyclists}" MouseDoubleClick="ListView_dubbleclick" SelectedItem="{Binding SelectedCyclist}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="150" DisplayMemberBinding="{Binding Name}">

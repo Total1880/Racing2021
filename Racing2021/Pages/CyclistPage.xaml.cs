@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using Racing2021.Messages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,18 +16,13 @@ using System.Windows.Shapes;
 namespace Racing2021.Pages
 {
     /// <summary>
-    /// Interaction logic for SearchCyclistPage.xaml
+    /// Interaction logic for CyclistPage.xaml
     /// </summary>
-    public partial class SearchCyclistPage : Page
+    public partial class CyclistPage : Page
     {
-        public SearchCyclistPage()
+        public CyclistPage()
         {
             InitializeComponent();
-        }
-
-        private void ListView_dubbleclick(object sender, MouseButtonEventArgs e)
-        {
-            Messenger.Default.Send(new SearchCyclistDoubleClick());
         }
     }
 }
