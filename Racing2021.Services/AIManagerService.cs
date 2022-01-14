@@ -100,8 +100,11 @@ namespace Racing2021.Services
             {
                 if (cyclist.Contract.YearsLeft < 1)
                 {
-                    cyclist.Contract.YearsLeft = random.Next(1, 5);
-                    _cyclistService.saveCyclist(cyclist);
+                    if (cyclist.SelectedForRace || cyclist.Age < 30)
+                    {
+                        cyclist.Contract.YearsLeft = random.Next(1, 5);
+                        _cyclistService.saveCyclist(cyclist);
+                    }
                 }
             }
         }
