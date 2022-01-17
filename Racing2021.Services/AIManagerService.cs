@@ -24,9 +24,9 @@ namespace Racing2021.Services
             var teams = _teamService.GetTeams();
             var cyclists = _cyclistService.GetCyclists();
 
-            GiveCyclistsNewContract(cyclists);
-            AddYoungCyclists(cyclists, teams, playerTeamId);
             SelectStarterCyclists(cyclists, teams, playerTeamId);
+            GiveCyclistsNewContract(cyclists.Where(c => c.TeamId >= 0).ToList());
+            AddYoungCyclists(cyclists.Where(c => c.TeamId >= 0).ToList(), teams, playerTeamId);
         }
 
         public IList<string> GetAllMessages()
@@ -95,17 +95,23 @@ namespace Racing2021.Services
         }
         private void GiveCyclistsNewContract(IList<Cyclist> cyclists)
         {
+            var continueloop = false;
             var random = new Random();
             foreach ( var cyclist in cyclists)
             {
-                if (cyclist.Contract.YearsLeft < 1)
+                if (cyclist.Contract.YearsLeft < 1 && cyclist.TeamId >= 0)
                 {
+                    continueloop = true;
                     if (cyclist.SelectedForRace || cyclist.Age < 30)
                     {
                         cyclist.Contract.YearsLeft = random.Next(1, 5);
                         _cyclistService.saveCyclist(cyclist);
                     }
                 }
+            }
+            if (continueloop)
+            {
+                _cyclistService.ReleaseCyclistsWithNoContract();
             }
         }
     }

@@ -152,5 +152,14 @@ namespace Racing2021.Services
         {
             return Messages();
         }
+        public void ReleaseCyclistsWithNoContract()
+        {
+            var cyclists = GetCyclists().Where(c => c.Contract.YearsLeft < 1 && c.TeamId >=0);
+            foreach (var cyclist in cyclists)
+            {
+                cyclist.TeamId = -1;
+                AddMessage(saveCyclist(cyclist).Name + " released.");
+            }
+        }
     }
 }

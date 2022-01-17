@@ -12,5 +12,6 @@ namespace Racing2021.Services.Interfaces
         IList<Cyclist> UpdateCyclistsEndOfSeason(int playerTeamId);
         IList<Cyclist> DeleteCyclist(int cyclistId);
         IList<string> GetAllMessages();
+        void ReleaseCyclistsWithNoContract();
     }
 }
