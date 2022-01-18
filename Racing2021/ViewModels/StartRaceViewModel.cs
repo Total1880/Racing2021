@@ -142,6 +142,7 @@ namespace Racing2021.ViewModels
             CyclistsWithStats = null;
 
             MessageBox.Show(string.Join(Environment.NewLine, _seasonService.Messages()));
+            Divisions = new ObservableCollection<Division>(_divisionService.GetDivisions());
         }
 
         private void CreateDivisions()
@@ -150,6 +151,7 @@ namespace Racing2021.ViewModels
 
             newDivisions.Add(new Division(0, 1, "Division 1", 9000));
             newDivisions.Add(new Division(1, 2, "Division 2", 8000));
+            newDivisions.Add(new Division(2, 3, "Division 3", 7000));
 
             newDivisions[0].TeamsId.Add(0);
             newDivisions[0].TeamsId.Add(1);
@@ -157,6 +159,9 @@ namespace Racing2021.ViewModels
             newDivisions[1].TeamsId.Add(3);
             newDivisions[1].TeamsId.Add(4);
             newDivisions[1].TeamsId.Add(5);
+            newDivisions[2].TeamsId.Add(6);
+            newDivisions[2].TeamsId.Add(7);
+            newDivisions[2].TeamsId.Add(8);
 
             _divisionService.CreateDivisions(newDivisions);
         }
@@ -189,6 +194,13 @@ namespace Racing2021.ViewModels
             }
 
             _cyclistService.CreateCyclists(cyclists);
+
+            for (int i = 0; i < 3; i++)
+            {
+                _cyclistService.CreateYoungCyclist(6);
+                _cyclistService.CreateYoungCyclist(7);
+                _cyclistService.CreateYoungCyclist(8);
+            }
         }
 
         private void CreateTeams()
@@ -202,6 +214,9 @@ namespace Racing2021.ViewModels
             teams.Add(new Team(3, "Team D", TextureNames.CyclistRoseGrey, 7000));
             teams.Add(new Team(4, "Team E", TextureNames.CyclistYellow, 7000));
             teams.Add(new Team(5, "Team F", TextureNames.CyclistBlackYellow, 7000));
+            teams.Add(new Team(6, "Team G", TextureNames.CyclistRoseGrey, 6000));
+            teams.Add(new Team(7, "Team H", TextureNames.CyclistYellow, 6000));
+            teams.Add(new Team(8, "Team I", TextureNames.CyclistBlackYellow, 6000));
 
             teams.Where(t => t.Id == savegame.PlayerTeamId).FirstOrDefault().ManagerId = savegame.PlayerManager.Id;
 

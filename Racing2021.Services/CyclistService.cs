@@ -34,6 +34,10 @@ namespace Racing2021.Services
             {
                 TeamId = teamId,
                 Age = 16,
+                CyclistSpeedHorizontalPotential = RandomFloat(50f, 100f),
+                CyclistSpeedCobblestonesPotential = RandomFloat(50f, 100f),
+                CyclistSpeedDownPotential = RandomFloat(50f, 100f),
+                CyclistSpeedUpPotential = RandomFloat(50f, 100f),
                 CyclistSpeedHorizontal = 50f,
                 CyclistSpeedCobblestones = 50f,
                 CyclistSpeedDown = 50f,
