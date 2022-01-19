@@ -18,6 +18,7 @@ namespace Racing2021.Services
         {
             _teamService = teamService;
             _cyclistService = cyclistService;
+            AtEndOfSeason(Configuration.UserTeamId);
         }
         public void AtEndOfSeason(int playerTeamId)
         {
@@ -27,6 +28,7 @@ namespace Racing2021.Services
             SelectStarterCyclists(cyclists, teams, playerTeamId);
             GiveCyclistsNewContract(cyclists.Where(c => c.TeamId >= 0).ToList());
             AddYoungCyclists(cyclists.Where(c => c.TeamId >= 0).ToList(), teams, playerTeamId);
+            SelectStarterCyclists(cyclists, teams, playerTeamId);
         }
 
         public IList<string> GetAllMessages()
@@ -85,11 +87,6 @@ namespace Racing2021.Services
                 {
                     cyclist.SelectedForRace = cyclistsThatShouldRace.Any(c => c.Id == cyclist.Id);
                     _cyclistService.saveCyclist(cyclist);
-                }
-
-                if (cyclists.Where(c => c.TeamId == team.Id && c.SelectedForRace).Count() < Configuration.NumberOfCyclistsPerTeamForRace)
-                {
-                    throw new Exception("Den AI heeft te weinig renners geselecteerd");
                 }
             }
         }

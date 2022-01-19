@@ -9,7 +9,7 @@ namespace OlavFramework
     public static class Configuration
     {
         public static int UserTeamId = 4;
-        public static int NumberOfCyclistsInTeam = 3;
-        public static int NumberOfCyclistsPerTeamForRace = 2;
+        public static int NumberOfCyclistsInTeam = 8;
+        public static int NumberOfCyclistsPerTeamForRace = 6;
     }
 }
