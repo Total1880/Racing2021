@@ -303,7 +303,7 @@ namespace Racing2021.ViewModels
 
         private void RefreshRankings()
         {
-            CyclistRanking = new ObservableCollection<CyclistInRanking>(_seasonService.CyclistRanking(SelectedDivision.Id));
+            CyclistRanking = new ObservableCollection<CyclistInRanking>(_seasonService.CyclistRanking(SelectedDivision.Id).Where(c => c.TotalTime > TimeSpan.Zero));
             TeamRanking = new ObservableCollection<TeamInRanking>(_seasonService.TeamRanking(SelectedDivision.Id));
         }
     }
