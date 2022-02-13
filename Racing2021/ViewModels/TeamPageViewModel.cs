@@ -23,14 +23,18 @@ namespace Racing2021.ViewModels
         private RelayCommand _addYoungCyclistCommand;
         private RelayCommand _addCyclistToRaceCommand;
         private RelayCommand _removeCyclistFromRaceCommand;
+        private RelayCommand _investInYouthAccomodation;
+        private RelayCommand _investInTrainingAccomodation;
         private Cyclist _selectedCyclist;
         private Cyclist _selectedCyclistForRace;
 
         public RelayCommand AddYoungCyclistCommand => _addYoungCyclistCommand ??= new RelayCommand(AddYoungCyclist);
         public RelayCommand AddCyclistToRaceCommand => _addCyclistToRaceCommand ??= new RelayCommand(AddCyclistToRace);
-
         public RelayCommand RemoveCyclistFromRaceCommand => _removeCyclistFromRaceCommand ??= new RelayCommand(RemoveCyclistFromRace);
+        public RelayCommand InvestInYouthAccomodationCommand => _investInYouthAccomodation ??= new RelayCommand(InvestInYouthAccomodation);
+        public RelayCommand InvestInTrainingAccomodationCommand => _investInTrainingAccomodation ??= new RelayCommand(InvestInTrainingAccomodation);
 
+        #region properties
         public Team Team
         {
             get => _team;
@@ -79,7 +83,7 @@ namespace Racing2021.ViewModels
                 RaisePropertyChanged();
             }
         }
-
+        #endregion
         public TeamPageViewModel(ISeasonService seasonService, ITeamService teamService, ICyclistService cyclistService)
         {
             _seasonService = seasonService;
@@ -149,6 +153,18 @@ namespace Racing2021.ViewModels
             SelectedCyclistForRace = null;
 
             InitializeTeamPage();
+        }
+
+        private void InvestInYouthAccomodation()
+        {
+            _teamService.InvestInYouthAccomodation(Team);
+            _teamService.SaveTeam(Team);
+        }
+
+        private void InvestInTrainingAccomodation()
+        {
+            _teamService.InvestInTrainingAccomodation(Team);
+            _teamService.SaveTeam(Team);
         }
     }
 }

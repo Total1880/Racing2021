@@ -8,11 +8,15 @@
         private int _money;
         private int _managerId;
         private int _reputation;
+        private int _youthAccomodation;
+        private int _trainingAccomodation;
         public int Id { get => _id; set { _id = value; } }
         public string Name { get => _name; set { _name = value; } }
         public string JerseyName { get => _jerseyName; set { _jerseyName = value; } }
         public int Money { get => _money; set { _money = value; } }
         public int ManagerId { get => _managerId; set { _managerId = value; } }
+        public int YouthAccomodation { get => _youthAccomodation; set { _youthAccomodation = value; } }
+        public int TrainingAccomodation { get => _trainingAccomodation; set => _trainingAccomodation = value;}
         public int Reputation 
         { 
             get => _reputation; 
@@ -41,6 +45,8 @@
             Name = name;
             JerseyName = jerseyName;
             Reputation = reputation;
+            TrainingAccomodation = 0;
+            YouthAccomodation= 0;
         }
     }
 }

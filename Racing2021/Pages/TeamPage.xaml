@@ -10,6 +10,14 @@
       DataContext="{Binding TeamPage, Source={StaticResource Locator}}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="150" MaxHeight="300"/>
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Team: " Width="150"/>
@@ -20,6 +28,22 @@
                 <Label Content="{Binding Team.Money}"/>
                 <Label Content="EUR"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Invest In Youth Accomodations" Command="{Binding InvestInYouthAccomodationCommand}"/>
+                <Button Content="Invest In Training Accomodations" Command="{Binding InvestInTrainingAccomodationCommand}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Youth Rating: " Width="150"/>
+                <Label Content="{Binding Team.YouthAccomodation}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Training Rating: " Width="150"/>
+                <Label Content="{Binding Team.TrainingAccomodation}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row ="1" Grid.ColumnSpan="2">
             <Label Content="Cyclists: " Width="150"/>
             <StackPanel Orientation="Horizontal">
                 <ListView ItemsSource="{Binding Cyclists}"

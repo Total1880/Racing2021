@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OlavFramework;
+using Racing2021.Models.Enums;
 
 namespace Racing2021.Services
 {
@@ -13,11 +14,14 @@ namespace Racing2021.Services
     {
         private ITeamService _teamService;
         private ICyclistService _cyclistService;
+        private IManagerService _managerService;
 
-        public AIManagerService(ITeamService teamService, ICyclistService cyclistService)
+        public AIManagerService(ITeamService teamService, ICyclistService cyclistService, IManagerService managerService)
         {
             _teamService = teamService;
             _cyclistService = cyclistService;
+            _managerService = managerService;
+            
             AtEndOfSeason(Configuration.UserTeamId);
         }
         public void AtEndOfSeason(int playerTeamId)
@@ -25,10 +29,40 @@ namespace Racing2021.Services
             var teams = _teamService.GetTeams();
             var cyclists = _cyclistService.GetCyclists();
 
+            UpdateAccomodations(teams);
             SelectStarterCyclists(cyclists, teams, playerTeamId);
             GiveCyclistsNewContract(cyclists.Where(c => c.TeamId >= 0).ToList());
             AddYoungCyclists(cyclists.Where(c => c.TeamId >= 0).ToList(), teams, playerTeamId);
             SelectStarterCyclists(cyclists, teams, playerTeamId);
+        }
+
+        private void UpdateAccomodations(IList<Team> teams)
+        {
+            var managers = _managerService.GetManagers();
+            foreach (var team in teams)
+            {
+                if (team.Id == Configuration.UserTeamId)
+                    continue;
+
+                var personalityManager = managers.Where(m => m.Id == team.ManagerId).FirstOrDefault().ManagerPersonality;
+                if (personalityManager == ManagerPersonality.TrainingFocused || team.YouthAccomodation - team.TrainingAccomodation > 4)
+                {
+                    _teamService.InvestInTrainingAccomodation(team);
+                }
+                else if(personalityManager == ManagerPersonality.YouthFocused || team.TrainingAccomodation - team.YouthAccomodation > 4)
+                {
+                    _teamService.InvestInYouthAccomodation(team);
+                }
+                else
+                {
+                    throw new Exception("personality of manager is not found: " + personalityManager);
+                }
+            }
+
+            if (teams.Count > 0)
+            {
+                _teamService.CreateTeams(teams);
+            }
         }
 
         public IList<string> GetAllMessages()
@@ -90,11 +124,12 @@ namespace Racing2021.Services
                 }
             }
         }
+
         private void GiveCyclistsNewContract(IList<Cyclist> cyclists)
         {
             var continueloop = false;
             var random = new Random();
-            foreach ( var cyclist in cyclists)
+            foreach (var cyclist in cyclists)
             {
                 if (cyclist.Contract.YearsLeft < 1 && cyclist.TeamId >= 0)
                 {

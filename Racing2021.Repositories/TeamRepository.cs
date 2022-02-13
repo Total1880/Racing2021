@@ -32,6 +32,8 @@ namespace Racing2021.Repositories
                     writer.WriteAttributeString(nameof(Team.Money), team.Money.ToString());
                     writer.WriteAttributeString(nameof(Team.ManagerId), team.ManagerId.ToString());
                     writer.WriteAttributeString(nameof(Team.Reputation), team.Reputation.ToString());
+                    writer.WriteAttributeString(nameof(Team.TrainingAccomodation), team.TrainingAccomodation.ToString());
+                    writer.WriteAttributeString(nameof(Team.YouthAccomodation), team.YouthAccomodation.ToString());
                     writer.WriteEndElement();
                 }
 
@@ -79,6 +81,8 @@ namespace Racing2021.Repositories
                         readTeam.Money = int.Parse(xmlReader.GetAttribute(nameof(Team.Money)));
                         readTeam.ManagerId = int.Parse(xmlReader.GetAttribute(nameof(Team.ManagerId)));
                         readTeam.Reputation = int.Parse(xmlReader.GetAttribute(nameof(Team.Reputation)));
+                        readTeam.TrainingAccomodation = int.Parse(xmlReader.GetAttribute(nameof(Team.TrainingAccomodation)));
+                        readTeam.YouthAccomodation = int.Parse(xmlReader.GetAttribute(nameof(Team.YouthAccomodation)));
 
                         TeamList.Add(readTeam);
                     } while (xmlReader.ReadToNextSibling(nameof(Team)));

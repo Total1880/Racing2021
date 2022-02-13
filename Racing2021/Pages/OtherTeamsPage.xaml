@@ -10,6 +10,14 @@
       DataContext="{Binding OtherTeamPage, Source={StaticResource Locator}}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="150" MaxHeight="300"/>
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Team:"
@@ -37,6 +45,18 @@
                        Width="150"/>
                 <Label Content="{Binding SelectedTeam.Reputation}"/>
             </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Youth Rating: " Width="150"/>
+                <Label Content="{Binding SelectedTeam.YouthAccomodation}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Training Rating: " Width="150"/>
+                <Label Content="{Binding SelectedTeam.TrainingAccomodation}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
             <ListView ItemsSource="{Binding Cyclists}">
                 <ListView.View>
                     <GridView>

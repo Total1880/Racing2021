@@ -1,4 +1,6 @@
 ﻿using Racing2021.Models;
+using Racing2021.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -31,6 +33,7 @@ namespace Racing2021.Repositories
                     writer.WriteAttributeString(nameof(Manager.Name), manager.Name.ToString());
                     writer.WriteAttributeString(nameof(Manager.Age), manager.Age.ToString());
                     writer.WriteAttributeString(nameof(Manager.Nationality), manager.Nationality.ToString());
+                    writer.WriteAttributeString(nameof(Manager.ManagerPersonality), manager.ManagerPersonality.ToString());
                     writer.WriteEndElement();
                 }
 
@@ -77,6 +80,8 @@ namespace Racing2021.Repositories
                         readManager.Name = xmlReader.GetAttribute(nameof(Manager.Name));
                         readManager.Age = int.Parse(xmlReader.GetAttribute(nameof(Manager.Age)));
                         readManager.Nationality = xmlReader.GetAttribute(nameof(Manager.Nationality));
+                        var test = (ManagerPersonality)Enum.Parse(typeof(ManagerPersonality), xmlReader.GetAttribute(nameof(Manager.ManagerPersonality)));
+                        readManager.ManagerPersonality = (ManagerPersonality)Enum.Parse(typeof(ManagerPersonality), xmlReader.GetAttribute(nameof(Manager.ManagerPersonality)));
 
                         ManagerList.Add(readManager);
                     } while (xmlReader.ReadToNextSibling(nameof(Manager)));

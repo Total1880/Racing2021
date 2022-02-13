@@ -7,5 +7,8 @@ namespace Racing2021.Services.Interfaces
     {
         IList<Team> GetTeams();
         IList<Team> CreateTeams(IList<Team> teams);
+        Team SaveTeam(Team team);
+        void InvestInYouthAccomodation(Team team);
+        void InvestInTrainingAccomodation(Team team);
     }
 }

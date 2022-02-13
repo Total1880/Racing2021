@@ -29,15 +29,16 @@ namespace Racing2021.Services
         public Cyclist CreateYoungCyclist(int teamId)
         {
             var cyclists = GetCyclists();
+            var teamYouthAccomodation = _teamService.GetTeams().Where(t => t.Id == teamId).FirstOrDefault().YouthAccomodation;
             var randomNationality = _dataService.GetRandomNationality();
             Cyclist cyclist = new Cyclist
             {
                 TeamId = teamId,
                 Age = 16,
-                CyclistSpeedHorizontalPotential = RandomFloat(50f, 100f),
-                CyclistSpeedCobblestonesPotential = RandomFloat(50f, 100f),
-                CyclistSpeedDownPotential = RandomFloat(50f, 100f),
-                CyclistSpeedUpPotential = RandomFloat(50f, 100f),
+                CyclistSpeedHorizontalPotential = RandomFloat(50f, 100f) + teamYouthAccomodation,
+                CyclistSpeedCobblestonesPotential = RandomFloat(50f, 100f) + teamYouthAccomodation,
+                CyclistSpeedDownPotential = RandomFloat(50f, 100f) + teamYouthAccomodation,
+                CyclistSpeedUpPotential = RandomFloat(50f, 100f) + teamYouthAccomodation,
                 CyclistSpeedHorizontal = 50f,
                 CyclistSpeedCobblestones = 50f,
                 CyclistSpeedDown = 50f,
@@ -80,6 +81,7 @@ namespace Racing2021.Services
         public IList<Cyclist> UpdateCyclistsEndOfSeason(int playerTeamId)
         {
             var cyclists = GetCyclists();
+            var teams = _teamService.GetTeams();
 
             foreach (var cyclist in cyclists)
             {
@@ -134,6 +136,13 @@ namespace Racing2021.Services
                     }
                 }
 
+                //Team training bonus
+                var teamTrainingAccomodation = teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().TrainingAccomodation;
+                cyclist.CyclistSpeedDown += teamTrainingAccomodation;
+                cyclist.CyclistSpeedHorizontal += teamTrainingAccomodation;
+                cyclist.CyclistSpeedCobblestones += teamTrainingAccomodation;
+                cyclist.CyclistSpeedUp += teamTrainingAccomodation;
+
                 saveCyclist(cyclist);
             }
 
@@ -158,7 +167,7 @@ namespace Racing2021.Services
         }
         public void ReleaseCyclistsWithNoContract()
         {
-            var cyclists = GetCyclists().Where(c => c.Contract.YearsLeft < 1 && c.TeamId >=0);
+            var cyclists = GetCyclists().Where(c => c.Contract.YearsLeft < 1 && c.TeamId >= 0);
             foreach (var cyclist in cyclists)
             {
                 cyclist.TeamId = -1;

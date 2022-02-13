@@ -1,4 +1,5 @@
 ﻿using Racing2021.Models;
+using Racing2021.Models.Enums;
 using Racing2021.Repositories;
 using Racing2021.Services.Interfaces;
 using System;
@@ -33,13 +34,15 @@ namespace Racing2021.Services
             var managers = GetManagers();
             var nationality = _dataService.GetRandomNationality();
             var r = new Random();
+            Array personalityValues = Enum.GetValues(typeof(ManagerPersonality));
 
             var manager = new Manager
             {
                 Age = r.Next(40, 60),
                 Name = _dataService.GetRandomFirstName(nationality) + " " + _dataService.GetRandomLastName(nationality),
                 TeamId = teamId,
-                Nationality = nationality
+                Nationality = nationality,
+                ManagerPersonality = (ManagerPersonality)r.Next(personalityValues.Length)
             };
 
             if (managers.Count() == 0)
@@ -50,6 +53,8 @@ namespace Racing2021.Services
             {
                 manager.Id = managers.Max(m => m.Id) + 1;
             }
+
+            
 
             return CreateManager(manager);
         }
