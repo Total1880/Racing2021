@@ -10,5 +10,6 @@ namespace OlavFramework
         public static int NumberOfCyclistsInTeam = 8;
         public static int NumberOfCyclistsPerTeamForRace = 6;
         public static int BasePriceAccomodation = 1000;
+        public static int NumberOfCyclistCountingForTeamRanking = 2;
     }
 }

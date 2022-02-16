@@ -135,6 +135,9 @@ namespace Racing2021.Services
 
         private void UpdateCyclistRankingAfterRace()
         {
+            var teamsToCheck = new Dictionary<int, int>();
+
+
             foreach (var cyclist in _raceService.FinishedCyclists())
             {
                 if (!_cyclistRanking.Any(c => c.Id == cyclist.Id))
@@ -143,7 +146,15 @@ namespace Racing2021.Services
                 }
                 _cyclistRanking.Where(c => c.Id == cyclist.Id).FirstOrDefault().TotalTime += cyclist.TotalTime;
 
-                UpdateTeamRankingAfterRace(cyclist.Team.Id, cyclist.TotalTime);
+                if (!teamsToCheck.ContainsKey(cyclist.Team.Id))
+                {
+                    teamsToCheck.Add(cyclist.Team.Id, 0);
+                }
+                if (teamsToCheck[cyclist.Team.Id] < Configuration.NumberOfCyclistCountingForTeamRanking)
+                {
+                    teamsToCheck[cyclist.Team.Id]++;
+                    UpdateTeamRankingAfterRace(cyclist.Team.Id, cyclist.TotalTime);
+                }
             }
 
             _cyclistRanking = _cyclistRanking.OrderBy(c => c.TotalTime).ToList();
@@ -152,9 +163,7 @@ namespace Racing2021.Services
         private void UpdateTeamRankingAfterRace(int teamId, TimeSpan time)
         {
             if (!_teamRanking.Any(t => t.Id == teamId))
-            {
                 throw new Exception(teamId + " teamid does not exist");
-            }
 
             _teamRanking.Where(t => t.Id == teamId).FirstOrDefault().TotalTime += time;
 
