@@ -163,6 +163,8 @@ namespace Racing2021.Services
 
         private void UpdateTeamFinanceAfterRace(int firstPlaceTeamId, int raceId)
         {
+            _teams = _teamService.GetTeams();
+
             _teams.Where(t => t.Id == firstPlaceTeamId).FirstOrDefault().Money += _tracks.FirstOrDefault(tr => tr.Id == raceId).FirstPlacePrizeMoney / _divisions.FirstOrDefault(d => d.Id == _saveGame.NextDivisionId).Tier;
             _teams = _teamService.CreateTeams(_teams);
         }
@@ -224,6 +226,8 @@ namespace Racing2021.Services
             var changedTeams = new Dictionary<int, int>();
             var baseReputation = 100;
 
+            _teams = _teamService.GetTeams();
+
             foreach (var division in _divisions)
             {
                 if (division.Tier > 1)
@@ -273,27 +277,10 @@ namespace Racing2021.Services
             return _saveGame.PlayerTeamId;
         }
 
-        private void Save()
-        {
-            foreach (var cyclist in _cyclists)
-            {
-                _cyclistService.saveCyclist(cyclist);
-            }
-            _teams = _teamService.CreateTeams(_teams);
-            _divisions = _divisionService.CreateDivisions(_divisions);
-        }
-
-        private void DeleteCyclists()
-        {
-            foreach (var cyclist in _cyclistsToDelete)
-            {
-                _cyclists.Remove(cyclist);
-            }
-        }
-
         private void UpdateTeamReputation()
         {
             var baseReputation = 100;
+            _teams = _teamService.GetTeams();
 
             foreach (var division in _divisions)
             {

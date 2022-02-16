@@ -26,18 +26,16 @@ namespace Racing2021.Services
         }
         public void AtEndOfSeason(int playerTeamId)
         {
-            var teams = _teamService.GetTeams();
-            var cyclists = _cyclistService.GetCyclists();
-
-            UpdateAccomodations(teams);
-            SelectStarterCyclists(cyclists, teams, playerTeamId);
-            GiveCyclistsNewContract(cyclists.Where(c => c.TeamId >= 0).ToList());
-            AddYoungCyclists(cyclists.Where(c => c.TeamId >= 0).ToList(), teams, playerTeamId);
-            SelectStarterCyclists(cyclists, teams, playerTeamId);
+            UpdateAccomodations();
+            SelectStarterCyclists();
+            GiveCyclistsNewContract();
+            AddYoungCyclists();
+            SelectStarterCyclists();
         }
 
-        private void UpdateAccomodations(IList<Team> teams)
+        private void UpdateAccomodations()
         {
+            var teams = _teamService.GetTeams();
             var managers = _managerService.GetManagers();
             foreach (var team in teams)
             {
@@ -70,11 +68,14 @@ namespace Racing2021.Services
             return Messages();
         }
 
-        private void AddYoungCyclists(IList<Cyclist> cyclists, IList<Team> teams, int playerTeamId)
+        private void AddYoungCyclists()
         {
+            var teams = _teamService.GetTeams();
+            var cyclists = _cyclistService.GetCyclists().Where(c => c.TeamId >= 0).ToList();
+
             foreach (var team in teams)
             {
-                if (team.Id == playerTeamId)
+                if (team.Id == Configuration.UserTeamId)
                     continue;
 
                 while (cyclists.Where(c => c.TeamId == team.Id).Count() < Configuration.NumberOfCyclistsInTeam)
@@ -90,11 +91,15 @@ namespace Racing2021.Services
             }
         }
 
-        private void SelectStarterCyclists(IList<Cyclist> cyclists, IList<Team> teams, int playerTeamId)
+        private void SelectStarterCyclists()
         {
+            var teams = _teamService.GetTeams();
+            var cyclists = _cyclistService.GetCyclists(); ;
+
+
             foreach (var team in teams)
             {
-                if (team.Id == playerTeamId)
+                if (team.Id == Configuration.UserTeamId)
                     continue;
 
                 var cyclistsInTeam = cyclists.Where(c => c.TeamId == team.Id).ToList();
@@ -125,8 +130,10 @@ namespace Racing2021.Services
             }
         }
 
-        private void GiveCyclistsNewContract(IList<Cyclist> cyclists)
+        private void GiveCyclistsNewContract()
         {
+            var cyclists = _cyclistService.GetCyclists().Where(c => c.TeamId >= 0).ToList();
+
             var continueloop = false;
             var random = new Random();
             foreach (var cyclist in cyclists)

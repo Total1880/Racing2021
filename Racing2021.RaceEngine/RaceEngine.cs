@@ -133,6 +133,13 @@ namespace Racing2021.RaceEngine
             {
                 Exit();
             }
+            else if (_finishedCyclists.Count >= _cyclists.Count)
+            {
+                if (DateTime.Now.AddSeconds(5) > _finishedCyclists.Last().FinishTime)
+                {
+                    Exit();
+                }
+            }
 
             // TODO: Add your update logic here
             var kstate = Keyboard.GetState();

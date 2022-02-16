@@ -158,13 +158,13 @@ namespace Racing2021.ViewModels
         private void InvestInYouthAccomodation()
         {
             _teamService.InvestInYouthAccomodation(Team);
-            _teamService.SaveTeam(Team);
+            Team = _teamService.SaveTeam(Team);
         }
 
         private void InvestInTrainingAccomodation()
         {
             _teamService.InvestInTrainingAccomodation(Team);
-            _teamService.SaveTeam(Team);
+            Team = _teamService.SaveTeam(Team);
         }
     }
 }

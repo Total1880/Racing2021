@@ -64,6 +64,10 @@ namespace Racing2021.Services
         public Cyclist saveCyclist(Cyclist cyclist)
         {
             var cyclists = _cyclistRepository.Get();
+            if (cyclist.Age > 30)
+            {
+                //voor te debuggen
+            }
 
             if (cyclists.Any(c => c.Id == cyclist.Id))
             {
@@ -137,11 +141,14 @@ namespace Racing2021.Services
                 }
 
                 //Team training bonus
-                var teamTrainingAccomodation = teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().TrainingAccomodation;
-                cyclist.CyclistSpeedDown += teamTrainingAccomodation;
-                cyclist.CyclistSpeedHorizontal += teamTrainingAccomodation;
-                cyclist.CyclistSpeedCobblestones += teamTrainingAccomodation;
-                cyclist.CyclistSpeedUp += teamTrainingAccomodation;
+                if (cyclist.TeamId >= 0)
+                {
+                    var teamTrainingAccomodation = teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault().TrainingAccomodation;
+                    cyclist.CyclistSpeedDown += teamTrainingAccomodation;
+                    cyclist.CyclistSpeedHorizontal += teamTrainingAccomodation;
+                    cyclist.CyclistSpeedCobblestones += teamTrainingAccomodation;
+                    cyclist.CyclistSpeedUp += teamTrainingAccomodation;
+                }
 
                 saveCyclist(cyclist);
             }
