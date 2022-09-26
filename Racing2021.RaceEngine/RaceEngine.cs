@@ -299,6 +299,10 @@ namespace Racing2021.RaceEngine
 
         private void CheckSlipstream(CyclistRaceEngine cyclist)
         {
+            if (cyclist.CyclistPositionX - _cyclists.FirstOrDefault(c => c.TeamLeader == true && c.Team.Id == cyclist.Team.Id).CyclistPositionX > 40)
+            {
+                cyclist.CyclistPositionX = _cyclists.FirstOrDefault(c => c.TeamLeader == true && c.Team.Id == cyclist.Team.Id).CyclistPositionX + 40;
+            }
             if (_cyclists.Any(c => c.CyclistPositionX - cyclist.CyclistPositionX < 50 && c.CyclistPositionX - cyclist.CyclistPositionX > 0 && c.Id != cyclist.Id))
             {
                 cyclist.CyclistPositionX += 0.2f;
