@@ -13,6 +13,7 @@ namespace Racing2021.Models
         private float _cyclistSpeedCobblestonesPotential;
         private float _cyclistSpeedUpPotential;
         private float _cyclistSpeedDownPotential;
+        private bool _teamLeader;
 
         private bool _selectedForRace;
 
@@ -51,6 +52,7 @@ namespace Racing2021.Models
         public bool SelectedForRace { get => _selectedForRace; set { _selectedForRace = value; } }
         public Contract Contract { get => _contract; set { _contract = value; } }
         public float AllAttributes { get => _cyclistSpeedHorizontal + _cyclistSpeedCobblestones + _cyclistSpeedUp + _cyclistSpeedDown; }
+        public bool TeamLeader { get => _teamLeader; set { _teamLeader = value; } }
 
 
         public Cyclist()

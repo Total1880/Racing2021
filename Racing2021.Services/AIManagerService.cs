@@ -31,6 +31,7 @@ namespace Racing2021.Services
             GiveCyclistsNewContract();
             AddYoungCyclists();
             SelectStarterCyclists();
+            ChooseTeamLeaders();
         }
 
         private void UpdateAccomodations()
@@ -94,8 +95,7 @@ namespace Racing2021.Services
         private void SelectStarterCyclists()
         {
             var teams = _teamService.GetTeams();
-            var cyclists = _cyclistService.GetCyclists(); ;
-
+            var cyclists = _cyclistService.GetCyclists();
 
             foreach (var team in teams)
             {
@@ -125,6 +125,31 @@ namespace Racing2021.Services
                 foreach (var cyclist in cyclistsInTeam)
                 {
                     cyclist.SelectedForRace = cyclistsThatShouldRace.Any(c => c.Id == cyclist.Id);
+                    _cyclistService.saveCyclist(cyclist);
+                }
+            }
+        }
+
+        private void ChooseTeamLeaders()
+        {
+            var teams = _teamService.GetTeams();
+            var cyclists = _cyclistService.GetCyclists();
+
+            foreach (var team in teams)
+            {
+                //if (team.Id == Configuration.UserTeamId)
+                //    continue;
+
+                var cyclistsInTeam = cyclists.Where(c => c.TeamId == team.Id).OrderByDescending(c => c.AllAttributes).ToList();
+                foreach (var cyclist in cyclistsInTeam)
+                {
+                    if (cyclist.Id == cyclistsInTeam[0].Id)
+                    {
+                        cyclist.TeamLeader = true;
+                        _cyclistService.saveCyclist(cyclist);
+                        continue;
+                    }
+                    cyclist.TeamLeader = false;
                     _cyclistService.saveCyclist(cyclist);
                 }
             }

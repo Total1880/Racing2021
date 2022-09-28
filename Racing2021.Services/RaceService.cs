@@ -42,12 +42,10 @@ namespace Racing2021.Services
         {
             _cyclistsRaceEngine = new List<CyclistRaceEngine>();
 
-            var lastTeamOther = -1;
             foreach (var cyclist in cyclists)
             {
                 var team = teams.Where(t => t.Id == cyclist.TeamId).FirstOrDefault();
-                _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.Id, cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedCobblestones, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f), team, lastTeamOther != cyclist.TeamId));
-                lastTeamOther = cyclist.TeamId;
+                _cyclistsRaceEngine.Add(new CyclistRaceEngine(cyclist.Id, cyclist.CyclistSpeedHorizontal, cyclist.CyclistSpeedCobblestones, cyclist.CyclistSpeedUp, cyclist.CyclistSpeedDown, cyclist.Name, RandomFloat(0f, 20f), team, cyclist.TeamLeader));
             }
         }
 

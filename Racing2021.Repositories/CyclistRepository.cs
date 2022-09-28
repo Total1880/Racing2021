@@ -42,6 +42,7 @@ namespace Racing2021.Repositories
                     writer.WriteAttributeString(nameof(Cyclist.Nationality), cyclist.Nationality.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.Contract.YearsLeft), cyclist.Contract.YearsLeft.ToString());
                     writer.WriteAttributeString(nameof(Cyclist.Contract.SalaryPerYear), cyclist.Contract.SalaryPerYear.ToString());
+                    writer.WriteAttributeString(nameof(Cyclist.TeamLeader), cyclist.TeamLeader.ToString());
                     writer.WriteEndElement();
                 }
 
@@ -100,6 +101,7 @@ namespace Racing2021.Repositories
                         readCyclist.Nationality = xmlReader.GetAttribute(nameof(Cyclist.Nationality));
                         readCyclist.Contract.YearsLeft = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Contract.YearsLeft)));
                         readCyclist.Contract.SalaryPerYear = int.Parse(xmlReader.GetAttribute(nameof(Cyclist.Contract.SalaryPerYear)));
+                        readCyclist.TeamLeader = bool.Parse(xmlReader.GetAttribute(nameof(Cyclist.TeamLeader)));
 
                         CyclistList.Add(readCyclist);
                     } while (xmlReader.ReadToNextSibling(nameof(Cyclist)));
