@@ -129,7 +129,7 @@ namespace Racing2021.RaceEngine
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (_finishedCyclists.Count >= _cyclists.Count && !_playerWatches)
+            if (_finishedCyclists.Count >= _cyclists.Count /*&& !_playerWatches*/)
             {
                 Exit();
             }
