@@ -25,6 +25,7 @@ namespace Racing2021
             builder.RegisterType<OtherTeamPageViewModel>().SingleInstance();
             builder.RegisterType<SearchCyclistPageViewModel>().SingleInstance();
             builder.RegisterType<CyclistPageViewModel>().SingleInstance();
+            builder.RegisterType<InitializeRacePageViewModel>().SingleInstance();
 
             _container = builder.Build();
         }
@@ -40,5 +41,6 @@ namespace Racing2021
         public OtherTeamPageViewModel OtherTeamPage => _container.Resolve<OtherTeamPageViewModel>();
         public SearchCyclistPageViewModel SearchCyclistPage => _container.Resolve<SearchCyclistPageViewModel>();
         public CyclistPageViewModel CyclistPage => _container.Resolve<CyclistPageViewModel>();
+        public InitializeRacePageViewModel InitializeRacePage => _container.Resolve<InitializeRacePageViewModel>();
     }
 }

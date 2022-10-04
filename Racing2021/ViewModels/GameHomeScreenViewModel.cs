@@ -1,5 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using Racing2021.Messages;
+using Racing2021.Messages.WindowOpener;
 using Racing2021.Models;
 using Racing2021.Models.RaceEngine;
 using Racing2021.Services.Interfaces;
@@ -104,12 +107,18 @@ namespace Racing2021.ViewModels
             ShowNextRaceButton = Visibility.Visible;
             ShowEndSeasonButton = Visibility.Collapsed;
             Divisions = new ObservableCollection<Division>(_divisionService.GetDivisions());
+            Messenger.Default.Register<RacesAreFinishedMessage>(this, AfterRace);
+
         }
 
         private void StartRace()
         {
-            _seasonService.NextRace();
+            MessengerInstance.Send(new OpenInitializeRacePageMessage());
+            MessengerInstance.Send(new PassTroughSeasonServiceMessage(_seasonService));
+        }
 
+        private void AfterRace(RacesAreFinishedMessage obj)
+        {
             var messages = _seasonService.Messages();
             if (messages != null && messages.Count > 0)
             {
