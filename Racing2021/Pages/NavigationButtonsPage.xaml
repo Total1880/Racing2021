@@ -22,7 +22,7 @@
             <Button
                 Content="Start Race"
                 Width="100"
-                Command="{Binding OpenStartRacePageCommand}"/>
+                Command="{Binding OpenGameHomeScreenPageCommand}"/>
             <Button 
                 Content="Player Team"
                 Width="100"

@@ -3,11 +3,11 @@
 namespace Racing2021.Pages
 {
     /// <summary>
-    /// Interaction logic for StartRacePage.xaml
+    /// Interaction logic for GameHomeScreenPage.xaml
     /// </summary>
-    public partial class StartRacePage : Page
+    public partial class GameHomeScreenPage : Page
     {
-        public StartRacePage()
+        public GameHomeScreenPage()
         {
             InitializeComponent();
         }

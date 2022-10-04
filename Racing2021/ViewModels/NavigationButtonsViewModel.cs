@@ -13,14 +13,14 @@ namespace Racing2021.ViewModels
     {
         private RelayCommand _openEditorHomePageCommand;
         private RelayCommand _openHomePageCommand;
-        private RelayCommand _openStartRacePageCommand;
+        private RelayCommand _openGameHomeScreenPageCommand;
         private RelayCommand _openTeamPageCommand;
         private RelayCommand _openOtherTeamPageCommand;
         private RelayCommand _openSearchCyclistPageCommand;
 
         public RelayCommand OpenEditorHomePageCommand => _openEditorHomePageCommand ??= new RelayCommand(OpenEditorHomePage);
         public RelayCommand OpenHomePageCommand => _openHomePageCommand ??= new RelayCommand(OpenHomePage);
-        public RelayCommand OpenStartRacePageCommand => _openStartRacePageCommand ??= new RelayCommand(OpenStartRacePage);
+        public RelayCommand OpenGameHomeScreenPageCommand => _openGameHomeScreenPageCommand ??= new RelayCommand(OpenGameHomeScreenPage);
 
         public RelayCommand OpenTeamPageCommand => _openTeamPageCommand ??= new RelayCommand(OpenTeamPage);
         public RelayCommand OpenOtherTeamPageCommand => _openOtherTeamPageCommand ??= new RelayCommand(OpenOtherTeamPage);
@@ -36,9 +36,9 @@ namespace Racing2021.ViewModels
             MessengerInstance.Send(new OpenHomePageMessage());
         }
 
-        private void OpenStartRacePage()
+        private void OpenGameHomeScreenPage()
         {
-            MessengerInstance.Send(new OpenStartRacePageMessage());
+            MessengerInstance.Send(new OpenGameHomeScreenPageMessage());
         }
 
         private void OpenTeamPage()

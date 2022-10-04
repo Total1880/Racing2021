@@ -13,7 +13,7 @@
         <StackPanel>
             <Button 
                 Content="Go to racepage" 
-                Command="{Binding OpenStartRacePageCommand}"/>
+                Command="{Binding OpenGameHomeScreenPageCommand}"/>
             <Button 
                 Content="Editor" 
                 Command="{Binding OpenEditorHomePageCommand}"/>

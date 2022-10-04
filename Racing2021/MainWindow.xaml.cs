@@ -16,7 +16,7 @@ namespace Racing2021
         private EditorTracksPage _editorTracksPage;
         private EditorTeamsPage _editorTeamsPage;
         private HomePage _homePage;
-        private StartRacePage _startRacePage;
+        private GameHomeScreenPage _GameHomeScreenPage;
         private NavigationButtonsPage _navigationButtonsPage;
         private TeamPage _teamPage;
         private OtherTeamsPage _otherTeamPage;
@@ -27,7 +27,7 @@ namespace Racing2021
         public EditorHomePage EditorHomePage => _editorHomePage ??= new EditorHomePage();
         public EditorTracksPage EditorTracksPage => _editorTracksPage ??= new EditorTracksPage();
         public EditorTeamsPage EditorTeamsPage => _editorTeamsPage ??= new EditorTeamsPage();
-        public StartRacePage StartRacePage => _startRacePage ??= new StartRacePage();
+        public GameHomeScreenPage GameHomeScreenPage => _GameHomeScreenPage ??= new GameHomeScreenPage();
         public HomePage HomePage => _homePage ??= new HomePage();
         public NavigationButtonsPage NavigationButtonsPage => _navigationButtonsPage ??= new NavigationButtonsPage();
         public TeamPage TeamPage => _teamPage ??= new TeamPage();
@@ -43,7 +43,7 @@ namespace Racing2021
             Messenger.Default.Register<OpenEditorHomePageMessage>(this, OpenEditorHomePage);
             Messenger.Default.Register<OpenEditorTracksPageMessage>(this, OpenEditorTracksPage);
             Messenger.Default.Register<OpenEditorTeamsPageMessage>(this, OpenEditorTeamsPage);
-            Messenger.Default.Register<OpenStartRacePageMessage>(this, OpenStartRacePage);
+            Messenger.Default.Register<OpenGameHomeScreenPageMessage>(this, OpenGameHomeScreenPage);
             Messenger.Default.Register<OpenHomePageMessage>(this, OpenHomePage);
             Messenger.Default.Register<OpenTeamPageMessage>(this, OpenTeamPage);
             Messenger.Default.Register<OpenOtherTeamPageMessage>(this, OpenOtherTeamPage);
@@ -72,9 +72,9 @@ namespace Racing2021
             MainFrame.NavigationService.Navigate(EditorTeamsPage);
         }
 
-        private void OpenStartRacePage(OpenStartRacePageMessage obj)
+        private void OpenGameHomeScreenPage(OpenGameHomeScreenPageMessage obj)
         {
-            MainFrame.NavigationService.Navigate(StartRacePage);
+            MainFrame.NavigationService.Navigate(GameHomeScreenPage);
             NavigationFrame.NavigationService.Navigate(NavigationButtonsPage);
         }
 

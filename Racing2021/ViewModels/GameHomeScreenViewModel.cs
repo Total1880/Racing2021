@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace Racing2021.ViewModels
 {
-    public class StartRaceViewModel : ViewModelBase
+    public class GameHomeScreenViewModel : ViewModelBase
     {
         private ICyclistService _cyclistService;
         private ITrackService _trackService;
@@ -80,7 +80,7 @@ namespace Racing2021.ViewModels
             }
         }
 
-        public StartRaceViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService, IDivisionService divisionService, IManagerService managerService)
+        public GameHomeScreenViewModel(ICyclistService cyclistService, ITrackService trackService, ISeasonService seasonService, ITeamService teamService, IDivisionService divisionService, IManagerService managerService)
         {
             _cyclistService = cyclistService;
             _trackService = trackService;
