@@ -20,15 +20,27 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.RowSpan="2">
             <ListView 
-            ItemsSource="{Binding CyclistRanking}"
+            ItemsSource="{Binding Cyclists}"
             Height="400">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding Name}">
                             <GridViewColumnHeader Content="Name"/>
                         </GridViewColumn>
-                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding ShowTime}">
-                            <GridViewColumnHeader Content="Time"/>
+                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding Age}">
+                            <GridViewColumnHeader Content="Age"/>
+                        </GridViewColumn>
+                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedHorizontal}">
+                            <GridViewColumnHeader Content="Hor"/>
+                        </GridViewColumn>
+                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedDown}">
+                            <GridViewColumnHeader Content="Dwn"/>
+                        </GridViewColumn>
+                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedUp}">
+                            <GridViewColumnHeader Content="Up"/>
+                        </GridViewColumn>
+                        <GridViewColumn Width="50" DisplayMemberBinding="{Binding CyclistSpeedCobblestones}">
+                            <GridViewColumnHeader Content="Cob"/>
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
@@ -37,7 +49,7 @@
         <StackPanel Grid.Column="1">
             <ComboBox
                 Width="150"
-                ItemsSource="{Binding TeamLeader}"
+                ItemsSource="{Binding Cyclists}"
                 DisplayMemberPath="Name"
                 SelectedItem="{Binding SelectedTeamLeader}"/>
         </StackPanel>
